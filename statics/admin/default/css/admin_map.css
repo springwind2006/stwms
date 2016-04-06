@@ -1,0 +1,7 @@
+.tb_l{width:380px;float:left;padding-bottom:5px;}
+.tb{width:98%;min-height:30px;_height:30px;float:left;border:1px solid #dfdfdf;margin-bottom:5px;padding-top:1px;}
+.tb_tl{height:27px;line-height:27px;background:url(../images/x_bg.png) left -45px repeat-x;border-bottom:1px solid #dfdfdf;}
+.tb_tl h6{margin-left:10px;color:#666;font-weight:bold;}
+.tb_m{padding:8px 5px 0px 5px;line-height:18px;color:#666;}
+.tb_m a{color:#666;word-break:keep-all;float:left;}
+.tb_m a:hover{color:#600;}

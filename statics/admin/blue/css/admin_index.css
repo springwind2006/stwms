@@ -1,0 +1,66 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body{background-image: url(../images/bg_slice.jpg);background-repeat: repeat-x;}
+#logo{position:absolute;width:226px;height:69px;z-index:1;background-image: url(../images/logo_bg.jpg);top: 0px;left: 0px;}
+#arrows{position:absolute;width:132px;height:69px;z-index:2;left: 226px;top: 0px;background-image: url(../images/arrows.jpg);}
+#hello{position:absolute;width:206px;height:32px;z-index:4;left: 367px;top: 9px;}
+	  
+.bodytext {	font-family: Arial, Helvetica, sans-serif;	font-size: 12px;	color: #505050;	} 
+
+a:link  {	text-decoration: none;	font-weight: bold;	color: #2b7c98;} 
+a:visited, a:active {	text-decoration: none;	font-weight: bold;	color: #2b7c98;} 
+a:hover {	text-decoration: underline;	font-weight: bold;	color: #000000;}
+
+
+.navigation a{font-size: 13px;	color: #FFFFFF;	font-weight: bold;	padding-left: 10px;	line-height: 26px;} 
+.navigation a:hover {color: #34cbff;}
+
+.toplinks {	font-family: Arial, Helvetica, sans-serif;	font-size: 12px;	color: #2B7C98;	line-height: 20px;} 
+
+#topmenu{position:absolute;height:69px;z-index:8;left: 581px;top: 0px;}
+#topmenu .item{display:block;float:left;text-align:center;width:100px;height:55px;padding-top:14px;margin-left:5px;background-color:#f4f4f4;}
+#topmenu .item:hover{background:#e3e3e3;}
+#topmenu .icon{width:99px;height:29px;}
+
+  
+
+#leftcolumn{position:fixed;width:225px;z-index:12;background-image: url(../images/bg_leftcolumn.jpg);left: 0px;top: 69px;}
+#navigation{width:225px;padding-top:10px;background:url(../images/navi_bg.jpg) left top no-repeat;}
+#navigationtitle{position:relative;width:180px;padding-left:22px;top:-35px;}
+#navigationtitle h1{margin:0 0 17px;padding:0 0 0 15px;font-size:15px;}
+
+
+.mainmenu{list-style:none;}
+.mainmenu li{margin:5px 0 5px 0;font-size: 12px;	color: #2B7C98;	line-height: 20px;}
+.submenu{list-style-type:disc;padding-left:30px;}
+.submenu li{line-height: 16px;}
+.submenu li a{font-size:12px;line-height: 16px;padding-left:0px;font-weight:normal;color:#ccc;}
+
+
+#tools{width:225px;padding-top:10px;background:url(../images/navi_bg.jpg) left top no-repeat;}
+#toolstitle{position:relative;width:180px;padding-left:22px;top:-35px;}
+#toolstitle h1{margin:0 0 10px;padding:0 0 0 15px;font-size:15px;}
+
+#centerMenu{position:absolute;width:179px;border-right:1px solid #cccccc;min-height:400px;_height:400px;left: 226px;top: 105px;overflow:hidden;}
+#centerMenu iframe{width:100%;height:100%;}
+
+#content{position:absolute;width:770px;height:600px;z-index:14;left: 226px;top: 105px;overflow:hidden;}
+#content iframe{width:100%;height:90%;}
+.fast_menu{width:100%;height:28px;text-align:left;padding-left:20px;margin:auto;border-left:1px solid #efefef;background:url(../images/fast_bg.gif) repeat-x;}
+.fast_menu .fava_c{display:inline-block;height:13px;line-height:13px;padding:6px 7px;color:#666;border-right:1px solid #dfdfdf;float:left;margin-top:1px;vertical-align:top;}
+.fast_menu .fava_c:hover{color:#000;background:url(../images/fav-bg.gif) left 1px repeat-x;}
+.fast_menu .fava_m_on,.fast_menu .fava_m{display:inline-block;cursor:pointer;background:url(../images/cross.gif) center 4px no-repeat;height:15px;width:15px;color:#666;margin-left:1px;}
+.fast_menu .fava_m_on{background:url(../images/cross.gif) center -46px no-repeat;}
+.fast_menu .to-favor{background:url(../images/fav-nav-bg.gif) 3px 7px no-repeat;padding:0 3px;border:none;width:10px;height:26px;margin-left:5px;margin-top:1px;float:left;}
+.fast_menu .to-favor:hover{background:url(../images/fav-nav-bg.gif) 3px -36px no-repeat;}
+
+#dropdown{position:absolute;width:204px;height:27px;z-index:16;left: 368px;top: 40px;}
+#jsddm{margin:0;padding:0}
+#jsddm li{float:left;list-style: none;font: 12px Arial, Arial}
+#jsddm li a{	display: block;	background: #478da4;	padding: 2px 5px;	text-decoration: none;	width: 190px;	color: #FFFFFF;	white-space: nowrap}
+#jsddm li a:hover{	background: #478da4}
+#jsddm li ul{	margin: 0;padding: 0;	position: absolute;visibility: hidden;}
+#jsddm li ul li{	float: none;display: inline}
+#jsddm li ul li a{	width: auto;background: #346575;padding: 5px 21px 5px 8px;color: #FFFFFF}
+#jsddm li ul li a:hover{	background: #478da4;color: #FFFFFF}

@@ -1,0 +1,254 @@
+<include file="head"/>
+<import file="setting.js,colorpicker.js@:common,swfupload/swfupload.js@plugins:common" check="true"/>
+<script type="text/javascript">
+	var PHPSESSID="{session_id()}",button_placeholder_id="buttonPlaceHolder";
+</script>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{height:400px;width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{margin-top:5px;}
+</style>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('setting','web')}" method="post">
+      <ul class="container-tab">
+            <li>基本配置</li>
+            <li>SEO配置</li>
+            <li>附件配置</li>
+            <li>状态设置</li>
+        </ul>
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+			      <tr>
+			        <th> 网站名称：</th>
+			        <td><input type="text" name="web[name]" id="web_name" value="{$web['name']}" style="width:300px;" class="input-text" ></td>
+			      </tr>
+			      <tr>
+			        <th> 网站域名：</th>
+			        <td><input type="text" name="web[url]" id="web_url" value="{$web['url']}" style="width:200px;" class="input-text" > 提示：以http://开头</td>
+			      </tr>
+			      <tr>
+			        <th> ICP备案号：</th>
+			        <td>
+			        	<input type="text" name="web[icp]" id="web_icp" value="{$web['icp']}" style="width:200px;" class="input-text" >
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 统计代码：</th>
+			        <td>
+			        	<textarea type="text" name="web[statistics]" id="web_statistics" style="width:400px;height:80px;" class="input-text" >{htmlspecialchars($web['statistics'])}</textarea>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 电话：</th>
+			        <td>
+			        	<input type="text" name="web[tel]" id="web_tel" value="{$web['tel']}" style="width:300px;" class="input-text" />
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 邮箱：</th>
+			        <td>
+			        	<input type="text" name="web[email]" id="web_email" value="{$web['email']}" style="width:300px;" class="input-text" />
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 地址：</th>
+			        <td>
+			        	<input type="text" name="web[addr]" id="web_addr" value="{$web['addr']}" style="width:400px;" class="input-text" />
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 网站QQ：</th>
+			        <td>
+			        	<input type="text" type="text" name="web[qq]" id="web_qq" value="{htmlspecialchars($web['qq'])}" style="width:400px;" class="input-text" />
+			        </td>
+			      </tr>
+ 
+					</table>
+				</div>
+
+				<div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+			      <tr>
+			        <th> 站点标题：</th>
+			        <td><input type="text" name="seo[title]" id="seo_title" value="{$seo['title']}" style="width:400px;" class="input-text" ></td>
+			      </tr>
+			      <tr>
+			        <th> 关键词：</th>
+			        <td><input type="text" name="seo[keywords]" id="seo_keywords" value="{$seo['keywords']}" style="width:400px;" class="input-text" > 说明：关键字用空格隔开</td>
+			      </tr>
+			      <tr>
+			        <th> 描述：</th>
+			        <td >
+			        	<textarea name="seo[description]" id="seo_description" style="width:600px;height:100px;">{htmlspecialchars($seo['description'])}</textarea>
+			        </td>
+			      </tr>
+					</table>
+				</div>
+				<div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+				      <tr>
+				        <th> 允许同时上传文件数量：</th>
+				        <td>
+				        	<input type="text" name="attachment[upload_num]" id="attachment_upload_num" value="{$attachment['upload_num']}" maxlength="3" style="width:50px;"  class="input-text" /> 
+				        	<font color="gray">单次上传文件允许的最大数量，为0或空则不限制</font>
+				        </td>
+				      </tr>
+				      <tr>
+				        <th> 允许上传附件大小：</th>
+				        <td><input type="text" name="attachment[size]" id="attachment_size" value="{$attachment['size']}" style="width:100px;"  class="input-text" />KB</td>
+				      </tr>
+				      <tr>
+				        <th> 允许上传附件类型：</th>
+				        <td>
+				        	<textarea name="attachment[type]" id="attachment_type" style="width:450px;height:51px;line-height:16px;font-size:12px;word-break:keep-all;" class="input-text" >{htmlspecialchars($attachment['type'])}</textarea> 
+				        	<font color="gray">扩展名用“|”隔开</font>
+				        </td>
+				      </tr>
+				      <tr>
+				        <th> 附件MD5值校验：</th>
+							  <td>
+								  <input class="radio_style" name="attachment[md5_check]" value="1"  type="radio" {($attachment['md5_check'] ? 'checked="checked"':'')} /> 启用&nbsp;&nbsp;&nbsp;&nbsp;
+								  <input class="radio_style" name="attachment[md5_check]" value="0"  type="radio" {(!$attachment['md5_check'] ? 'checked="checked"':'')} /> 关闭
+								  <font color="gray">对上传的附件进行MD5校验，防止重复上传，但对于大文件比较耗时</font>
+								</td>
+				      </tr>					      
+				      <tr>
+				        <th> GD库功能检测：</th>
+				        <td> {($gdnotsupport ? '<font color="red">不支持</font>':'<font color="green">支持</font>')}</td>
+				      </tr>
+				      <tr>
+						    <th> 上传图片缩放尺寸</th>
+						    <td>
+						    	宽 <input type="text" class="input-text" name="attachment[upload_maxwidth]" id="w_upload_maxwidth" size="10" value="{$attachment['upload_maxwidth']}" />px &nbsp;&nbsp;&nbsp;
+						    	高 <input type="text" class="input-text" name="attachment[upload_maxheight]" id="w_upload_maxheight" size="10" value="{$attachment['upload_maxheight']}" /> px &nbsp;
+						    	<font color="gray">为0或空则不限制该项设置尺寸</font>
+						    </td>
+						  </tr>					  
+				      <tr>
+				        <th> 水印模式设置：</th>
+							  <td>
+							  	<input class="radio_style" name="attachment[w_type]" value="0"  type="radio" {(!$attachment['w_type']||$gdnotsupport ? 'checked="checked"':'')} /> 关闭
+								  <input class="radio_style" name="attachment[w_type]" value="1"  type="radio" {($gdnotsupport ? 'disabled="disabled"':'')} {($attachment['w_type']==1&&!$gdnotsupport ? 'checked="checked"':'')} /> 图片
+								  <input class="radio_style" name="attachment[w_type]" value="2"  type="radio" {($gdnotsupport ? 'disabled="disabled"':'')} {($attachment['w_type']==2&&!$gdnotsupport ? 'checked="checked"':'')} /> 文字						  
+									<input type="button" {(!$attachment['w_type']||$gdnotsupport ? 'disabled="disabled"' : '')} class="s_button" id="w_preview" value="水印预览" style="width:60px;height:20px;cursor:pointer;margin-left:25px;"/>
+								</td>
+				      </tr>
+				      <tr>
+						    <th> 水印添加条件</th>
+						    <td>
+						    	宽 <input type="text" class="input-text" name="attachment[w_minwidth]" id="w_minwidth" size="10" value="{$attachment['w_minwidth']}" />px ×
+						    	高 <input type="text" class="input-text" name="attachment[w_minheight]" id="w_minheight" size="10" value="{$attachment['w_minheight']}" /> px
+						    </td>
+						  </tr>
+						  
+						  <tr id="w_type_image" {($attachment['w_type']!=2 ? '':'style="display:none"')}>
+						    <th width="130" valign="center">水印图片</th>
+						    <td style="height:35px;">
+						    	<table cellpadding="0" cellspacing="0">
+						    		<tr>
+						    			<td>
+						    				<input type="text" class="input-text" name="attachment[w_img]" id="w_img" value="{$attachment['w_img']}"/>
+						    			</td>
+						    			<td>
+						    				<span id="buttonPlaceHolder"></span>
+						    			</td>
+						    			<td>
+						    				<font color="gray">路径:\{UPLOAD_PATH\}watermark/</font> 
+						    			</td>
+						    		</tr>
+						    	</table>
+						    </td>
+						  </tr>
+						  <tr id="w_type_text" {($attachment['w_type']!=2 ? 'style="display:none"':'')}>
+						    <th width="130" valign="center">水印文字</th>
+						    <td style="height:35px;">
+						    	<input type="hidden" style="width:60px;" name="attachment[w_color]" id="w_color" value="{$attachment['w_color']}"/>
+						    	<input type="text" class="input-text" style="width:300px;" name="attachment[w_text]" id="w_text" value="{$attachment['w_text']}"/>
+						    	颜色
+						    	<input type="button" class="s_button" id="select_w_color" style="width:60px;height:20px;cursor:pointer;background:{$attachment['w_color']}"/>
+						    	大小						    	
+						    	<input type="text" size="3" maxlength="3" class="input-text" name="attachment[w_fontsize]" id="w_fontsize" value="{$attachment['w_fontsize']}"/>
+						    </td>
+						  </tr>
+
+						  
+						  <tr>
+						    <th width="130" valign="center">水印透明度</th>
+						    <td>
+						    	<input type="text" class="input-text" name="attachment[w_pct]" id="w_pct" size="10" value="{$attachment['w_pct']}" />  
+						    	<font color="gray">请设置为0-100之间的数字，0代表完全透明，100代表不透明</font>
+						    </td>
+						  </tr>
+						  <tr>
+						    <th width="130" valign="center">JPEG 水印质量</th>
+						    <td>
+						    	<input type="text" class="input-text" name="attachment[w_quality]" id="w_quality" size="10" value="{$attachment['w_quality']}" /> 
+						    	<font color="gray">水印质量请设置为0-100之间的数字,决定 jpg 格式图片的质量</font>
+						    </td>
+						  </tr>
+						  <tr>
+						    <th width="130" valign="center">水印位置</th>
+						    <td>
+						    	<div style="width:500px;background:#f6f9fd;">
+								    <table width="100%">
+										  <tr>
+										  	<td rowspan="3"><input class="radio_style" name="attachment[w_pos]" value="10" type="radio" {($attachment['w_pos']==10 ? 'checked="checked"':'')} /> 随机位置</td>
+										    <td><input class="radio_style" name="attachment[w_pos]" value="1" type="radio" {($attachment['w_pos']==1 ? 'checked="checked"':'')} /> 顶部居左</td>
+											  <td><input class="radio_style" name="attachment[w_pos]" value="2" type="radio" {($attachment['w_pos']==2 ? 'checked="checked"':'')} /> 顶部居中</td>
+											  <td><input class="radio_style" name="attachment[w_pos]" value="3" type="radio" {($attachment['w_pos']==3 ? 'checked="checked"':'')} /> 顶部居右</td>
+										  </tr>
+										  <tr>
+										    <td><input class="radio_style" name="attachment[w_pos]" value="4" type="radio" {($attachment['w_pos']==4 ? 'checked="checked"':'')} /> 中部居中</td>
+											  <td><input class="radio_style" name="attachment[w_pos]" value="5" type="radio" {($attachment['w_pos']==5 ? 'checked="checked"':'')} /> 中部居左</td>
+											  <td><input class="radio_style" name="attachment[w_pos]" value="6" type="radio" {($attachment['w_pos']==6 ? 'checked="checked"':'')} /> 中部居右</td>
+										  </tr>
+										  <tr>
+										    <td><input class="radio_style" name="attachment[w_pos]" value="7" type="radio" {($attachment['w_pos']==7 ? 'checked="checked"':'')} /> 底部居左</td>
+											  <td><input class="radio_style" name="attachment[w_pos]" value="8" type="radio" {($attachment['w_pos']==8 ? 'checked="checked"':'')} /> 底部居中</td>
+											  <td><input class="radio_style" name="attachment[w_pos]" value="9" type="radio" {($attachment['w_pos']==9 ? 'checked="checked"':'')} /> 底部居右</td>
+										  </tr>
+										</table>
+									</div>
+						    </td>
+						  </tr>
+					</table>
+				</div>
+				<div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+			      <tr>
+			        <th> 应用状态：</th>
+			        <td>
+			        	<label for="web_app1" class="ib" style="width:40px;text-align:right;">开放</label>
+			        	<input type="radio" type="text" name="web[app]" id="web_app1" value="1" {($web['app'] ? 'checked="checked"':'')} />
+			        	<label for="web_app0" class="ib" style="width:40px;text-align:right;">关闭</label>
+			        	<input type="radio" type="text" name="web[app]" id="web_app0" value="0" {(!$web['app'] ? 'checked="checked"':'')} />
+			        </td>
+			      </tr>	
+			      <tr>
+			        <th> 网站状态：</th>
+			        <td>
+			        	<label for="web_status1" class="ib" style="width:40px;text-align:right;">开放</label>
+			        	<input type="radio" onclick="$('#show_notice').hide()" type="text" name="web[status]" id="web_status1" value="1" {($web['status'] ? 'checked="checked"':'')} />
+			        	<label for="web_status0" class="ib" style="width:40px;text-align:right;">关闭</label>
+			        	<input type="radio" onclick="$('#show_notice').show()" type="text" name="web[status]" id="web_status0" value="0" {(!$web['status'] ? 'checked="checked"':'')} />
+			        </td>
+			      </tr>
+			      <tr id="show_notice" {($web['status'] ? 'style="display:none"':'')}>
+			        <th> 关闭通知：</th>
+			        <td>
+			        	<textarea type="text" name="web[notice]" id="web_notice" style="width:500px;height:100px;" class="input-text" >{htmlspecialchars($web['notice'])}</textarea>
+			        	<p style="color:#666;margin:3px 0">关闭网站后，访问时显示的通知信息，支持HTML标签</p>
+			        </td>
+			      </tr>	
+					</table>
+				</div>
+				<!--table_form_off-->
+			  <div class="bk15"></div>
+				<div class="btn">
+					<input type="button" id="dosubmit" class="button" name="dosubmit" onclick="POST('myform','dosubmit','resultState')" value="保存修改"/>
+					<span class="status" id="resultState"></span>
+				</div>
+	</form>
+</body>
+</html>

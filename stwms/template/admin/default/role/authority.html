@@ -1,0 +1,44 @@
+<include file="head"/>
+<import file="role.js,jquery.treeTable.css@:common,jquery.treetable.js@:common" check="true"/>
+</head>
+<body>
+
+<div class="table-list">
+<table width="100%" cellspacing="0" id="load_priv">
+	<thead>
+	<tr>
+		<th class="text-l cu-span" style='padding-left:30px;'>
+			<span onClick="$('input[type=checkbox]').attr('checked', true);top.win.fresh=-1;">全选</span>
+			/
+			<span onClick="$('input[type=checkbox]').attr('checked', false);top.win.fresh=-1;">取消</span>
+		</th>
+	</tr>
+	</thead>
+</table>
+
+<form name="myform" id="myform" action="{act_url('role',ROUTE_A,'id='.$roleid)}" callBack="roleSetup" method="post">
+	<table width="100%" cellspacing="0" id="dnd-example">
+		<tbody>
+		   	<if condition="ROUTE_A=='plugin'&& empty($categorys)">
+				  	<tr>
+						 <td style="line-height:30px;color:red;text-align:center;">
+               没有可用插件设置权限，请在“权限设置”中启用插件操作权限！
+						 </td>
+					 	</tr>
+				<else/>
+		   	  <foreach name="$categorys" item="$vl" >
+				  	<tr id="node-{$vl['id']}" {$vl['parentid_node']}>
+						 <td style="padding-left:30px;">
+						 	{$vl['spacer']}
+						 	<input type="checkbox" name="menuid[]" value="{$vl['id']}" level="{$vl['level']}" {$vl['checked']} onclick="checknode(this,'{$vl['display']}');"> {$vl['name']}
+						 </td>
+					 	</tr>
+			    </foreach>
+		    </if>
+
+		</tbody>
+	</table>
+</form>
+</div>
+</body>
+</html>

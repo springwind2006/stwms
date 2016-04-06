@@ -1,0 +1,61 @@
+<include file="head"/>
+<import file="model.js,swfupload/swfupload.js@plugins:common" check="true"/>
+<style type="text/css">
+	body,html{overflow:hidden;margin:0px;padding:3px;}
+  .container-cnt textarea{height:400px; width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{ margin-top:5px;}
+</style>
+<script type="text/javascript">
+var PHPSESSID="{session_id()}",button_placeholder_id="buttonPlaceHolder";
+</script>  
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('model','import')}" method="post">
+        <div class="container-cnt pad-10" id="step1">
+				  <table width="100%" class="table_form contentWrap">				  	
+				  	<tr>
+			        <th> 表名：</th>
+			        <td><input type="text" name="attr[tbname]" id="tbname" class="input-text" ></td>
+			      </tr>
+	      
+			      <tr>
+			        <th> 名称：</th>
+			        <td><input type="text" name="attr[name]" id="name" class="input-text" ></td>
+			      </tr>			      
+			      <tr>
+			        <th> 描述：</th>
+			        <td ><textarea name="attr[desc]" id="desc" style="width:300px;height:60px;" class="input-text" ></textarea></td>
+			      </tr>
+					  <tr id="applytocat">
+			        <th>应用到栏目：</th>
+			        <td style="height:25px;">
+			        	<input type="radio" name="attr[iscat]" value="1" checked > 是　<input type="radio" name="attr[iscat]" value="0" > 否
+			          <span style="padding-left:15px;color:#333">
+			          	窗口设置 宽：<input type="text" size="4" name="attr[width]" style="width:40px;" class="input-text" />px 
+			          	高：<input type="text" name="attr[height]" size="4" style="width:40px;" class="input-text" />px
+			          </span>
+			        </td>
+					  </tr>		      			      
+     
+					</table>
+				</div>
+
+        <div class="container-cnt pad-10" id="step2" style="display:none">
+				  <table width="100%" class="table_form contentWrap">
+			      <tr>
+			        <th> 
+			        	<div class="addnew" id="addnew">
+										<span id="buttonPlaceHolder"></span>
+								</div>
+							</th>
+			        <td><div style="color:red;padding-left:10px;" id="upload_status"> 请选择模型，扩展名为*.model </div></td>
+			      </tr>
+			      <tr>
+			        <th>说明：</th>
+			        <td><font color="#666666">此模型格式为本系统专用格式，请使用本系统创建模型及字段，然后导出该模型</font></td>
+			      </tr>	      
+					</table>
+				</div>
+	</form>    
+</body>
+</html>

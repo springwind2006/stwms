@@ -1,0 +1,75 @@
+body,html{padding:0px;overflow:hidden;background:#f6f6f6;}
+a{text-decoration: none;color:#FFFFFF}
+a:hover{color:#b8e1f6;text-decoration: none;}
+.main{width:100%;height:100%;}
+.top{width:100%;height:50px; background:url(../images/top_bg.gif);}
+.top table{width:100%;height:50px;}
+
+.logo{font-size:18px;font-weight:bold;text-align:center;}
+.brace{background:url(../images/top_center.gif) right bottom no-repeat;}
+.top_menu{width:auto;background:url(../images/top_menu_bg.gif) left bottom repeat-x;text-align:left;color:#eee;padding-top:30px;}
+.top_menu div{font-size:14px;height:20px;color:#b8e1f6;width:100%;overflow-y:hidden;overflow-x:auto;line-height:20px;font-weight:bold;vertical-align:middle;}
+.top_menu div a{font-size:14px;}
+
+.left{text-align:left;width:186px;overflow:hidden;}
+.lmenu{width:186px;min-height:600px;_height:600px;float:left;overflow:hidden;}
+.lcmenu{width:176px;padding-left:7px;padding-right:3px;padding-top:46px;min-height:400px;_height:400px;background:url(../images/top_bg.jpg) top left repeat-x;}
+.lcmenu iframe{width:100%;height:100%;border:1px solid #dfdfdf;}
+.lmtop{ width:182px;background:url(../images/menu_title.gif) no-repeat; height:52px; margin-left:4px;}
+.lmcenter{width:182px; background:url(../images/menu_bg.gif) #999 left top repeat-y; min-height:260px;_height:260px; margin-left:4px;}
+.lmdown{height:17px; width:182px; margin-left:4px; margin-bottom:0px; background:url(../images/menu_bottom.gif);}
+
+
+.lmicon{width:162px; height:95px; background:url(../images/main_12.gif); margin-left:11px; text-align:center;overflow:hidden;}
+.lmicon img{cursor:pointer;}
+.sub_menu{width:170px; margin-left:8px; margin-top:10px;min-height:20px;_height:20px;}
+.sub_menu ul{width:170px;}
+.sub_menu li{display:block;list-style:none;min-height:22px;_height:22px;width:75px;padding-left:7px;padding-right:3px;float:left;background:url(../images/list_img.gif) 1px 6px no-repeat;}
+.sub_menu a{color:#333;}
+.sub_menu a:hover{color:#ac8838;}
+
+.lmleft,.lmright{display:block;width:11px;height:86px;float:left;margin-top:1px;line-height:95px;font-weight:bold;background:url(../images/arrow_left.gif) right center no-repeat;cursor:pointer;}
+.lmright{background:url(../images/arrow_right.gif) left center no-repeat;}
+.lmleft_over,.lmright_over{display:block;width:11px;height:86px;float:left;margin-top:1px;line-height:95px;font-weight:bold;background:url(../images/arrow_left_over.gif) right center no-repeat;cursor:pointer;}
+.lmright_over{background:url(../images/arrow_right_over.gif) left center no-repeat;}
+.lmtcenter{width:140px;height:85px;float:left;padding-top:10px;overflow:hidden;}
+.lmtcenter li{display:block;width:70px;height:70px;float:left;line-height:18px;color:#fff;overflow:hidden;}
+
+
+
+.rstate{text-align:left;width:100%;}
+.rstate table{width:100%;}
+
+.rmop{height:35px;width:100%;color:#fff;background-image:url(../images/main_09.gif) ; background-repeat:repeat-x;}
+.rmicon{height:26px;float:left;padding-top:5px; text-align:center;}
+.rmswitch,.rmswitch_over{float:left; display: block; margin-top:13px; margin-left:3px;cursor:pointer;color:#fff;}
+.rmswitch_over{color:#acacac;}
+.rmout{float:right; padding-right:25px;padding-top:2px;padding-left:13px;text-align:right;width:72px;background:url(../images/loginout.gif) left center no-repeat;}
+.rmout a{font-size:14px;font-weight:bold;}
+.rfmenu{font-weight:bold;height:20px;width:500px;overflow:hidden;float:right;margin-top:13px;padding-left:10px;padding-right:10px;text-align:right;}
+.rfmenu a{text-decoration:none;color:#fff;color:#e7f0fe;font-weight:normal;}
+.rfmenu a:hover{text-decoration:none;	color:#e97d03;font-weight:normal;}
+
+.rguide{width:100%;padding-top:2px;height:28px; background-image:url(../images/main_10.gif) ; background-repeat:repeat-x;}
+.rguide img{margin-right:8px; margin-left:15px;}
+.rgtxt{width:500px;height:16px;padding-top:4px;float:left;overflow:hidden}
+.rgtxt a{color:#000;}
+.rgtxt a:hover{color:#660;text-decoration:underline;}
+.rgfdo{width:150px;height:20px;float:right;overflow:hidden;text-align:right;padding:0 20px;}
+.rsmenu div{width:100%;background:#eee;padding-right:10px;min-height:25px;_height:25px;line-height:25px;float:right;text-align:right;}
+.rsmenu a{color:#000;font-weight:600;font-size:13px;}
+.rsmenu a:hover{color:#d36e02;}
+.rmain{text-align:right;width:100%;height:100%;padding-left:5px;}
+.rmain iframe{width:100%;height:90%;border:1px solid #efefef;margin:auto;}
+.rmain div{width:100%;height:28px;text-align:left;padding-left:20px;margin:auto;border-left:1px solid #efefef;background:url(../images/fast_bg.gif) repeat-x;}
+.rmain div .fava_c{display:inline-block;height:13px;line-height:13px;padding:6px 7px;color:#666;border-right:1px solid #dfdfdf;float:left;margin-top:1px;vertical-align:top;}
+.rmain div .fava_c:hover{color:#000;background:url(../images/fav-bg.gif) left 1px repeat-x;}
+.rmain div .fava_m,.rmain div .fava_m_on{display:inline-block;cursor:pointer;background:url(../images/cross.gif) center 4px no-repeat;height:15px;width:15px;color:#666;margin-left:1px;}
+.rmain div .fava_m_on{background:url(../images/cross.gif) center -46px no-repeat;}
+
+.rmain div .to-favor{background:url(../images/fav-nav-bg.gif) 3px 7px no-repeat;padding:0 3px;border:none;width:10px;height:26px;margin-left:5px;margin-top:1px;float:left;}
+.rmain div .to-favor:hover{background:url(../images/fav-nav-bg.gif) 3px -36px no-repeat;}
+
+.linkBt{display:inline-block;width:60px;height:18px;border:1px solid #ccc;text-align:center;line-height:18px;margin-right:5px;background:#eee;}
+.linkBt a{color:#333;}
+.linkBt a:hover{text-decoration:underline;}

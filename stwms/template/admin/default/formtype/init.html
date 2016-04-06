@@ -1,0 +1,85 @@
+<include file="head"/>
+<import file="formtype.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .disabled{color:#999;text-decoration:line-through;}
+</style>
+</head>
+<body>
+	<if condition="$auths['add']||$auths['code']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:void(0)" class="on">类型管理</a>
+	      <if condition="$auths['add']">
+	      <span>|</span>
+	      <a href="javascript:deal('formtype.add')" >添加类型</a>
+	      </if>
+	      <if condition="$_SESSION['iscreator']&&$auths['code']">
+	      <span>|</span>
+	      <a href="javascript:deal('formtype.code')">类模板管理</a>
+	      </if>
+	    </div>
+	</div>
+	</if>
+	<div class="table-list">
+	    <table width="100%" cellspacing="0">
+	        <thead>
+	            <tr>
+	            	<th>ID</th>
+		            <th style="width:60px;">类型</th>
+		            <th>名称</th>
+		            <th>描述</th>
+		            <th style="width:100px;">数据库类型</th>
+		            <th style="width:60px;">是否可用</th>
+		            <th style="width:60px;">系统字段</th>
+		            <if condition="$auths['edit']||$auths['del']"><th style="width:100px;">管理操作</th></if>
+	            </tr>
+	        </thead>
+					<tbody>
+						<foreach name="$data" item="$vl" key="$ky">
+							<tr>
+								<td align='center'>{$vl['id']}</td>
+								<td align='center' {intval($vl['disabled'])?'class="disabled"':''}>{$vl['type']}</td>
+								<td align='center' {intval($vl['disabled'])?'class="disabled"':''}>{$vl['name']}</td>
+								<td {intval($vl['disabled'])?'class="disabled"':''}>{$vl['desc']}</td>
+								<td align='center'>{$DBFieldTypes[$vl['field_type']]['name']}</td>
+								<td align='center'>
+							<if condition="$auths['disabled']">
+								<if condition="intval($vl['disabled'])">
+									<a href="javascript:{((!empty($vl['system'])&&!$_SESSION['iscreator']) ? '' : 'deal(\'formtype.disabled\',\'type='.$vl['type'].'&disabled=0\')')}" style="color:red;font-size:15px;font-weight:bold;">×</a>
+								<else/>
+									<a href="javascript:{((!empty($vl['system'])&&!$_SESSION['iscreator']) ? '':'deal(\'formtype.disabled\',\'type='.$vl['type'].'&disabled=1\')')}" style="color:green;font-size:14px;font-weight:bold;">√</a>
+								</if>
+							<else/>
+								<if condition="intval($vl['disabled'])">
+									<span style="color:red;">×</span>
+								<else/>
+									<span style="color:green;">√</span>
+								</if>
+							</if>
+								</td>
+								<td align='center'>
+							<if condition="empty($vl['system'])">
+								<span style="color:green;">×</span>
+							<else/>
+								<span style="color:red;">√</span>
+							</if>
+								</td>
+								<if condition="$auths['edit']||$auths['del']">
+								<td align='center'>
+                  <if condition="!empty($vl['system'])&&!$_SESSION['iscreator']">
+										<if condition="$auths['edit']"><a href="javascript:" disabled="disabled">修改</a></if>
+										<if condition="$auths['del']"><a href="javascript:" disabled="disabled">删除</a></if>
+								  <else/>
+										<if condition="$auths['edit']"><a href="javascript:deal('formtype.edit','type={$ky}')">修改</a>|</if>
+										<if condition="$auths['del']"><a href="javascript:deal('formtype.del','type={$ky}',1)">删除</a></if>
+									</if>
+								</td>
+								</if>
+							</tr>
+            </foreach>
+					</tbody>
+	    </table>
+  </div>
+</body>
+</html>

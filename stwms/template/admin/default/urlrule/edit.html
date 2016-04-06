@@ -1,0 +1,53 @@
+<include file="head"/>
+<import file="urlrule.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{height:400px;width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{margin-top:5px;}
+  .urlvar{line-height:25px;}
+  .urlvar span{font-size:14px;color:red;font-family:Arial;}
+</style>
+</head>
+<body>
+	<form name="myform" id="myform" action="?{ADMIN_INI}&c=urlrule&a=edit&id={$id}" method="post">
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+				  	<tr>
+			        <th> 名称：</th>
+			        <td><input type="text" name="info[name]" id="name" value="{$name}" style="width:200px;" class="input-text" ></td>
+			      </tr>
+			      <tr>
+			        <th> URL示例：</th>
+			        <td><input type="text" name="info[example]" id="example" value="{$example}" style="width:450px;" class="input-text" ></td>
+			      </tr>			      
+			      <tr>
+			        <th> URL规则：</th>
+			        <td ><input type="text" name="info[urlrule]" id="urlrule" value="{$urlrule}" style="width:450px;" class="input-text" ></td>
+			      </tr>
+			      <tr>
+			        <th>应用类型：</th>
+			        <td><input type="radio" name="info[type]" value="0" {(!$type ? 'checked':'')} > 列表页　<input type="radio" name="info[type]" value="1" {($type ? 'checked':'')}> 详细页</td>
+					  </tr>      
+			      <tr>
+			        <th>是否可用：</th>
+			        <td><input type="radio" name="info[disabled]" value="0" {(!$disabled ? 'checked':'')} > 是　<input type="radio" name="info[disabled]" value="1" {($disabled ? 'checked':'')} > 否</td>
+					  </tr>
+					  <tr>
+			        <th>可用变量：</th>
+			        <td class="urlvar">
+			        	<div {(!$type ? '':'style="display:none"')}>
+			          父栏目路径： <span>\{$pdir\}</span>，栏目路径：<span>\{$cdir\}</span>，父栏目ID：<span>\{$pid\}</span>，栏目ID：<span>\{$cid\}</span>，分类ID：<span>\{$typeid\}</span>，分页：<span>\{$page\}</span>
+			          </div>
+			          <div {(!$type ? 'style="display:none"':'')}>
+			          父栏目路径： <span>\{$pdir\}</span>，栏目路径：<span>\{$cdir\}</span>，父栏目ID：<span>\{$pid\}</span>，栏目ID：<span>\{$cid\}</span><br/>
+			          年：<span>\{$year\}</span> 月：<span>\{$month\}</span>，日：<span>\{$day\}</span>，ID：<span>\{$id\}</span>， 分页：<span>\{$page\}</span>			          	
+			          </div>
+			        </td>
+					  </tr>					  
+					</table>
+				</div>
+				<!--table_form_off-->
+		
+	</form>
+</body>
+</html>

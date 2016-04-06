@@ -1,0 +1,31 @@
+<include file="head"/>
+<import file="role.js" check="true"/>
+<style type="text/css">
+  .table-list thead th{font-weight:normal;}
+</style>
+</head>
+<body>
+<form name="myform" id="myform" action="{act_url('role','category','id='.$roleid)}" method="post">
+	<div class="table-list" id="load_priv">
+		<table width="100%" class="table-list">
+			  <thead>
+				<tr>
+				  <th width="30">全选</th>
+				  <th align="left">栏目名称</th>
+				  <th width="30"><a href="javascript:" onclick="select_all_cat(this)">查看</a></th>
+				  <th width="30"><a href="javascript:" onclick="select_all_cat(this)">排序</a></th>
+				  <th width="30"><a href="javascript:" onclick="select_all_cat(this)">添加</a></th>
+				  <th width="30"><a href="javascript:" onclick="select_all_cat(this)">删除</a></th>
+				  <th width="30"><a href="javascript:" onclick="select_all_cat(this)">修改</a></th>
+				  <th width="45"><a href="javascript:" onclick="select_all_cat(this)">回收站</a></th>				  
+				  <th width="30"><a href="javascript:" onclick="select_all_cat(this)">推送</a></th>
+			  </tr>
+			 </thead>
+			 <tbody>
+			 	{$categorys}
+			 </tbody>
+		</table>
+	</div>
+</form>
+</body>
+</html>

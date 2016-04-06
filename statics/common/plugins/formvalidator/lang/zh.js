@@ -1,0 +1,21 @@
+var Formvalidator_LANG={
+	ajax_prompt:"當前有資料正在進行伺服器端校驗，請稍候",
+	onshow :"請輸入內容",
+	onfocus: "請輸入內容",
+	oncorrect: "輸入正確",
+	onempty: "輸入內容為空",
+	onerror: "輸入錯誤",
+	onerror_reg:"輸入的格式不正確",
+	onerror_ajax:"伺服器校驗沒有通過",
+	onwait:"正在等待伺服器返回資料",
+	onerror_continue_char:"密碼字元為連續字元不被允許",
+	onerror_same_char:"密碼字元都相同不被允許",
+	onerror_compare_same:"密碼於用戶名相同不被允許",
+	onerror_load_theme:"當前皮膚載入出錯，請確認皮膚【{theme}】是否存在",
+	onerror_debug_submit:"現在正處於調試模式(debug:true)，不能提交",
+	onerror_no_formid:"表單ID未傳入",
+	onerror_password_check:"密碼強度校驗失敗,錯誤原因:變數passwordStrengthStatusHtml語法錯誤或者為設置)",
+	onerror_id_format:"你輸入的身份證長度或格式錯誤",
+	onerror_id_area:"你的身份證地區非法",
+	onerror_id_birthday:"身份證上的出生日期非法"
+};

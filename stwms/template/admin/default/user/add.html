@@ -1,0 +1,89 @@
+<include file="head"/>
+<style type="text/css">
+	body,html{overflow:hidden;}
+</style>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('user','add')}" method="post">
+		<div class="common-form">
+			  <table width="100%" class="table_form contentWrap">
+		      <tr>
+		        <th > 用户名称：</th>
+		        <td><input type="text" name="info[username]" id="username" class="input-text" ><span style="color:gray">请输入用户名称</span></td>
+		      </tr>
+		      <tr>
+		        <th > 用户密码：</th>
+		        <td><input type="password" name="info[password]" id="password" class="input-text" ><span style="color:gray">请输入密码</span></td>
+		      </tr>
+		      <tr>
+		        <th > 重复密码：</th>
+		        <td><input type="password" name="repassword" id="repassword" class="input-text" ><span style="color:gray">请重复输入密码</span></td>
+		      </tr>
+		      <tr>
+		        <th > 真实姓名：</th>
+		        <td><input type="text" name="info[truename]" id="truename" class="input-text"  style="width:100px;"><span style="color:gray">请输入用户真实姓名</span></td>
+		      </tr>
+		      <tr>
+		        <th > E-mail：</th>
+		        <td><input type="text" name="info[email]" id="email" class="input-text" style="width:150px;"><span style="color:gray">请输入正确的email</span></td>
+		      </tr>
+		      <tr>
+		        <th>是否锁定用户：</th>
+		        <td>
+		        	<input type="radio" name="info[lock]" value="1" checked> 是<input type="radio" name="info[lock]" value="0" checked > 否
+		          <span style="color:gray">用户锁定后将无法登陆</span>
+		        </td>
+				  </tr>
+		      <tr>
+		        <th > 用户角色：</th>
+		        <td>
+		        	<select name="info[roleid]">
+		        		<foreach name="$roles" item="$crole" >
+									<option audit="{$crole['is_audit']}" value="{$crole['id']}">{$crole['name']}</option>
+			          </foreach>
+		        	</select>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th> 审核权限：</th>
+		        <td>
+		        	<foreach name="$audits" item="$vl" key="$ky">
+			          <input type="radio" name="info[audit]" value="{$ky}"  id="info_audit_{$ky}" {(!$ky ? 'checked="checked"' : '')}/><label for="info_audit_{$ky}">{$vl}</label>
+			        </foreach>
+			        <span style="color:gray">　需要开启内容审核权限</span>
+		        </td>
+		      </tr>
+				</table>
+		<!--table_form_off-->
+		</div>
+	  <input type="hidden" name="info[listorder]" value="0">
+	</form>
+	
+	<script type="text/javascript">
+	 $(function(){
+	  /*待添加或修改内容有改变则刷新*/
+	  if(ROUTE_A=='add'||ROUTE_A=='edit'){
+	  	var defDx=$("input[name='info[audit]']:checked").index("input[name='info[audit]']"),
+	  			isAudit=$("select[name='info[roleid]'] option:selected").attr("audit")==1,
+	  			init_audit=function(defDx,isAudit){
+						if(isAudit){
+							$("input[name='info[audit]']").attr("disabled",false);
+							$("input[name='info[audit]']:eq("+defDx+")").attr("checked",true);
+						}else{
+							$("input[name='info[audit]']:eq(0)").attr("checked",true);
+							$("input[name='info[audit]']").attr("disabled",true);
+						}
+	  			};
+			$("input,select,textarea").change(function(){top.win.fresh=-1;});
+			$("#myform").submit(function(){if(top.win.fresh==-1){top.win.fresh=1};});
+			$("select[name='info[roleid]']").change(function(){
+				var isAudit=$("option:selected",this).attr("audit")==1,
+						defDx=$(this).data("defDx");
+				init_audit(defDx,isAudit);
+			}).data("defDx",defDx);
+			init_audit(defDx,isAudit);
+	  }
+	 });
+	</script>
+</body>
+</html>

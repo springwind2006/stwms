@@ -1,0 +1,45 @@
+<include file="head"/>
+<style type="text/css">
+	body,html{overflow:hidden;}
+</style>
+<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({formID:"myform"});	
+		$("#name").formValidator({onShow:"请输入钩子名称，添加成功后不可修改",onFocus:"至少1个字符,最多10个字符"})
+		        .regexValidator({regExp:"^[a-z][\\w]*$",onError:"您输入的名称字符不合法！"})
+		        .ajaxValidator({
+		        	type : "get",
+		        	cached:false,
+							dataType : "html",
+							async : true,
+							url : "?"+ADMIN_INI+"&c=hook&a=init&check=1",
+							success : function(data){
+		            if(data=='1')return true;
+		            if(data=='0')return false;
+								return false;
+							},
+							buttons: $("#dosubmit"),
+							error: function(jqXHR, textStatus, errorThrown){alert("服务器没有返回数据，可能服务器忙，请重试"+errorThrown);},
+							onError : "该钩子已经该存在，请重新输入",
+							onWait : "正在对钩子名称进行合法性校验，请稍候..."
+						});				
+	});
+</script>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('hook','add')}" method="post">
+		<div class="common-form inline_validator">
+			  <table width="100%" class="table_form contentWrap">
+		      <tr>
+		        <th> 名称：</th>
+		        <td><input type="text" name="info[name]" id="name" style="width:100px" class="input-text" /><span id="nameTip"></span></td>
+		      </tr>
+		      <tr>
+		        <th> 描述：</th>
+		        <td><textarea name="info[desc]" id="desc" style="width:350px;height:80px;" class="input-text"></textarea></td>
+		      </tr>
+				</table>
+		</div>
+	</form>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<include file="head"/>
+<import file="admin_index.css,admin_index.js" check="true"/>
+</head>
+<body>
+	<table cellspacing="0" cellpadding="0" class="main">
+			 <tr>
+			 	  <td colspan="3" class="top">
+	          <table cellspacing="0" cellpadding="0">
+	          	<tr>
+	          		<td width="35">&nbsp;</td>
+	          		<td width="245" class="logo"><img src="{import('logo.gif')}" /></td>
+	          		<td class="state" width="150">
+	          		</td>
+	          		<td class="brace" width="105">&nbsp;</td>
+	          		<td class="top_menu">
+		          		<div id="topMenu">
+		          		  <foreach name="mainMenu" item="m">
+		          		    <a href="javascript:void(0)" >{$m.name}</a>/
+		          		  </foreach>
+		          		</div>
+	          		</td>
+	          	</tr>
+	          </table>
+		      </td>
+		   </tr>
+		   <tr>
+			    <td class="left" id="leftMenu" valign="top">
+			    	<div class="lmenu">
+			    		    <div class="lmtop"></div>
+							    <div class="lmcenter">
+											<div class="lmicon">
+												  <span class="lmleft" id="leftToMenu"></span>
+												  <div class="lmtcenter" id="mainLeftMenu">
+														<ul style="width:<php> echo count($mainMenu)*70;</php>px">
+														<foreach name="mainMenu" item="m">
+														  <li><img src="{import('images/icon/'.(!$m['icon']?'13.gif':$m['icon']))}" /><br/>{$m['name']}</li>
+														</foreach>
+														</ul>
+												  </div>
+												  <span class="lmright" id="rightToMenu"></span>
+											</div>
+											<div class="sub_menu">
+											  <foreach name="mainMenu" item="m" order="i">
+						                        <ul {($i!=1 ? 'style="display:none"':'')}>
+						                        	<foreach name="$m['submenu']" item="sm">
+						                        	  <li><a href="javascript:doMenu({$sm.id},'{$sm.type}','{$sm.c}','{$sm.a}','{$sm.data}')">{$sm.name} </a></li>
+						                        	</foreach>
+						                        </ul> 
+						                      </foreach>
+											</div>
+							    </div>
+							    <div class="lmdown"></div>
+					   </div>
+		      </td>
+
+          <td class="left" id="centerMenu" valign="top" style="display:none">
+	    	 <div class="lcmenu">
+             				 <iframe name="doCenterFrame" id="doCenterFrame" src="about:blank" frameborder="0" scrolling="auto"></iframe>
+			 </div>
+		  </td>
+
+
+		      <td class="rstate" valign="top">
+			      	<table cellspacing="0" cellpadding="0">
+
+			      		<tr><td  class="rmop">
+							        <img id="openLeftTag" class="rmicon" src="{import('close.gif')}"/>
+							        <span class="rmswitch" id="openLeftMenu">关闭管理菜单<span id="tInfo"></span></span>
+							        <div id="rmout" class="rmout">
+							        	    <a href="{act_url('admin','logout')}">注销登录</a>
+									    </div>
+									    <div class="rfmenu">
+							        	<a href="{ROOT_URL}" target="_blank">[网站首页]</a>-<a href="{act_url('admin','init')}" target="doMainFrame"  onclick="$('#centerMenu').hide()">[系统首页]</a>-<a href="javascript:" onclick="lockscreen()">[锁屏]</a>-<a href="javascript:void(0)" onclick="doMainFrame.location.reload();" >[刷新]</a>
+							        </div>
+			      		</td></tr>
+
+			      		<tr ><td class="rguide">
+									 	  <div class="rgtxt">
+									 	  	 <img src="{import('main_14.gif')}"/> 您现在所在的位置：<a href="javascript:deal('admin.init')">系统首页</a> > <span id="curOpInfo">系统信息 </span>
+									 	  </div>
+									 	  <div class="rgfdo">
+									 	  	 <span class="linkBt"><a href="javascript:" onclick="doMenu(34,'1','staticize','index','')">更新首页</a></span>
+									 	  	 <span class="linkBt"><a href="javascript:" onclick="admin_map()">后台地图</a></span>
+									 	  </div>
+			      		</td></tr>
+			      		<tr><td class="rmain" valign="top">
+			      		  <iframe name="doMainFrame" id="doMainFrame" src="{act_url('admin','init')}" frameborder="0" scrolling="auto"></iframe>
+			      		  <div>
+			      		  	<span id="fastMenu">
+			      		  	  <foreach name="fastMenu" item="fm">
+                        		<a class="fava_c" href="javascript:">
+                 					<b onclick="doMenu({$fm.id},'{$fm.type}','{$fm.c}','{$fm.a}','{$fm.data}')">{$fm.name}</b>
+                 					<span class="fava_m"  id="fm_{$fm.id}"></span>
+                 				</a>
+			      		  	  </foreach>
+			      		  	</span>
+			      		  	<a href="javascript:" class="fava_c to-favor" title="添加到快捷方式" id="addToFavor">&nbsp;</a>
+			      		  </div>
+			      		</td></tr>
+			        </table>
+	        </td>
+		   </tr>
+	</table>
+	<iframe name="doFrame" id="doFrame" src="about:blank" frameborder="0" scrolling="no" style="width:0px;height:0px;visibility:hidden"></iframe>
+</body>
+</html>

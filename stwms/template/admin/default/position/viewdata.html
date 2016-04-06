@@ -1,0 +1,47 @@
+<include file="head"/>
+<import file="position.js" check="true"/>
+</head>
+<body>
+	<if condition="$auths['add']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:" onclick="position('init')">推荐位</a>
+	      <span>|</span>
+	      <a href="javascript:" onclick="position('add')">添加推荐位</a>
+	    </div>
+	</div>
+	</if>
+	<form name="myform" action="{act_url('position','itemorder','posid='.$id)}" method="post">
+		<div class="table-list">
+		    <table width="100%" cellspacing="0">
+		        <thead>
+		            <tr>
+			            <if condition="$auths['itemorder']"><th width="60">排序</th></if>
+			            <th width="60">ID</th>
+			            <th>标题</th>
+			            <th>模型</th>
+			            <th>栏目</th>
+			            <th width="100">管理操作</th>
+		            </tr>
+		        </thead>
+						<tbody>							
+							<foreach name="$data" item="$vl" key="$ky">
+							<tr>
+			            <if condition="$auths['itemorder']"><td align='center'><input name='listorders[{$ky}]' type='text' size='3' value='{$vl['listorder']}' class='input-text-c'></td></if>
+			            <td align="center">{$vl['id']}</td>
+			            <td>{$vl['title']}</td>
+			            <td align="center">{$vl['modelname']}</td>
+			            <td align="center">{$vl['catname']}</td>
+			            <td align="center">
+			            	<a target="_blank" href="{act_url('content','show','catid='.$vl['catid'].'&id='.$vl['id'].'&authsec='.ADMIN_INI,1)}">预览</a>
+			            	<if condition="$auths['delitem']"> | <a href="{act_url('position','delitem','id='.$ky.'&posid='.$id)}">移除</a></if>
+			            </td>
+		            </tr>		          
+		          </foreach>
+						</tbody>
+					</table>
+			    <if condition="$auths['itemorder']"><div class="btn"><input type="submit" class="button" name="dosubmit" value="排序" /></div></if>
+		</div>
+	</form>
+</body>
+</html>

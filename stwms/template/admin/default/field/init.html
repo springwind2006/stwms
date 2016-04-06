@@ -1,0 +1,99 @@
+<include file="head"/>
+<import file="field.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{height:400px;width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{margin-top:5px;}
+  .type_info span{display:inline-block;padding:2px 10px;color:#666;vertical-align:middle;line-height:30px;border:1px solid #eee;background:#f6f6f6;}
+  .type_info input{height:18px;line-height:18px;}
+  .type_info .txt{border:1px solid #d0d0d0;}
+  .disabled{color:#999;text-decoration:line-through;}
+</style>
+</head>
+<body>
+		<div class="subnav">
+		    <div class="content-menu">
+		      <a href="javascript:void(0)" class="on">字段管理</a>
+		      <span>|</span>
+		      <if condition="$auths['add']">
+		      <a href="javascript:" onclick="field('add','{($this->tbName)}')">添加字段</a>
+		      <span>|</span>
+		      </if>
+		      <if condition="$auths['preview']">
+		      <a href="javascript:" onclick="field('preview','{($this->tbName)}',0,{$win_width},{$win_height})">预览模型</a>
+		      <span>|</span>
+		      </if>
+		      <a href="javascript:" onclick="deal('model.init')">返回模型</a>
+		    </div>
+		    <div class="content-tools">
+		    	当前操作模型：<span style="font-weight:bold">{$tbname}</span>（{$name}）
+		    </div>
+		</div>
+
+		<form name="myform" action="?{ADMIN_INI}&c=field&a=listorder&tbname={($this->tbName)}" method="post">
+			<div class="table-list">
+		    <table width="100%" cellspacing="0">
+		        <thead>
+		            <tr>
+		            	<if condition="$auths['listorder']"><th style="width:80px;">排序</th></if>
+			            <th style="width:60px;">字段名</th>
+			            <th>别名</th>
+			            <th>类型</th>
+			            <th style="width:30px;">系统</th>
+			            <th style="width:30px;">内置</th>
+			            <th style="width:30px;">索引</th>
+			            <th style="width:30px;">唯一</th>
+			            <th style="width:30px;">列表</th>
+			            <th style="width:30px;">检索</th>
+			          <if condition="$auths['disabled']||$auths['edit']||$auths['del']">
+			            <th>管理操作</th>
+			          </if>
+		            </tr>
+		        </thead>
+						<tbody>
+							<foreach name="$data" item="$vl" key="$ky">
+								<tr>
+									<if condition="$auths['listorder']"><td align='center'><input name='listorders[{$vl['id']}]' type='text' size='3' value='{($vl['listorder']?$vl['listorder']:'0')}' class='input-text-c'></td></if>
+									<td align='center' {(intval($vl['disabled'])?'class="disabled"':'')}>{$vl['field']}</td>
+									<td align='center' {(intval($vl['disabled'])?'class="disabled"':'')}>{$vl['name']}</td>
+									<td align='center' {(intval($vl['disabled'])?'class="disabled"':'')}>{$vl['formtype']}</td>
+									<td align='center'><span style="color:{($vl['issystem']==1?'red;">√':'gray;">×')}</span></td>
+									<td align='center'><span style="color:{($vl['isbase']==1?'red;">√':'gray;">×')}</span></td>
+									<td align='center'><span style="color:{($vl['dsetting']['isindex']==1?'red;">√':'gray;">×')}</span></td>
+									<td align='center'><span style="color:{($vl['dsetting']['isunique']==1?'red;">√':'gray;">×')}</span></td>
+									<td align='center'><span style="color:{($vl['msetting']['istolist']==1?'red;">√':'gray;">×')}</span></td>
+									<td align='center'><span style="color:{($vl['msetting']['issearch']==1?'red;">√':'gray;">×')}</span></td>
+							<if condition="$auths['disabled']||$auths['edit']||$auths['del']">
+									<td align="center">
+								<if condition="$auths['disabled']">
+									<if condition="$vl['issystem']||($type==2 && !$_SESSION['iscreator'])">
+									  <a href="javascript:" style="color:gray;">禁用</a>
+									<elseif condition="!$vl['disabled']"/>
+										<a href="javascript:deal('field.disabled','tbname={($this->tbName)}&id={$vl['id']}&disabled=1')" style="color:red;">禁用</a>
+									<else/>
+										<a style="color:green;" href="javascript:deal('field.disabled','tbname={($this->tbName)}&id={$vl['id']}&disabled=0')">启用</a>
+									</if>|
+								</if>
+								<if condition="$auths['edit']">
+											<a href="javascript:field('edit','{($this->tbName)}',{$vl['id']})">修改</a>|
+								</if>
+								<if condition="$auths['del']">
+									<if condition="$type==2 && !$_SESSION['iscreator']">
+											<a href="javascript:" disabled="disabled">删除</a>
+									<else/>
+											<a href="javascript:{($vl['issystem'] ? '" style="color:gray;"':'field(\'del\',\''.$this->tbName.'\','.$vl['id'].')"')}>删除</a>
+									</if>
+								</if>
+									</td>
+							</if>
+								</tr>
+              </foreach>
+						</tbody>
+		    </table>
+		    <if condition="!empty($data)&&$auths['listorder']">
+		    <div class="btn"><input type="submit" class="button" name="dosubmit" value="排序" /></div>
+		    </if>
+	    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<include file="head"/>
+<import file="field.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+</style>
+</head>
+<body>
+  
+		<div class="subnav">
+		    <div class="content-menu">
+		      <a href="javascript:"  onclick="field('init','{($this->tbName)}')">字段管理</a>
+		     <if condition="$auth_add">
+		      <span>|</span>
+		      <a href="javascript:"  onclick="field('add','{($this->tbName)}')">添加字段</a>
+		     </if>
+		      <span>|</span>
+		      <a href="javascript:" onclick="field('preview','{($this->tbName)}',0,{$win_width},{$win_height})">预览模型</a>
+		    </div>
+		    <div class="content-tools">
+		    	当前操作模型：<span style="font-weight:bold">{$tbname}</span>（{$name}）
+		    </div>
+		</div>
+
+		<form name="myform" id="myform" action="{act_url('field','edit','id='.$info['id'])}" method="post">
+			<div class="common-form">
+				  <table width="100%" class="table_form contentWrap">
+	          <tr>
+			        <th> <b> 字段类型：</b></th>
+			        <td>
+			        	<if condition="$isInstall||$info['issystem']||($type==2 && !$_SESSION['iscreator'])">
+			        	<select name="info[formtype]" id="formtype" disabled="disabled" class="input-select">
+                   <option value="{$info['formtype']}">{$info['formtype_tl']}</option>
+			        	</select>
+			        	<else/>
+			        	<select name="info[formtype]" id="formtype" class="input-select">
+			        		<option value="">请选择字段类型</option>
+			        		<foreach name="$formtypes" item="$fd" >
+			        			<option value="{$fd['type']}" {($info['formtype']==$fd['type']?'selected="selected"':'')}>{$fd['name']}</option>
+			        		</foreach>
+			        	</select>
+			        	</if>
+			        	<span id="type_tip"></span>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th >
+			        	<b> 字段名：</b><br/>
+			        	<span>只能由英文字母、数字和下划线组成，并且仅能字母<br/>开头，不以下划线结尾</span>
+			        </th>
+			        <td><input type="text" {($this->isInstall||$info['issystem']||($this->type==2 && !$_SESSION['iscreator']) ? 'readonly="readonly"':'')} name="info[field]" id="field" value="{$info['field']}" class="input-text"><span id="field_tip"></span></td>
+			      </tr>
+			      <tr>
+			        <th > <b> 字段别名：</b><br/><span>例如：文章标题</span></th>
+			        <td><input type="text" name="info[name]" id="name" value="{$info['name']}" class="input-text" style="width:200px;"><span id="name_tip"></span></td>
+			      </tr>
+			      <tr>
+			        <th > <b> 字段提示：</b><br/><span>显示在字段别名下方作为表单输入提示</span></th>
+			        <td>
+			        	<textarea type="text" name="info[tips]" id="tips" class="input-textarea" style="width:600px;height:50px;">{htmlspecialchars($info['tips'])}</textarea>
+			        	<span id="tips_tip"></span>
+			        </td>
+			      </tr>
+			      <tr id="setting" {(empty($info['setting'])?'style="display:none;"':'')}>
+			        <th > <b> 相关参数：</b><br/><span>设置表单相关属性</span></th>
+			        <td>{$info['setting']}</td>
+			      </tr>			
+			      <if condition="$msetable['isshow']"> 
+			      <tr id="msetting">
+			        <th > <b> 管理界面设置：</b><br/><span> 设置后台管理界面显示方式</span></th>
+			        <td>
+			          <table cellpadding="2" cellspacing="1" width="98%">
+  							    <tr id="msetting_istolist">
+						           <td style="width:100px;"> 是否显示至列表</td>
+						           <td>
+						           	 <if condition="$msetable['istolist']">
+												  <input type="radio" name="msetting[istolist]" value="1" {($msetting['istolist'] ? 'checked="checked"':'')} /> 是
+												  <input type="radio" name="msetting[istolist]" value="0" {(!$msetting['istolist'] ? 'checked="checked"':'')} /> 否
+												  &nbsp;&nbsp;&nbsp;&nbsp;
+												  <span style="visibility:{($msetting['istolist'] ? 'visible':'hidden')}">
+													  是否排序
+													  <if condition="$msetable['isorder']">
+															  <input type="radio" name="msetting[isorder]" value="1" {($msetting['isorder'] ? 'checked="checked"':'')}/> 是
+															  <input type="radio" name="msetting[isorder]" value="0" {(!$msetting['isorder'] ? 'checked="checked"':'')} /> 否
+									          <else/>
+														    <input type="radio" name="msetting[isorder]" value="1" disabled="disabled"/> 是
+															  <input type="radio" name="msetting[isorder]" value="0" disabled="disabled" checked="checked" /> 否
+									          </if>
+												  	&nbsp;&nbsp;&nbsp;&nbsp;字符数
+												  	<input type="text" name="msetting[maxchars]" value="{$msetting['maxchars']}" size="3" style="height:12px;line-height:12px;" class="input-text">
+												  	宽度
+												  	<input type="text" name="msetting[width]" value="{$msetting['width']}" size="3" style="height:12px;line-height:12px;" class="input-text">px
+											  	  &nbsp;
+											  	  <select name="msetting[align]" style="vertical-align:middle;">
+											  	  	<option value="center" {($msetting['align']=='center'?'selected="selected"':'')}>居中对齐</option>
+											  	  	<option value="left" {($msetting['align']=='left'?'selected="selected"':'')}>左对齐</option>
+											  	  	<option value="right" {($msetting['align']=='right'?'selected="selected"':'')}>右对齐</option>
+											  	  </select>
+
+												  </span>
+												 <else/>
+												  <input type="radio" name="msetting[istolist]" value="1" disabled="disabled"/> 是
+												  <input type="radio" name="msetting[istolist]" value="0" disabled="disabled" checked="checked" /> 否
+												 </if>
+						           </td>
+								   </tr>
+								   <tr id="msetting_issearch">
+						           <td> 是否启用检索</td>
+						           <td>
+						           	<if condition="$msetable['issearch']">
+												  <input type="radio" name="msetting[issearch]" value="1" {($msetting['issearch'] ? 'checked="checked"':'')}/> 是
+												  <input type="radio" name="msetting[issearch]" value="0" {(!$msetting['issearch'] ? 'checked="checked"':'')} /> 否												  
+						            <else/>
+												  <input type="radio" name="msetting[issearch]" value="1" disabled="disabled" /> 是
+												  <input type="radio" name="msetting[issearch]" value="0" disabled="disabled" checked="checked" /> 否
+						            </if>
+						           </td>
+								   </tr>
+								</table>
+			        </td>
+			      </tr>
+			      </if>
+			      
+			      <if condition="!$isInstall">
+			      <tr id="dsetting">
+			        <th> <b> 数据库配置：</b></th>
+			        <td>
+									<table cellpadding="2" cellspacing="1" width="98%">
+									    <tr {( $ismlen ? '' : 'style="display:none"')} id="ismlen"> 
+									      <td width="100">字符存储宽度</td>
+									      <td>
+									      	<input type="text" class="input-text" size="3" maxlength="4" name="dsetting[maxlen]" value="{($dsetting['maxlen'] ? $dsetting['maxlen'] : $maxlen)}" />
+									        <font color="#ff0000">如果不清楚需要的字段需要存储的最大字符数，不要轻易修改！</font>
+									      </td>
+									    </tr>									    
+									    <tr> 
+									      <td width="100">是否允许索引</td>
+									      <td>
+									      	<input type="radio" name="dsetting[isindex]" {($dsetting['isindex']?'checked="checked"':'')} value="1" /> 是 <input type="radio" name="dsetting[isindex]" value="0" {(!$dsetting['isindex']?'checked="checked"':'')}/> 否
+									        字段索引能够加快检索速度，但会降低添加和更新效率
+									      </td>
+									    </tr>
+									    <tr>
+									      <td>是否唯一</td>
+									      <td><input type="radio" name="dsetting[isunique]" {($dsetting['isunique']?'checked="checked"':'')} value="1" /> 是 <input type="radio" name="dsetting[isunique]" value="0" {(!$dsetting['isunique']?'checked="checked"':'')}/> 否</td>
+									    </tr>
+									    <tr> 
+									      <td>是否为NOT NULL</td>
+									      <td><input type="radio" name="dsetting[isnull]" {($dsetting['isnull']?'checked="checked"':'')} value="1" /> 是 <input type="radio" name="dsetting[isnull]" value="0" {(!$dsetting['isnull']?'checked="checked"':'')}/> 否</td>
+									    </tr>
+									</table>			         
+			        </td>
+			      </tr>
+			      </if>
+			      <tr>
+			        <th > <b> 表单样式名：</b><br/><span>定义表单的CSS样式或类名</span></th>
+			        <td><input type="text" name="info[css]" id="css" style="width:400px" value="{$info['css']}" class="input-text"><span id="type_tip"></span></td>
+			      </tr>
+			      <tr>
+			        <th >
+			        	<b> 字符长度取值范围：</b><br/>
+			        	<span>系统将在表单提交时检测数据长度范围是否符合<br/>要求，如果不想限制长度请留空</span>
+			        </th>
+			        <td>最小值：<input type="text" name="info[minlength]" id="minlength" value="{$info['minlength']}" class="input-text" style="width:60px" value="0">&nbsp;最大值：<input type="text" name="info[maxlength]" id="maxlength" value="{$info['maxlength']}" class="input-text"  style="width:60px"></td>
+			      </tr>
+			      <if condition="$maxlen">
+			      <script type="text/javascript">$("#maxlength").data("maxlen",{$maxlen});</script>
+			      </if>
+			      <tr>
+			        <th> <b> 数据校验正则：</b><br/>
+			        	<span>系统将通过此正则校验表单提交的数据合法性，<br/>如果不想校验数据请留空</span>
+			        </th>
+			        <td>
+			        	<input type="text" name="info[pattern]" id="pattern" value="{$info['pattern']}" class="input-text" style="width:300px;float:left;" onchange="if(!(/^\/(.+)\/([gim]*)$/i.test(this.value))){this.value=this.defaultValue||''}"/>
+			        	<select name="pattern_select" id="pattern_select" style="float:left;margin:2px 10px 0 0;">
+									<option value="">自定义</option>
+									<option value="/^[0-9.-]+$/">数字</option>
+									<option value="/^[0-9-]+$/">整数</option>
+									<option value="/^[a-z]+$/i">字母</option>
+									<option value="/^[0-9a-z]+$/i">数字+字母</option>
+									<option value="/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/">E-mail</option>
+									<option value="/^[0-9]{5,20}$/">QQ</option>
+									<option value="/^http:\/\//">超级链接</option>
+									<option value="/^(1)[0-9]{10}$/">手机号码</option>
+									<option value="/^[0-9-]{6,13}$/">电话号码</option>
+									<option value="/^[0-9]{6}$/">邮政编码</option>
+									<option value="/^\w+$/">注册用户名</option>
+									<option value="fn:isCardID">身份证号</option>
+								</select>
+								ajax校验<input type="checkbox" name="setting[ajax_check]" {($setting['ajax_check']?'checked="checked"':'')} value="1"/>
+								向当前URL提交ajaxcheck参数，服务器返回"1"通过校验
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> <b> 数据校验未通过的提示信息：</b></th>
+			        <td><input type="text" name="info[errortips]" id="errortips" value="{$info['errortips']}" class="input-text" style="width:250px;" /><span id="errortips_tip"></span></td>
+			      </tr>
+  		      <tr>
+			         <th > <b> 内置字段：</b><br/><span>内置字段无法添加和编辑字段值，值由系统设定</span></th>
+			        <td>
+			        	<input type="radio" name="info[isbase]" id="isbase1" class="input-radio" value="1" {($info['isbase']?'checked="checked"':'')} />是&nbsp;
+			        	<input type="radio" name="info[isbase]" id="isbase2" class="input-radio" value="0" {(!$info['isbase']?'checked="checked"':'')} />否
+			        </td>
+			      </tr>
+			      <if condition="!empty($_SESSION['iscreator'])">
+			      <tr>
+			        <th > <b> 系统字段：</b><br/><span>系统字段由系统创建，无法编辑和删除</span></th>
+			        <td>
+			        	 <input type="radio" name="info[issystem]" id="iscore1" class="input-radio" value="1" {($info['issystem']?'checked="checked"':'')} />是&nbsp;
+			        	 <input type="radio" name="info[issystem]" id="iscore2" class="input-radio" value="0" {(!$info['issystem']?'checked="checked"':'')} />否
+			           <font color="red">此功能仅为系统创始人提供，请谨慎使用</font>
+			        </td>
+			      </tr>
+			      <else/>
+			      <tr style="display:none"><td colspan="2"><input type="hidden" name="info[issystem]" value="{$info['issystem']}"></td></tr>
+			      </if>
+			      <tr>
+			        <th > <b> 限制用户组：</b><br/><span>选择的用户组无法设置此字段值</span></th>
+			        <td>
+			        	<foreach name="$roles" item="$role" >
+			        	    <input type="checkbox" value="{$role['id']}" name="info[groupids][]" {($role['checked']?'checked="checked"':'')}/>{$role['name']}
+			        	</foreach>
+			        </td>
+			      </tr>
+	        </table>
+	    </div>
+	    <div class="bk15"></div>
+			<div class="btn">
+				<input type="hidden" name="info[listorder]" value="{$info['listorder']}">
+				<input type="hidden" name="tbname" id="tbname" value="{($this->tbName)}">
+				<input type="submit" id="dosubmit" class="button" name="dosubmit" value="提交"/>
+			</div>
+    </form>
+</body>
+</html>

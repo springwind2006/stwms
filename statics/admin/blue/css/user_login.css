@@ -1,0 +1,18 @@
+@charset "UTF-8";
+/* CSS Document */
+body{margin:0;padding:0;text-align:center;min-width:600px;background-image:url(../images/login_background.jpg);background-repeat:repeat-x;}
+#logo{position:absolute;width:226px;height:69px;z-index:1;top:5px;left:50px;}
+#welcometitle{position:absolute;width:368px;height:27px;z-index:1;left:65px;top:34px;}
+#fields{position:absolute;width:200px;height:144px;z-index:2;left:156px;top:93px;}
+#fields .tip{color:#636363;font-size:11px;}
+#lostpassword{position:absolute;width:88px;height:18px;z-index:3;left:340px;top:196px;}
+#copyright{position:absolute;width:472px;height:28px;z-index:4;left:48px;top:257px;}
+#status{float:left;color:red;}
+.login{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;color:#555555;}
+.fields{color:#777777;font-family:Arial,Helvetica,sans-serif;font-size:13px;padding:3px 6px;background-color:#f5f5f5;border:1px solid #dedbd1;}
+.button{float:right;color:#FFFFFF;font-family:Arial,Helvetica,sans-serif;	font-size:12px;padding:1px 5px 3px 5px;margin-right:35px;background-color:#757575;border:1px solid #888888;cursor:pointer;}
+.copyright{text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:10px;	color:#757575;font-style:italic;}
+.copyright a{color:#757575;font-size: 12px;}
+.copyright a:hover{text-decoration:underline;	color:#000000;}
+.welcome{font-family:Arial,Helvetica,sans-serif;color:#2b7c98;font-size:18px;letter-spacing:0px;}
+.box{position:absolute;left:50%;top:50%;margin:-160px auto auto -290px;width:577px;height:287px;text-align:left;background:url(../images/login_box.jpg) no-repeat 8px 18px;}

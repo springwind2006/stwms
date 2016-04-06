@@ -1,0 +1,60 @@
+<include file="head"/>
+</head>
+<body>
+<style type="text/css"> 
+	html{_overflow-y:scroll}
+</style>
+<div class="pad-10">
+	<div class="explain-col">
+		1、只有模型已经安装，并且已经使用和设置为栏目模型才会对应模型。<br/>
+		2、只有栏目选择生成静态页面时，右侧“栏目范围”才会出现对应栏目。
+	</div>
+	<div class="bk10"></div> 
+	<div class="table-list">
+		<table width="100%" cellspacing="0">	 
+			<form action="{act_url('staticize','category')}" method="post" name="myform">
+		  <input type="hidden" name="dosubmit" value="1">
+		  <input type="hidden" name="type" value="lastinput"> 
+			<thead>
+				<tr>
+					<th align="center" width="150">按照模型更新</th>
+					<th align="center" width="386">选择栏目范围</th>
+					<th align="center">选择操作内容</th>
+				</tr>
+			</thead>
+			<tbody  height="200" class="nHover td-line">
+			<tr> 
+		      <td align="center" rowspan="2">
+						<select name="model" size="2" style="height:200px;width:130px;" onclick="change_model(this.value)">
+							<option value="" selected="selected">不限模型</option>
+							<foreach name="$models" item="$mv" key="$mk">
+							<option value="{$mk}" {($mk==$model ? 'selected="selected"':'')}>{$mv['name']}</option>
+							</foreach>
+						</select>	
+					</td>
+					<td align="center" rowspan="2">
+						<select name='catids[]' id='catids'  multiple="multiple"  style="height:200px;" title="按住“Ctrl”或“Shift”键可以多选，按住“Ctrl”可取消选择">
+							<option value='0' selected="selected">不限栏目</option>
+							{$string}
+						</select>
+					</td>
+					<td>
+		      	<p><font color="red">每轮更新 <input type="text" class="input-text" name="pagesize" value="10" size="4"> 条信息</font></p>
+		      	<p style="margin-top:15px;">是否更新分类：<input type="radio" name="totype" value="1" checked="checked" />是　<input type="radio" name="totype" value="0" />否</p>
+		      </td>
+		  </tr>
+			<tr> 
+		      <td>更新所有信息 <input type="button" name="dosubmit1" value="开始更新 " class="button" onclick="myform.type.value='all';myform.submit();"></td>
+		  </tr>
+			</tbody>
+			</form>
+		</table>	 
+	</div>
+</div>
+<script language="JavaScript"> 
+	function change_model(model){
+		window.location.href=act_url('staticize','category','model='+model);
+	}
+</script>
+</body>
+</html>

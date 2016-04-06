@@ -1,0 +1,52 @@
+<include file="head"/>
+<import file="position.js" check="true"/>
+</head>
+<body>
+	<if condition="$auths['add']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:void(0)" class="on">推荐位</a>
+	      <span>|</span>
+	      <a href="javascript:" onclick="position('add')">添加推荐位</a>
+	    </div>
+	</div>
+	</if>
+	<form name="myform" action="{act_url('position','listorder')}" method="post">
+			<div class="table-list">
+			    <table width="100%" cellspacing="0">
+			        <thead>
+			            <tr>
+				            <if condition="$auths['listorder']"><th width="60">排序 </th></if>
+				            <th width="80">ID</th>
+				            <th> 名称 </th>
+				            <th> 模型 </th>
+				            <th> 栏目 </th>
+				            <th width="80"> 数据量 </th>
+				            <if condition="$op_auth=($auths['viewdata']||$auths['edit']||$auths['del'])"><th width="150"> 管理操作</th></if>
+			            </tr>
+			        </thead>
+							<tbody>								
+								<foreach name="$data" item="$vl" >
+									<tr>
+										<if condition="$auths['listorder']"><td align='center'><input name='listorders[{$vl['id']}]' type='text' size='3' value='{$vl['listorder']}' class='input-text-c'></td></if>
+										<td align='center'>{$vl['id']}</td>
+										<td >{$vl['name']}</td>
+										<td align='center'>{$vl['modelname']}</td>
+										<td align='center'>{$vl['catname']}</td>
+										<td align='center'>{$vl['maxnum']}</td>
+										<if condition="$op_auth">
+										<td align='center'>
+											<if condition="$auths['viewdata']"><a href="{act_url('position','viewdata','id='.$vl['id'])}">查看数据</a></if>
+											<if condition="$auths['edit']">| <a href="javascript:" onclick="position('edit',{$vl['id']})"> 编辑</a> </if>
+											<if condition="$auths['del']">| <a href="javascript:" onclick="position('del',{$vl['id']})">删除</a></if>
+										</td>
+										</if>
+									</tr>								
+								</foreach>
+							</tbody>
+			    </table>
+			    <if condition="$auths['listorder']"><div class="btn"><input type="submit" class="button" name="dosubmit" value="排序" /></div></if>
+		  </div>
+	</form>
+</body>
+</html>

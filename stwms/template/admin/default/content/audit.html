@@ -1,0 +1,72 @@
+<include file="head"/>
+<import file="content.js" check="true"/>
+</head>
+<body>
+<php> $status_arr=array('<font color="#ffaa00">⊙</font>','<font color="#ff6600">①</font>','<font color="#ff0000">②</font>');</php>
+<form name="myform" id="myform" action="{act_url('content','audit')}" method="post">
+<div class="table-list">
+	    <table width="100%" cellspacing="0">
+	        <thead>
+	            <tr>
+	            	<th style="width:30px;text-align:left;">
+	            		<input type="checkbox" onclick="isSelectAll(this,1)" />
+	            	</th>
+	            	<th style="width:60px;">ID值</th>
+	            	<th style="width:60px;">栏目ID</th>
+	            	<th>标题</th>
+	            	<th>栏目名称</th>
+	            	<th>模型名称</th>
+	            	<th style="width:60px;">当前状态</th>
+	            	<th style="width:60px;">审核流</th>
+	            	<th style="width:150px;">管理操作</th>
+	            </tr>
+	       	</thead>
+	        <tbody>
+	        	<foreach name="$infos" item="$vl" >
+	        	<php> $catid=intval($vl['catid']);$win_width=intval($models[$categorys[$catid]['model']]['width']);$win_height=intval($models[$categorys[$catid]['model']]['height']);</php>
+	            <tr>
+	            	<td align="left"><input name="ids[]" value="{$vl['catid']}_{$vl['id']}" type="checkbox"/></td>
+	            	<td align="center">{$vl['id']}</td>
+	            	<td align="center">{$vl['catid']}</td>
+	            	<td align="left" style="{($vl['istrash'] ? 'text-decoration:line-through;color:gray':'')}{$vl['title']['style']}">
+	            		{$status_arr[$vl['audit_status']]}
+	            		{cut_str($vl['title']['value'],15)}
+	            	</td>
+	            	<td align="center">{$vl['catname']}</td>
+	            	<td align="center">{$vl['modelname']}</td>
+	            	<td align="center">{$audits_state[$vl['audit_status']]}</td>
+	            	<td align="center">{$vl['audit_steps']} 级</td>
+	            	<td align="center">
+		            	<a target="_blank" href="{act_url('content','show','catid='.$vl['catid'].'&id='.$vl['id'].'&authsec='.ADMIN_INI,1)}">预览</a>
+		            	<if condition="$vl['auth_edit']">
+		            	  | <a onclick="edit_content('{$catid}.{$vl['id']}','{$categorys[$catid]['setting']['opentype']}','{(str_replace(array('\'','"'),'',$categorys[$catid]['name']))}',{$win_width},{$win_height})" href="javascript:">编辑</a>
+		            	</if>
+		            	<if condition="$vl['auth_trash']">
+				            | <a href="javascript:" onclick="trash('{$catid}','{$vl['id']}','{$vl['istrash']}');">{($vl['istrash'] ? '恢复':'删除')}</a> 
+		            	</if>
+		            	<if condition="$vl['auth_del']">
+		            	  | <a href="javascript:" onclick="confirmurl('{act_url('content','del','catid='.$catid.'&id='.$vl['id'])}');">永久删除</a> 
+		            	</if>
+		            </td>
+	            </tr>
+	           </foreach>
+	        </tbody>
+	    </table>
+  </div>
+  	<div class="footer">
+		<div class="do">
+			 <input type="hidden" name="audit_type" id="audit_type" value="0">
+			 <a onclick="isSelectAll(this,0)" href="javascript:">全选</a>
+			 <foreach name="$audits" item="$cAudit_na" key="$cAudit_vl">
+				 <if condition="$cAudit_vl&&$cAudit_vl elt $audit_auth">
+				   <input type="button" onclick="audit({$cAudit_vl})" class="s_button" style="margin-left:10px;" value="{$cAudit_na}" />
+				 </if>
+			 </foreach>
+	  </div>
+		<div class="page" id="set_pages">
+			{$pages}
+		</div>
+	</div>
+  </form>
+</body>
+</html>

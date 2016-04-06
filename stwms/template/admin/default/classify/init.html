@@ -1,0 +1,49 @@
+<include file="head"/>
+<import file="classify.js" check="true"/>
+</head>
+<body>
+	<if condition="$auths['add']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:void(0)" class="on">类别管理</a>
+	      <span>|</span>
+	      <a href="javascript:" onclick="classify('add')">添加类别</a>
+	    </div>
+	</div>
+	</if>
+	<div class="table-list">
+	    <table width="100%" cellspacing="0">
+	        <thead>
+	            <tr>
+		            <th width="80">ID</th>
+		            <th> 名称 </th>
+		            <th> 描述 </th>
+		            <th> 层级 </th>
+		            <th width="80"> 分类总数 </th>
+		            <if condition="$auths['type_init']||$auths['edit']||$auths['del']">
+		            <th width="150"> 管理操作</th>
+		            </if>
+	            </tr>
+	        </thead>
+					<tbody>
+						<foreach name="$data" item="$vl" >
+							<tr>
+								<td align='center'>{$vl['id']}</td>
+								<td >{$vl['name']}</td>
+								<td align='center'>{$vl['describe']}</td>
+								<td align='center'>{$vl['level']}</td>
+								<td align='center'>{$vl['count']}</td>
+								<if condition="$auths['type_init']||$auths['edit']||$auths['del']">
+								<td align='center'>
+									<if condition="$auths['type_init']"><a href="javascript:" onclick="classify('manage',{$vl['id']})">分类管理</a> | </if>
+									<if condition="$auths['edit']"><a href="javascript:" onclick="classify('edit',{$vl['id']})"> 编辑</a> | </if>
+									<if condition="$auths['del']"><a href="javascript:" onclick="classify('del',{$vl['id']})">删除 </a> </if>
+								</td>
+								</if>
+							</tr>
+						</foreach>
+					</tbody>
+	    </table>
+  </div>
+</body>
+</html>
