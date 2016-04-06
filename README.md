@@ -1,2 +1,7 @@
 # stwms
-A web content manage system,you can manage your website easily if you can use it!
+使用步骤：
+1.将下载的文件上传到网站根目录下；
+2.在浏览器地址栏输入：http://localhost/index.php?stwms
+3.输入管理员登陆用户名和密码，默认用户名和密码为admin
+4.进入“系统配置”=》“高级配置”-》“数据库配置”，配置连接的数据库类型，默认为sqlite3；
+后续使用步骤参照《用户手册》中操作指南部分。
