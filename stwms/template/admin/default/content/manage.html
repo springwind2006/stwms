@@ -1,0 +1,154 @@
+<include file="head"/>
+<import file="content.js,content_manage.js" check="true"/>
+</head>
+<body>
+	<php> $status_arr=array('<font color="#ffaa00">⊙</font>','<font color="#ff6600">①</font>','<font color="#ff0000">②</font>');</php>
+  <div class="subnav">
+	    <div class="content-menu">
+	    	<if condition="$auth_add">
+		      <a href="javascript:void(0)" onclick="add_content({$catid},'{$categorys[$catid]['setting']['opentype']}','{(str_replace(array('\'','"'),'',$categorys[$catid]['name']))}',{$win_width},{$win_height})" class="on">
+		      	添加内容
+		      </a>	      <span>|</span>
+	      </if>
+	      <div class="search">
+	      	 <form id="search_form">
+		      	<b>信息检索</b> &gt;&nbsp;&nbsp;
+		      	<if condition="!empty($datetimes)">
+		      			<php> $s_begintime=isset($_GET['s_begintime'])? $_GET['s_begintime']:'';$s_endtime=isset($_GET['s_endtime'])? $_GET['s_endtime']:'';load::cls('Form',0);</php>
+				      	<select name="s_datetime">
+				      		<foreach name="$datetimes" item="$datetime_fd" >
+				      		<option value="{$fields[$datetime_fd]['field']}">{$fields[$datetime_fd]['name']}</option>
+				      		</foreach>
+				      	</select> ：<input title="单击选择时间，双击清空时间" class="s-date date-select" name="s_begintime" id="s_begintime" type="text" value="{$s_begintime}" readonly="readonly"/>	-	<input title="单击选择时间，双击清空时间" class="s-date date-select" name="s_endtime" id="s_endtime" type="text" value="{$s_endtime}" readonly="readonly" />
+				      	{form::date('s_begintime',$s_begintime,0,0,0)}
+				      	{form::date('s_endtime',$s_endtime,0,0,0)}
+		      	</if>
+
+	  				<if condition="!empty($position_field)">
+						<select class="s_position" name="s_position" id="s_position" >
+		      		<option value="-1" {(isset($_GET['s_position'])&&$_GET['s_position']=='-1'?'selected="selected"':'')}>全部</option>
+		      		<option value="1" {(isset($_GET['s_position'])&&$_GET['s_position']=='1'?'selected="selected"':'')}>已推荐</option>
+		      		<option value="0" {(isset($_GET['s_position'])&&$_GET['s_position']=='0'?'selected="selected"':'')}>未推荐</option>
+		      	</select>
+		      	</if>
+		      	<if condition="!empty($searchs)">
+		      	<select class="s_type" name="s_type" id="s_type" >
+		      		<foreach name="$searchs" item="$dx" >
+		      		<option value="{$fields[$dx]['field']}" {(isset($_GET['s_type'])&&$_GET['s_type']==$fields[$dx]['field']?'selected="selected"':'')}>{$fields[$dx]['name']}</option>
+		      		</foreach>
+		      	</select>
+	          <input class="text-input s_keyword" value="{(isset($_GET['s_kw'])? $_GET['s_kw']:'')}" name="s_kw" id="s_kw" />
+	         </if>
+	         </form>
+	         <input type="button" class="s_button" id="start_search" value="搜索"/>
+	         <label for="trash_box" style="cursor:pointer;"><input type="checkbox" name="trash_box" id="trash_box" {($istrash ? 'checked="checked"':'')}/> 回收站</label>
+	      </div>
+	    </div>
+	    <if condition="$viewType">
+	      <div class="view-type" id="setViewType">
+	      	<div class="type_alert">显示：</div>
+	      	<div id="list_{($viewType==1 ? 'on':'off')}" class="list-{($viewType==1 ? 'on':'off')}"></div>
+	      	<div id="thumb_{($viewType==2 ? 'on':'off')}" class="thumb-{($viewType==2 ? 'on':'off')}"></div>
+	      </div>
+	      </if>
+	</div>
+	<form name="myform" id="myform" action="{SYS_ENTRY}?{ADMIN_INI}&c=content&catid={$catid}&trash={$istrash}" method="post">
+	<if condition="$viewType!=2">
+	<div class="table-list">
+	    <table width="100%" cellspacing="0">
+	        <thead>
+	            <tr>
+	            	<if condition="!empty($arr_auths)">
+	            	<th style="width:30px;text-align:left;">
+	            		<input type="checkbox" onclick="isSelectAll(this,{$viewType})" />
+	            	</th>
+	            	</if>
+	            	<if condition="isset($arr_auths['listorder'])">
+	            	<th style="width:45px;">排序</th>
+	            	</if>
+	            	<th style="width:45px;">ID值</th>
+	            	<foreach name="$tolists" item="$dx" >
+		            	 <php> $style=(empty($fields[$dx]['msetting']['width'])?'':'width:'.$fields[$dx]['msetting']['width'].'px;');</php>
+		            	 <php> $style=empty($style)?'':' style="'.$style.'"';</php>
+	                 <if condition="!empty($fields[$dx]['msetting']['isorder'])">
+	                   <th{$style}><a style="font-weight:bold;border:none;text-decoration:underline" title="点击排列" href="javascript:" onclick="setListOrder('{$dx}','{($order_field==$dx ? $order_type:0)}')">{$fields[$dx]['name']}<img align="absmiddle" src="{STATIC_URL}common/images/order{($order_field==$dx&&$order_type ? ($order_type==1 ? '_desc':'_asc'):'')}.gif"/></a></th>
+	                 <else/>
+	                   <th{$style}>{$fields[$dx]['name']}</th>
+	                 </if>
+	            	</foreach>
+		            <th style="width:150px;">管理操作</th>
+	            </tr>
+	       	</thead>
+	        <tbody>
+	        	  <foreach name="$infos" item="$v" >
+	            <tr>
+	            	<if condition="!empty($arr_auths)">
+	            	<td align="left">
+	            		<input name="id[]" value="{$v['id']}" type="checkbox"/>
+	            	</td>
+	            	</if>
+	            	<if condition="isset($arr_auths['listorder'])">
+	            	<td><input name="listorders[{$v['id']}]" value="{intval($v['listorder'])}" size="3"  type="text" class="input-text-c"/></td>
+	            	</if>
+	            	<td  align="center">{$v['id']}</td>
+	            	<foreach name="$tolists" item="$dx" >
+		            	  <php> $res=$this->getOutputFormat($fields[$dx],$v,$position_field,$dx,$s_kw);</php>
+		            		<td{($res['style'] ? ' style="'.$res['style'].'"' : '')}>
+		            		<if condition="$res['isaudit']">
+		            		  {($status_arr[$audit_levels+1-$v['status']])}
+		            		</if>
+		            		{$res['val']}
+		            		<if condition="$res['isthumb']">
+		            			<img src="{STATIC_URL}common/images/havthumb.png" height="13" align="absmiddle"/>
+		            		</if>
+		            		<if condition="$res['ispos']">
+		            			<img src="{STATIC_URL}common/images/ispos.gif" height="16" align="absmiddle"/>
+		            		</if>
+		            		</td>
+	            	</foreach>
+
+		            <td align="center">
+		            	<a target="_blank" href="{act_url('content','show','catid='.$v['catid'].'&id='.$v['id'].'&authsec='.ADMIN_INI,1)}">预览</a><if condition="$auth_edit">|<a onclick="edit_content('{$catid}.{$v['id']}','{$categorys[$catid]['setting']['opentype']}','{(str_replace(array('\'','"'),'',$categorys[$catid]['name']))}',{$win_width},{$win_height})" href="javascript:">编辑</a></if><if condition="$auth_trash">|<a href="javascript:" onclick="trash('{$catid}','{$v['id']}','{$istrash}');">{($istrash ? '恢复':'删除')}</a></if>
+		            </td>
+	            </tr>
+	            </foreach>
+	         </tbody>
+	    </table>
+  </div>
+  <else/>
+  <div class="thumb-list">
+  	<ul>
+  		<foreach name="$infos" item="$v" >
+	  		<li>
+	  			<div class="thumb" title="{$v[$title_field]['value']}" style="background-image:url({(empty($v['thumb']) ? STATIC_URL.'common/images/nopic.gif':act_url('api','thumb','f='.urlencode($v['thumb']).'&w=130&h=100&cut=0'))})">
+	  				<div></div><div></div>
+	  				<input name="id[]" value="{$v['id']}" type="checkbox"/>
+	  			</div>
+	  			<div class="title">
+	  				<span style="{$v[$title_field]['style']}">{($v['status']> 1 ? $status_arr[$audit_levels+1-$v['status']]:'')}{cut_str($v[$title_field]['value'],9)}</span>
+	  			</div>
+	  			<div class="action">
+	  				<if condition="isset($arr_auths['listorder'])"><input type="text"  name="listorders[{$v['id']}]" value="{intval($v['listorder'])}" size="3" class="input-text"/></if><a target="_blank" href="{act_url('content','show','catid='.$v['catid'].'&id='.$v['id'].'&authsec='.ADMIN_INI,1)}">预览</a><if condition="$auth_edit">|<a onclick="edit_content('{$catid}.{$v['id']}','{$categorys[$catid]['setting']['opentype']}','{(str_replace(array('\'','"'),'',$categorys[$catid]['name']))}',{$win_width},{$win_height})" href="javascript:">编辑</a></if><if condition="$auth_trash">|<a href="javascript:" onclick="trash('{$catid}','{$v['id']}','{$istrash}');">{($istrash ? '恢复':'删除')}</a></if>
+	  			</div>
+	  		</li>
+  		</foreach>
+  	</ul>
+  </div>
+  </if>
+	<div class="footer">
+		<div class="do">
+			<if condition="!empty($arr_auths)">
+			<a onclick="isSelectAll(this,{$viewType})" href="javascript:">全选</a>
+			<select name="a">
+				<foreach name="$arr_auths" item="$vl" key="$ky">
+					<option value="{$ky}">{$vl}</option>
+				</foreach>
+			</select>
+			<input type="button" onclick="conform_exe({$viewType})" class="s_button" value="执行"/>
+			</if>
+		</div>
+		<div class="page" id="set_pages">{$pages}</div>
+	</div>
+  </form>
+</body>
+</html>

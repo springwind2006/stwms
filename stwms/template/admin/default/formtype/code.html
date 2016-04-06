@@ -1,0 +1,67 @@
+<include file="head"/>
+<import file="formtype.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{
+    height:400px;
+    width:99%;
+    font-size:14px;
+    line-height:18px;
+  }
+  .container-cnt .alert{
+    margin-top:5px;
+  }
+  .type_info span{
+  	display:inline-block;padding:2px 10px;
+    color:#666;vertical-align:middle;line-height:30px;
+    border:1px solid #eee;
+    background:#f6f6f6;
+  }
+  .type_info input{
+    height:18px;line-height:18px;
+  }
+  .type_info .txt{
+    border:1px solid #d0d0d0;
+  }
+  .disabled{color:#999;text-decoration:line-through;}
+</style>
+</head>
+<body>
+  <div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:deal('formtype.init')" >类型管理</a>
+	      <span>|</span>
+	      <a href="javascript:deal('formtype.add')" >添加类型</a>
+	      <span>|</span>
+	      <a href="javascript:void(0)"  class="on">类模板管理</a>
+	    </div>
+	</div>
+	<form name="myform" id="myform" action="{act_url('formtype','code')}" method="post">
+  		  <ul class="container-tab">
+            <li>表单类模板</li>
+            <li>输入控制类模板</li>
+            <li>输出控制类模板</li>
+            <li>更新控制类模板</li>
+        </ul>
+				<div class="container-cnt pad-10">
+					<textarea name="info[form]" id="form" wrap="off">{htmlspecialchars($form)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写表单生成代码，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<div class="container-cnt pad-10">
+					<textarea name="info[input]" id="input" wrap="off">{htmlspecialchars($input)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写表单数据输入控制，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<div class="container-cnt pad-10">
+					<textarea name="info[output]" id="output" wrap="off">{htmlspecialchars($output)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写表单数据输出控制，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<div class="container-cnt pad-10">
+					<textarea name="info[update]" id="update" wrap="off">{htmlspecialchars($update)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写表单数据输出控制，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<!--table_form_off-->
+			  <div class="bk15"></div>
+				<div class="btn"><input type="button" id="dosubmit" class="button" name="dosubmit" value="保存修改"/><span class="status" id="resultState"></span></div>
+	</form>
+</body>
+</html>

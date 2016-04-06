@@ -1,0 +1,56 @@
+<include file="head"/>
+<import file="position.js" check="true"/>
+<script type="text/javascript">
+ $(function(){
+  /*待添加或修改内容有改变则刷新*/
+		$("input,textarea,select").change(function(){top.win.fresh=-1;});
+ });
+</script>
+</head>
+<body>
+<form name="myform" id="myform" action="{act_url('position','add')}" method="post">
+		<div class="common-form">
+			  <table width="100%" class="table_form contentWrap">
+		      <tr>
+		        <th > 名称：</th>
+		        <td><input type="text" name="info[name]" id="name" class="input-text" ></td>
+		      </tr>
+		      <tr>
+		        <th > 模型：</th>
+		        <td>
+		        	<select type="text" name="info[model]" id="model">
+		        		<option value="">应用到所有模型</option>
+		        		<foreach name="$models" item="$name" key="$tbname">		        		
+		        		<option value="{$tbname}">{$name}</option>		        		
+		        		</foreach>
+		        	</select>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th> 栏目：</th>
+		        <td>
+		        	<select type="text" name="info[catid]" id="catid">
+		        		<option value="">应用到所有栏目</option>
+		        		{$all_categorys}
+		        	</select>
+		        </td>
+		      </tr>
+					<tr>
+		        <th> 最大数据量：</th>
+		        <td><input type="text" value="15" name="info[maxnum]" id="maxnum" class="input-text" style="width:50px;"></td>
+		      </tr>
+		      <tr>
+		        <th> 溢出替换：</th>
+		        <td>是<input type="radio" name="info[isreplace]" id="isreplace1" value="1" checked="checked" />　否<input type="radio" name="info[isreplace]" id="isreplace2" value="0" />　<font color="red">注：溢出替换，会导致超出限定数量的数据替换最先的数据</font></td>
+		      </tr>
+		      <tr>
+		        <th> 说明：</th>
+		        <td> 此处如同时未选择模型与栏目，则该为全站通用；如选择模型未选择栏目，则该推荐位在该模型下通用。</td>
+		      </tr>
+				</table>
+		<!--table_form_off-->
+		</div>
+    <input type="hidden" name="info[listorder]" value="0">
+	</form>
+</body>
+</html>

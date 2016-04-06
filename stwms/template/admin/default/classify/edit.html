@@ -1,0 +1,69 @@
+<include file="head"/>
+<script type="text/javascript">
+ $(function(){ 	
+  /*待添加或修改内容有改变则刷新*/
+		$("input,textarea,select").change(function(){top.win.fresh=-1;});
+ });
+</script>
+<import file="classify.js" check="true"/>
+</head>
+<body>
+  <form name="myform" id="myform" action="{act_url('classify','edit','cid='.$cid)}" method="post">
+	  <div style="width:49.5%;float:left;">		
+				<div class="common-form">
+					  <table width="100%" class="table_form contentWrap">
+				      <tr>
+				        <th> 名称：</th>
+				        <td><input type="text" name="info[name]" id="name" class="input-text" value="{$name}" /></td>
+				      </tr>
+				      <tr>
+				        <th > 层级：</th>
+				        <td>
+				          <select name="info[level]" id="level" >
+				          	<php>for($i=1;$i<=$this->maxLevel;$i++){</php>
+				            <option {($level==$i ? 'selected="selected"' : '')} value="{$i}"> {$i}级 </option>
+				            <php>}</php>
+				          </select> 
+				          <font color="#666666">此类别下分类允许的最多层级数量</font>
+				        </td>
+				      </tr>				      
+				      <tr>
+				        <th> 描述：</th>
+				        <td><textarea name="info[describe]" id="describe" style="width:250px;height:80px;"/>{htmlspecialchars($describe)}</textarea></td>
+				      </tr>
+				      <tr>
+				        <th> 说明：</th>
+				        <td style="line-height:20px;color:#666"> 需要在栏目模型中添加分类字段，此栏目才会出现在右边，选择后此类别才能应用选择的栏目。</td>
+				      </tr>
+						</table>
+				<!--table_form_off-->
+				</div>
+		    <input type="hidden" name="info[listorder]" value="{$listorder}">		
+		</div>
+		<div style="width:49.5%;float:left;overflow:auto" class="table-list">
+			<table width="100%">
+				 <thead>
+						<tr>
+						  <th width="30">全选</th>
+						  <th align="left">栏目名称</th>
+					  </tr>
+				 </thead>
+				 <tbody>
+				 	<foreach name="$categorys" item="$vl" >
+						<tr {(!$vl['arrcid']&&$vl['usetypeid'] ? 'title="已经被“'.$classes[$vl['usetypeid']]['name'].'(ID:'.$vl['usetypeid'].')” 占用"':'')}>
+						  <td width="30">
+						  	<if condition="!$vl['arrcid']">
+						  	<input {($vl['usetypeid'] ? 'disabled="disabled" ' : '')} type="checkbox" name="catids[]" value="{$vl['id']}" {(in_array($vl['id'],$catids)?'checked="checked"':'')} />
+						  	</if>
+						  </td>
+						  <td align="left">
+						  	{$vl['spacer']}  {$vl['name']} 
+						  </td>
+					  </tr>
+				  </foreach>
+				 </tbody>
+			</table>
+		</div>
+	</form>
+</body>
+</html>

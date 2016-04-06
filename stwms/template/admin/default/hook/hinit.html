@@ -1,0 +1,52 @@
+<include file="head"/>
+</head>
+<body>
+	<if condition="$auths['add']||$auths['plugin_init']">
+	<div class="subnav">
+	    <div class="content-menu">
+	    	<if condition="$auths['plugin_init']">
+	    	<a href="{act_url('plugin','init')}">插件管理</a>
+	    	<span>|</span>
+	    	</if>
+	      <a href="{act_url('hook','init')}">钩子管理</a>
+	      <span>|</span>
+	      <a href="javascript:" class="on">动作管理</a>
+	      <if condition="$auths['add']">
+	      <span>|</span>
+	      <a href="javascript:" onclick="top.win.diag('hook.add','id={($this->id)}',{'tl':'添加钩子动作信息','h':190,'w':500})">添加动作</a>
+	      </if>
+	    </div>
+	    <div class="content-tools">
+	    	当前操作钩子：<span style="font-weight:bold;color:red;">{$name}</span>
+	    </div>
+	</div>
+	</if>
+	<div class="table-list">
+	  <table width="100%" cellspacing="0">
+	      <thead>
+	          <tr>
+	            <th width="80">nID</th>
+	            <th>插件</th>
+	            <th>动作</th>
+	            <if condition="$auths['edit']||$auths['del']"><th width="180">管理操作</th></if>
+	          </tr>
+	      </thead>
+				<tbody>
+					<foreach name="$data" item="$vl" key="$nid">
+						<tr>
+							<td align='center'>{($nid+1)}</td>
+							<td align='center'>{$vl['c']}</td>
+							<td align='center'>{$vl['a']}</td>
+							<if condition="$auths['edit']||$auths['del']">
+							<td align='center'>
+								<if condition="$auths['edit']"><a href="javascript:" onclick="top.win.diag('hook.edit','id={($this->id)}&nid={($nid+1)}',{'tl':'修改钩子信息','h':190,'w':500})">修改</a></if>
+								<if condition="$auths['del']"> | <a href="javascript:deal('hook.del','id={($this->id)}&nid={($nid+1)}',1)">删除</a></if>
+							</td>
+							</if>
+						</tr>
+	        </foreach>
+				</tbody>
+	  </table>
+  </div>
+</body>
+</html>

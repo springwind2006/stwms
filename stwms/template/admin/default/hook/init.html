@@ -1,0 +1,50 @@
+<include file="head"/>
+</head>
+<body>
+	<if condition="$auths['add']||$auths['plugin_init']">
+	<div class="subnav">
+	    <div class="content-menu">
+	    	<if condition="$auths['plugin_init']">
+	    	<a href="{act_url('plugin','init')}">插件管理</a>
+	    	<span>|</span>
+	    	</if>
+	      <a href="javascript:" class="on">钩子管理</a>
+	      <if condition="$auths['add']">
+	      <span>|</span>
+	      <a href="javascript:" onclick="top.win.diag('hook.add',{'tl':'添加钩子信息','h':200,'w':500})">添加钩子</a>
+	      </if>
+	    </div>
+	</div>
+	</if>
+	<div class="table-list">
+	  <table width="100%" cellspacing="0">
+	      <thead>
+	          <tr>
+	            <th width="80">ID</th>
+	            <th>名称</th>
+	            <th>说明</th>
+	            <th width="100">动作数量</th>
+	            <if condition="$auths['edit']||$auths['del']"><th width="180">管理操作</th></if>
+	          </tr>
+	      </thead>
+				<tbody>
+					<foreach name="$data" item="$vl" >
+						<tr>
+							<td align='center'>{$vl['id']}</td>
+							<td align='center'>{$vl['name']}</td>
+							<td align='center'>{$vl['desc']}</td>
+							<td align='center'>{($vl['data'] ? substr_count($vl['data'],',')+1 : 0)}</td>
+							<if condition="$auths['init']||$auths['edit']||$auths['del']">
+							<td align='center'>
+								<if condition="$auths['edit']"><a href="javascript:deal('hook.init','id={$vl['id']}')">动作管理</a></if>
+								<if condition="$auths['edit']"> | <a href="javascript:" onclick="top.win.diag('hook.edit','id={$vl['id']}',{'tl':'修改钩子信息','h':200,'w':500})">修改</a></if>
+								<if condition="$auths['del']"> | <a href="javascript:deal('hook.del','id={$vl['id']}',1)">删除</a></if>
+							</td>
+							</if>
+						</tr>
+	        </foreach>
+				</tbody>
+	  </table>
+  </div>
+</body>
+</html>

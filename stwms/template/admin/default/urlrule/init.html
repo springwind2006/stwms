@@ -1,0 +1,71 @@
+<include file="head"/>
+<import file="urlrule.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{height:400px;width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{margin-top:5px;}
+  .urlvar{line-height:25px;}
+  .urlvar span{font-size:14px;color:red;font-family:Arial;}
+</style>
+</head>
+<body>
+	<if condition="$auths['add']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:" class="on">规则管理</a>
+	      <span>|</span>
+	      <a href="javascript:" onclick="urlrule('add')">添加规则</a>
+	    </div>
+	</div>
+	</if>
+	<div class="table-list">
+	    <table width="100%" cellspacing="0">
+	        <thead>
+	            <tr>
+	            	<th>ID</th>
+		            <th>名称</th>
+		            <th style="width:60px;">应用类型</th>
+		            <th>URL示例</th>
+		            <th>URL规则</th>
+		            <th style="width:60px;">是否可用</th>
+		            <if condition="$auths.edit||$auths.del">
+		            	<th style="width:150px;">管理操作</th>
+		            </if>
+	            </tr>
+	        </thead>
+					<tbody>
+						<foreach name="$data" item="$vl" key="$ky">
+							<tr>
+								<td align='center'>{$vl['id']}</td>
+								<td align='center'>{$vl['name']}</td>
+								<td align='center'>{(!$vl['type']?'列表页':'详细页')}</td>
+								<td>{$vl['example']}</td>
+								<td>{$vl['urlrule']}</td>
+								<td align='center'>
+							<if condition="$auths['disabled']">
+								<if condition="intval($vl['disabled'])">
+								<a href="javascript:deal('urlrule.disabled','id={$vl['id']}&disabled=0')" style="color:red;font-size:15px;font-weight:bold;">×</a>
+								<else/>
+								<a href="javascript:deal('urlrule.disabled','id={$vl['id']}&disabled=1')" style="color:green;font-size:14px;font-weight:bold;" >√</a>
+								</if>
+							<else/>
+								<if condition="intval($vl['disabled'])">
+								<span style="color:red;font-size:15px;font-weight:bold;">× </span>
+								<else/>
+								<span style="color:green;font-size:14px;font-weight:bold;" >√ </span>
+								</if>
+							</if>
+								</td>
+							<if condition="$auths['edit']||$auths['del']">
+								<td align="center">
+										<if condition="$auths['edit']"><a href="javascript:urlrule('edit',{$vl['id']})">修改</a> |</if>
+										<if condition="$auths['del']"><a href="javascript:urlrule('del',{$vl['id']})">删除</a></if>
+								</td>
+							</if>
+							</tr>
+           </foreach>
+					</tbody>
+	    </table>
+  </div>
+</body>
+</html>

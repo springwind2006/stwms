@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>提示信息</title>
+<import file="global.css@:common,admin_showmessage.css" check="true"/>
+<script type="text/javascript">
+var lastTime=0,totalTime={$ms},intertimeID;
+function startRun(fn){
+  var showObj=document.getElementById("leftTime");
+	if(totalTime){
+	  intertimeID=setInterval(function(){//11.2  2  2
+	  	var showTime=Math.max(Math.round((totalTime-lastTime)/1000*100)/100,0).toString();	  	
+	  	if(showObj){
+	  		showObj.innerHTML=(showTime.indexOf(".")==-1 ? showTime+".00":(showTime.indexOf(".")==showTime.length-2?showTime+"0":showTime));
+	  	}
+	    lastTime+=100;
+	    if(lastTime >=totalTime){
+	      (fn)();
+	      clearInterval(intertimeID);
+	    }
+	  },100);
+	}		  
+}
+
+function closeWindow(){
+	if(intertimeID){
+		clearInterval(intertimeID);
+	}
+  if(self.opener){
+    window.close();
+  }else{
+  	top.win.close();
+  }
+}
+</script>
+</head>
+<body>
+		<div class="showMsg" style="text-align:center">
+			  <h5>提示信息</h5>
+		    <div class="content" style="display:inline-block;display:-moz-inline-stack;zoom:1;*display:inline;max-width:330px">
+		    	{(str_replace('\{s\}','<span id="leftTime">'.round($ms/1000,2).'</span>',$message))}
+		    </div>
+		    <div class="bottom">			    
+				    <if condition="$url_forward=='goback' || $url_forward==''">
+						<a href="javascript:history.back();" >[点击返回上一页面]</a>						
+						<elseif condition="$url_forward=='close'"/>
+						<script type="text/javascript">
+							startRun(closeWindow);				
+						</script>
+						<a href="javascript:" onclick="closeWindow()">[关闭窗口]</a>						
+						<elseif condition="$url_forward=='auto'"/>
+						<a href="javascript:history.back();">如果您的浏览器没有自动跳转，请点击这里</a>
+						<script type="text/javascript">							
+							startRun(history.back);
+						</script>						
+						<elseif condition="$url_forward=='alert'"/>
+						
+						<elseif condition="$url_forward"/>
+						<a href="{$url_forward}">如果您的浏览器没有自动跳转，请点击这里</a>
+						<script type="text/javascript">							
+							startRun(function(){
+							  window.location="{$url_forward}";
+							});							
+						</script>						
+						</if>
+						<if condition="$dialog">
+						  <script style="text/javascript">alert("{(addslashes(str_replace(array("\r","\n","\t"),array('','',''),$dialog)))}");</script>
+						</if>
+						<if condition="$returnjs">
+							<script style="text/javascript">{$returnjs}</script>
+						</if>						
+		    </div>
+		</div>
+</body>
+</html>

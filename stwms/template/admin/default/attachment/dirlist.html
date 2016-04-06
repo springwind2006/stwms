@@ -1,0 +1,33 @@
+<div class="pad-lr-10">
+	<div class="table-list">
+		<table width="100%" cellspacing="0" id="imgPreview">
+			<tr>
+				<td align="left">当前目录：{$local}</td>
+			</tr>
+			<if condition="$dir !='' && $dir != '.'">
+				<tr>
+					<td align="left"><a href="javascript:" onclick="ajax_page('{SYS_ENTRY}?c=attachment&a=dirlist&dir={$dir|dirname|stripslashes}&isfile={$_GET.isfile}&isadmin={$_GET.isadmin}','dirlist')"><img src="{STATIC_URL}common/images/folder-closed.gif" />上级目录</td></a>
+				</tr>
+			</if>
+			<if condition="is_array($list)">
+				<foreachname="list" itemt="v">
+				  	<php>$filename = basename($v);</php>
+					<tr>			
+						<if condition="is_dir($v)">
+								<td align="left">
+						        <img src="{STATIC_URL}common/images/folder-closed.gif" />
+						        <a href="javascript:" onclick="ajax_page('{SYS_ENTRY}?{ADMIN_INI}&c=attachment&a=dirlist&dir={(isset($_GET['dir']) && !empty($_GET['dir']) ? stripslashes($_GET['dir']).'/' : '')}{$filename}&isfile={$_GET.isfile}&isadmin={$_GET.isadmin}','dirlist')"><b>{$filename}</b></a>
+						      </td>
+						<else/>
+							<td align="left" onclick="file_cancel(this)">
+				        		<img src="{($this->file_icon($filename,'gif'))}" />
+				        		<a href="javascript:;" rel="{$url}{$filename}" title="{$filename}">{$filename}</a>
+				     		 </td>
+						</if>
+					</tr>
+			   </foreach>
+			</if>						
+		</table>
+	</div>
+</div>
+

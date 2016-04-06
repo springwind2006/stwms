@@ -1,0 +1,27 @@
+<ul class="attachment-list" id="album">
+<if condition="is_array($infos)">
+	<foreachname="infos" item="v">
+		<php>
+			$fInfo=getimagesize(UPLOAD_PATH.$v['filepath']);
+		 	if($fInfo!==false){
+		   		list($width,$height)=$fInfo;
+		   		$v['filepath']=UPLOAD_URL.$v['filepath'];
+			}else{
+		   		$width=$height=0;
+		   		$v['filepath']=STATIC_URL.'common/images/nopic.gif';
+			}
+		</php>
+	<li>
+		<div class="img-wrap">
+				<a onclick="album_cancel(this,{$v.id},'{$v.filepath}',1)" href="javascript:;" class="off"  title="{$v.filename}">
+					<div class="icon"></div>
+					<img width="80"  path="{$v.filepath}" src="{$v.filepath}" title="{$v.filename}&#13;大小：{$width}px * {$height}px">
+				</a>
+		</div>
+	</li>
+	</foreach>
+<else/>
+	<div style="color:#666;text-align:center;line-height:35px;">您的图库目前没有图片！</div>
+</if>
+</ul>
+<div>{$pages}</div> 

@@ -1,0 +1,77 @@
+<include file="head"/>
+<import file="menu.js" check="true"/>
+<style type="text/css">	
+	.m_show0 td{color:#777;}
+	.select_icons{width:405px;height:25px;padding:2px 0 2px 2px;background:#395f76;}
+	.select_icons img{width:23px;margin:0 2px 0 0;cursor:pointer;border:1px solid #395f76;}
+	.select_icons .selected_icon{border:1px solid #ff0;}
+</style>
+
+</head>
+<body>
+	<form name="myform" id="myform" action="?{ADMIN_INI}&c=menu&a=edit" callBack="menu_set" method="post">
+		<div class="common-form">
+			  <table width="100%" class="table_form contentWrap">
+		      <tr>
+		        <th width="200">上级菜单：</th>
+		        <td>
+			         <select name="info[pid]" >
+			         	  <option value="0">作为一级菜单</option>
+			         	  <foreach name="$select_categorys" item="$v" >
+					        <option value="{$v['id']}" {($v['id']==$pid ? 'selected="selected"':'')}>{$v['spacer']} {$v['name']}</option>
+					        </foreach>
+			         </select>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th > 菜单名称：</th>
+		        <td><input type="text" name="info[name]" id="name" value="{$name}" class="input-text" ></td>
+		      </tr>
+					<tr>
+				        <th>类型名：</th>
+				        <td>
+				        	<select name="info[c]" id="c">				        		 
+				        	  <option value="">请选择 </option>
+				        	  <foreach name="$clsArr" item="$v" >
+				        	  <option {($v['isuse']&&$v['c']!=$c ?'disabled="disabled"':'')} {($v['c']==$c ? 'selected="selected"':'')} value="{$v['c']}">{$v['c']}</option>
+				        	  </foreach>
+				          </select>
+				        </td>
+				      </tr>
+					<tr>
+				        <th>方法名：</th>
+				        <td>
+				        	<select name="info[a]" id="a">
+				        		 <option value="">请选择</option>
+				        		 <foreach name="$actArr" item="$v" >
+				        		 <option {($v['isuse'] && $v['a']!=$a ? 'disabled="disabled" ':'')} {($v['a']==$a ? 'selected="selected"':'')} value="{$v['a']}">{$v['a']}</option>
+				        		 </foreach>
+				          </select>
+				        </td>
+				      </tr>
+					<tr>
+				        <th>附加参数：</th>
+				        <td><input type="text" name="info[data]" value="{$data}" class="input-text" ></td>
+				      </tr>
+				  <tr>
+				        <th>显示图标：</th>
+				        <td>
+				        	<div  class="select_icons">
+				        	  <input type="hidden" name="info[icon]" value="{$icon}" class="input-text" >
+					        <foreach name="$icons" item="$cIcon" >
+					        	<img {($icon==$cIcon ? 'class="selected_icon"':'')} src="{import('icon/'.$cIcon)}" />
+					        </foreach>
+				          </div>
+				        </td>
+				      </tr>
+					<tr>
+				        <th>是否显示菜单：</th>
+				        <td><input type="radio" name="info[display]" value="1" {($display ? 'checked' : '')} /> 是<input type="radio" name="info[display]" value="0" {(!$display ? 'checked' : '')}> 否</td>
+				      </tr>
+				</table>
+		<!--table_form_off-->
+		</div>
+		<input type="hidden" name="id" value="{$id}">
+	</form>
+</body>
+</html>

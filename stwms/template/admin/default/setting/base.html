@@ -1,0 +1,157 @@
+<include file="head"/>
+<import file="setting.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{height:400px;width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{margin-top:5px;}
+</style>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('setting','base')}" method="post">
+        <ul class="container-tab">
+            <li>基本配置</li>
+            <li>邮件发送配置</li>
+            <li>连接登陆配置</li>
+        </ul>
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+			      <tr>
+			        <th> 前台界面默认模板：</th>
+			        <td>
+			        	<select size="3" name="system[template]" id="system_template">
+			        		<foreach name="$styles" item="$style" >
+			        		   <option value="{$style}" {($style==$system['template'] ? 'selected="selected"':'')}>{$style}</option>
+			        		</foreach>
+			        	</select>&nbsp;&nbsp;
+			        	<font color="gray">提示：前台界面模板位于\{CORE_PATH\}template/styles/目录</font>
+			        </td>
+			      </tr>
+			      <tr>
+				        <th> 前端静态文件资源路径：</th>
+				        <td>
+				        	<input type="text" name="system[static]" id="system_static" value="{$system['static']}" style="width:200px;" class="input-text" />
+				        	<font color="gray">前端页面访问静态文件资源的路径，如果为相对路径则相对于\{STATIC_URL\}styles/</font>
+				        </td>
+				    </tr>
+				    <tr>
+				        <th> 前端静态化路径：</th>
+				        <td>
+				        	<input type="text" name="system[html_root]" id="system_html_root" value="{$system['html_root']}" style="width:100px;" class="input-text" />
+				        	<font color="gray">当需要生成静态文件时，生成的静态文件路径，相对于根目录，为空或为"/"时生成到根目录</font>
+				        </td>
+				    </tr>
+			      <tr>
+			        <th> 异步显示栏目层级：</th>
+			        <td>
+			        	<input type="text" name="system[category_ajax]" id="system_category_ajax" value="{$system['category_ajax']}" style="width:30px;" class="input-text" >
+			        	<font color="gray">默认为0,即直接显示栏目列表。当栏目层级较多时，可设置首次加载层级，其余使用异步加载，一般设置为2-3</font>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 启用页面Gzip压缩：</th>
+			        <td>
+								<input name="system[gzip]" value="1"  type="radio" {($system['gzip']?'checked="checked"':'')}/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+								<input name="system[gzip]" value="0" type="radio" {(!$system['gzip']?'checked="checked"':'')}/> 否
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 开启附件状态统计：</th>
+			        <td>
+								<input name="system[attachment_stat]" value="1"  type="radio" {($system['attachment_stat']?'checked="checked"':'')}/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+								<input  name="system[attachment_stat]" value="0" type="radio" {(!$system['attachment_stat']?'checked="checked"':'')}/> 否&nbsp;&nbsp;&nbsp;&nbsp;
+								<font color="gray">记录附件使用状态 ，删除文章时同步删除附件。注意: 本功能会加重服务器负担</font>
+			        </td>
+			      </tr>
+					</table>
+				</div>
+
+				<div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+						  <tr>
+							  <th width="120">邮件发送模式：</th>
+							  <td>
+							     <input name="mail[type]" checkbox="mail_type" id="mail_type" value="1" type="radio" {($mail['type'] ? 'checked="checked"':'')} /> SMTP 函数发送
+							     <input name="mail[type]" checkbox="mail_type" value="0" type="radio" {(!$mail['type'] ? 'checked="checked"':'')} {(!function_exists('mail') ? ' disabled="disabled"':'')} /> mail 模块发送
+								</td>
+						  </tr>
+						  <tbody id="smtpcfg" style="">
+						  <tr>
+						    <th>邮件服务器：</th>
+						    <td><input type="text" class="input-text" name="mail[server]" id="mail_server" size="30" value="{$mail['server']}"/></td>
+						  </tr>
+						  <tr>
+						    <th>邮件发送端口：</th>
+						    <td><input type="text" class="input-text" name="mail[port]" id="mail_port" size="30" value="{$mail['port']}"/></td>
+						  </tr>
+						  <tr>
+						    <th>发件人地址：</th>
+						    <td><input type="text" class="input-text" name="mail[from]" id="mail_from" size="30" value="{$mail['from']}"/></td>
+						  </tr>
+						  <tr>
+						    <th>AUTH LOGIN验证：</th>
+						    <td>
+						    <input name="mail[auth]" id="mail_auth" value="1" type="radio"  {($mail['auth'] ? 'checked="checked"':'')} /> 开启	<input name="mail[auth]" value="0" type="radio" {(!$mail['auth'] ? 'checked="checked"':'')} /> 关闭</td>
+						  </tr>
+						  <tr>
+						    <th>验证用户名：</th>
+						    <td><input type="text" class="input-text" name="mail[user]" id="mail_user" size="30" value="{$mail['user']}"/></td>
+						  </tr>
+						  <tr>
+						    <th>验证密码：</th>
+						    <td><input type="password" class="input-text" name="mail[password]" id="mail_password" size="30" value="{$mail['password']}"/></td>
+						  </tr>
+						 </tbody>
+						  <tr>
+						    <th>发送测试邮箱地址：</th>
+						    <td>
+						    	<input type="text" class="input-text" name="mail_to" id="mail_to" size="30" value=""/>
+						    </td>
+						  </tr>
+						  <tr>
+						    <th></th>
+						    <td>
+						    	<input type="button" class="button" onclick="test_mail()" value="测试发送">
+						    	<span id="connect_stat"></span>
+						    </td>
+						  </tr>
+					</table>
+				</div>
+
+				<div class="container-cnt pad-10">
+						<table width="100%"  class="table_form">
+							<tr>
+							  <th>新浪微博：</th>
+							  <td class="y-bg">
+									App key <input type="text" class="input-text" name="connect[sina_akey]" id="sina_akey" size="20" value="{$connect['sina_akey']}"/>
+									App secret key <input type="text" class="input-text" name="connect[sina_skey]" id="sina_skey" size="40" value="{$connect['sina_skey']}"/>
+									<a href="http://open.t.sina.com.cn/wiki/index.php/连接微博" target="_blank">点击注册</a>
+								</td>
+							</tr>
+							<tr>
+							  <th>腾讯微博：</th>
+							  <td class="y-bg">
+									App key <input type="text" class="input-text" name="connect[qq_akey]" id="qq_akey" size="20" value="{$connect['qq_akey']}"/>
+									App secret key <input type="text" class="input-text" name="connect[qq_skey]" id="qq_skey" size="40" value="{$connect['qq_skey']}"/>
+									<a href="http://open.t.qq.com/" target="_blank">点击注册</a>
+								</td>
+							</tr>
+							<tr>
+							  <th>QQ号码登录：</th>
+							  <td class="y-bg">
+									App I D  &nbsp;<input type="text" class="input-text" name="connect[qq_appid]" id="qq_appid" size="20" value="{$connect['qq_appid']}"/>
+									App key <input type="text" class="input-text" name="connect[qq_appkey]" id="qq_appkey" size="40" value="{$connect['qq_appkey']}"/>
+									回调地址 <input type="text" class="input-text" name="connect[qq_callback]" id="qq_callback" size="40" value="{$connect['qq_callback']}"/>
+									<a href="http://connect.qq.com" target="_blank">点击注册</a>
+								</td>
+							</tr>
+						</table>
+				</div>
+				<!--table_form_off-->
+			  <div class="bk15"></div>
+				<div class="btn">
+					<input type="button" id="dosubmit" class="button" name="dosubmit" onclick="POST('myform','dosubmit','resultState')" value="保存修改"/>
+					<span class="status" id="resultState"></span>
+				</div>
+	</form>
+</body>
+</html>

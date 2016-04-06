@@ -1,0 +1,89 @@
+<include file="head"/>
+<import file="field.js,content-controls.js@:common" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{height:400px; width:99%; font-size:14px;line-height:18px;}
+  .container-cnt .alert{margin-top:5px;}
+</style>
+</head>
+<body>
+  
+	<form name="myform" id="myform" action="?{ADMIN_INI}&c=field&a=preview&tbname={$_GET['tbname']}&opentype={$_GET['opentype']}" method="post">
+        <div class="container-cnt pad-10">
+        	<div style="width:1000px;margin:auto">
+					  <table width="100%" class="table_form contentWrap">
+					  	<foreach name="$forminfos" item="$info" key="$field">
+					  	<tr>
+				        <th style="width:10%">
+				        	<b><if condition="$info['star']"> <font color="red">*</font></if>
+				          {$info['name']}</b> ：<br/>				          
+				        </th>
+				        <td>
+				        	{$info['form']}
+				        	{(!empty($info['tips']) ? '<span class="tips">'.$info['tips'].'</span>':'')}
+				        </td>
+				      </tr>
+				      </foreach>
+						</table>
+				  </div>
+				</div>
+				<!--table_form_off-->
+				<div class="fixed-bottom">
+						<div class="fixed-but">
+							<if condition="$_GET['opentype']==0">
+					    <div class="button"><input value="测试提交" type="submit" class="common_bt" name="dosubmit" style="width:150px;" /></div>
+					    <div class="button"><input value="重  置" type="reset" name="close" class="small_bt" style="width:100px;" /></div>
+							<elseif condition="$_GET['opentype']==1"/>
+							<div class="button"><input value="测试提交" type="submit" class="common_bt" name="dosubmit" style="width:150px;" /></div>
+					    <div class="button"><input value="关闭(X)" type="button" name="close" class="small_bt" onclick="top.win.close()" style="width:100px;" /></div>
+							<script type="text/javascript">
+                 $(document).bind('keydown',function (evt){
+                 	 if(evt.keyCode==88&&evt.altKey){
+                 	   top.win.close();
+                   }
+                 });
+              </script>
+							<else/>
+							<div class="button"><input value="测试提交" onclick="$('#text').val($('#title_val').val());"  type="submit" class="common_bt" name="dosubmit" style="width:150px;" /></div>
+					    <div class="button"><input value="关闭(X)" type="button" name="close" class="small_bt" onclick="window.close()" style="width:100px;"></div>
+					    <script type="text/javascript">
+                 $(document).bind('keydown',function (evt){
+                 	 if(evt.keyCode==88&&evt.altKey){
+                 	   window.close();
+                   }
+                 });
+                 document.title="模型预览-{$model}";
+              </script>
+							</if>
+					  </div>
+				</div>
+	</form>
+	<script type="text/javascript">
+		$(function(){
+			$("#myform .input-text").focus(function(){
+			  $(this).removeClass("input-text");
+			  $(this).addClass("input-focus");
+			});
+			$("#myform .input-text").blur(function(){
+			  $(this).removeClass("input-focus");
+			  $(this).addClass("input-text");
+			});
+			
+			
+			$.formValidator.initConfig({formID:"myform",autoTip:true,wideWord:false,
+			onError:function(msg,obj){
+				var msgs=msg.split("|"),
+				    cTl='消息'+(msgs.length >1 ? ": --"+msgs[0]+"-- ":''),
+				    msg=msgs.length >1 ? msgs[1] : msg;
+				art.dialog.through({
+					title:cTl,
+					id:'check_content_{$model}',content:msg,lock:true,
+					close:function(){$(obj).focus();},
+		      ok: true
+				})
+	   }});
+		 {$formValidator}
+		});
+  </script>
+</body>
+</html>

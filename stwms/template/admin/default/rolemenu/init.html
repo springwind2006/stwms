@@ -1,0 +1,67 @@
+<include file="head"/>
+<import file="rolemenu.js" check="true"/>
+</head>
+<body>
+	<if condition="$auths['role_init']||$auths['add']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <if condition="$auths['role_init']"><a href="javascript:" onclick="rolemenu('role')">角色管理</a></if>
+	      <if condition="$auths['add']">
+	      <span>|</span>
+	      <a href="javascript:" onclick="rolemenu('add','{($this->roleid)}')">添加菜单</a>
+	      </if>
+	    </div>
+	    <div class="content-tools">
+	      提示：您当前正在管理“<font color="#ff7b0a">{$rolename}</font>”角色菜单
+	    </div>
+	</div>
+	</if>
+	<form name="myform" action="{act_url('rolemenu','listorder','roleid='.$this->roleid)}" method="post">
+		<div class="table-list">
+		    <table width="100%" cellspacing="0">
+		        <thead>
+		            <tr>
+		            	<if condition="$op_auth1=($auths['del']||$auths['move'])"><th width="40">选择</th></if>
+									<if condition="$auths['listorder']"><th width="60">排序</th></if>
+			            <th width="60">ID</th>
+			            <th>菜单名称</th>
+			            <th>操作地址</th>
+			            <if condition="$op_auth2=($auths['add']||$auths['edit']||$auths['display']||$auths['del'])"><th width="185">管理操作</th></if>
+		            </tr>
+		        </thead>
+						<tbody>
+						  <foreach name="$categorys" item="$vl" >
+								<tr class="m_show{$vl['display']}" id="row{$vl['rowid']}">
+									<if condition="$op_auth1"><td align="center"><input name="ids[]" type="checkbox" value="{$vl['id']}"></td></if>
+									<if condition="$auths['listorder']"><td align="center"><input name="listorders[{$vl['id']}]" type="text" size="3" value="{$vl['listorder']}" class="input-text-c"></td></if>
+									<td align="center">{$vl['id']}</td>
+									<td >{$vl['spacer']}<b>{$vl['name']}</b></td>
+									<td align="center">
+										{($vl['type']!=2 ? ($vl['c']!=''&&$vl['a']!='' ? act_url($vl['c'],$vl['a'],$vl['data']):'—'):($vl['data']))}
+									</td>
+									<if condition="$op_auth2">
+									<td align="center">
+										<if condition="$auths['add']"><a href="javascript:" onclick="rolemenu('sub','{($this->roleid)}','{$vl['id']}')">添加子菜单</a> |</if>
+										<if condition="$auths['edit']"><a href="javascript:" onclick="rolemenu('edit','{($this->roleid)}','{$vl['id']}')">修改</a> |</if>
+										<if condition="$auths['del']"><a href="javascript:" onclick="rolemenu('del','{($this->roleid)}','{$vl['id']}')">删除</a> |</if>
+										<if condition="$auths['display']">
+										<a href="{act_url('rolemenu','display','roleid='.$this->roleid.'&id='.$vl['id'].'&display='.($vl['display'] ? 0:1))}">
+											{($vl['display'] ? '隐藏':'显示')}
+										</a>
+										</if>
+									</td>
+									</if>
+								</tr>
+							</foreach>
+						</tbody>
+					</table>
+			    <div class="btn">
+			    	<if condition="$auths['listorder']"><input type="submit" class="button" name="dosubmit" value="排序" /></if>
+			    	<if condition="$auths['move']"><input type="button" class="button" id="move2others" value="移动到" /></if>
+			    	<if condition="$auths['del']"><input type="button" class="button" id="deleteAllBt" value="删除" /></if>
+			    	<if condition="$auths['resetmenu']"><input type="button" class="button" id="resetmenu" value="重新生成" /></if>
+			    </div>
+		</div>
+	</form>
+</body>
+</html>

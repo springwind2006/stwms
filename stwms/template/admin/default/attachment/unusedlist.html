@@ -1,0 +1,13 @@
+<ul class="attachment-list" id="album">
+   <foreach name="$not_used_arr" item="$v" >
+    <li>
+			<div class="img-wrap">
+					<a onclick="album_cancel(this,{$v['id']},'{$v['src']}')" href="javascript:;" class="off"  title="{$v['filename']}">
+						<div class="icon"></div>
+						<img width="{$v['width']}"  path="{$v['src']}" src="{$v['src']}" title="{$v['filename']}">
+					</a>
+			</div>
+		</li>
+		</foreach>
+</ul>
+<div>{$pages}</div>

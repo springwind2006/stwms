@@ -1,0 +1,52 @@
+<include file="head"/>
+<import file="menu.js" check="true"/>
+</head>
+<body>
+	<if condition="$auths['add']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:void(0)" class="on">菜单管理</a>
+	      <span>|</span>
+	      <a href="javascript:" onclick="menu('add')">添加菜单</a>
+	    </div>
+	</div>
+	</if>
+	<form name="myform" action="{act_url('menu','listorder')}" method="post">
+			<div class="table-list">
+			    <table width="100%" cellspacing="0">
+			        <thead>
+			            <tr>
+				            <if condition="$auths['listorder']"><th width="60">排序</th></if>
+				            <th width="60">ID</th>
+				            <th>菜单名称</th>
+				            <th width="150">类型名</th>
+				            <th width="150">方法名</th>
+				            <th width="150">管理操作</th>
+			            </tr>
+			        </thead>
+							<tbody>
+								<foreach name="$categorys" item="$v" >
+						      <tr class="m_show{$v['display']}" id="row{$v['rowid']}">
+										<if condition="$auths['listorder']"><td align="center"><input name="listorders[{$v['id']}]" type="text" size="3" value="{$v['listorder']}" class="input-text-c"></td></if>
+										<td align="center">{$v['id']}</td>
+										<td >{$v['spacer']}<b>{$v['name']}</b></td>
+										<td align="center">{($v['c'] ? $v['c'] : '-')}</td>
+										<td align="center">{($v['a'] ? $v['a'] : '-')}</td>
+										<if condition="$auths['add']||$auths['edit']||$auths['del']">
+										<td align="center">
+											<if condition="$auths['add']"><a href="javascript:" onclick="menu('sub','{$v['id']}')">添加子菜单</a></if>
+	                    <if condition="$auths['edit']">| <a href="javascript:" onclick="menu('edit','{$v['id']}')">修改</a></if>
+	                    <if condition="$auths['del']">| <a href="javascript:confirmurl('?{ADMIN_INI}&c=menu&a=del&id={$v['id']}')">删除</a></if>
+										</td>
+										</if>
+									</tr>
+						    </foreach>
+							</tbody>
+			    </table>
+			    <if condition="$auths['listorder']">
+			    <div class="btn"><input type="submit" class="button" name="dosubmit" value="排序" /></div>
+			    </if>
+		  </div>
+	</form>
+</body>
+</html>

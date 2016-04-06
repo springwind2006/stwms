@@ -1,0 +1,21 @@
+var Formvalidator_LANG={
+	ajax_prompt:"当前有数据正在进行服务器端校验，请稍候",
+	onshow :"请输入内容",
+	onfocus: "请输入内容",
+	oncorrect: "输入正确",
+	onempty: "输入内容为空",
+	onerror: "输入错误",
+	onerror_reg:"输入的格式不正确",
+	onerror_ajax:"服务器校验没有通过",
+	onwait:"正在等待服务器返回数据",
+	onerror_continue_char:"密码字符为连续字符不被允许",
+	onerror_same_char:"密码字符都相同不被允许",
+	onerror_compare_same:"密码于用户名相同不被允许",
+	onerror_load_theme:"当前皮肤加载出错，请确认皮肤【{theme}】是否存在",
+	onerror_debug_submit:"现在正处于调试模式(debug:true)，不能提交",
+	onerror_no_formid:"表单ID未传入",
+	onerror_password_check:"密码强度校验失败,错误原因:变量passwordStrengthStatusHtml语法错误或者为设置)",
+	onerror_id_format:"你输入的身份证长度或格式错误",
+	onerror_id_area:"你的身份证地区非法",
+	onerror_id_birthday:"身份证上的出生日期非法"
+};
