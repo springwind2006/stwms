@@ -1,0 +1,149 @@
+<include file="admin/head"/>
+<import file="setting.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{height:400px;width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{margin-top:5px;}
+</style>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('setting','core')}" method="post">
+      	<ul class="container-tab">
+            <li>管理配置</li>
+            <li>数据库配置</li>
+            <li>安全配置</li>
+        </ul>
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+			      <tr>
+			        <th> 系统入口：</th>
+			        <td>
+			        	<input type="text" name="admin[url]" id="admin_url" value="{$admin['url']}" style="width:150px;" class="input-text" />
+			        	<font color="red">提示：系统唯一入口URL，相对于站点根目录,前面不包括"/"字符</font>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 管理密钥：</th>
+			        <td>
+			        	<input type="text" name="admin[ini]" id="admin_ini" value="{$admin['ini']}" style="width:200px;" class="input-text" />
+			          <font color="red">提示：此密钥不要随便修改，否则会导致后台管理无法进入</font>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 管理系统风格：</th>
+			        <td>
+			        	<select size="3" name="system[style]" id="system_style">
+			        		<foreach name="$styles" item="$style" >
+			        		   <option value="{$style}" {($style==$system['style'] ? 'selected="selected"':'')}>{$style}</option>
+			        		</foreach>
+			        		</select>&nbsp;&nbsp;
+			        		提示：网站风格位于\{CORE_PATH\}/template/admin/目录，静态文件位于/statics/admin/目录
+			        </td>
+			      </tr>
+					</table>
+				</div>
+
+				<div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+			      <tr>
+			        <th> 连接名称：</th>
+			        <td>
+			        	<select name="system[db_conn]" id="system_db_conn">
+			        		<foreach name="$supportdbs" item="$sdb" >
+				        	  <option value="{$sdb}" {($sdb==$system['db_conn'] ? 'selected="selected"':'')}>{$sdb}</option>
+			        		</foreach>
+			        	</select>
+			        	<input type="hidden" name="database[type]" id="database_type" value="{$database['type']}" />
+			        	<font color="red">&nbsp;提示：使用中的系统请勿随意更换数据库类型，更换类型后需要重新安装模型，原有数据会被清空</font>
+			        </td>
+			      </tr>
+			      <tr id="show_DSN" {(!isset($database['DSN']) ? 'style="display:none"':'')}>
+			        <th> 数据源：</th>
+			        <td><input type="text" name="database[DSN]" id="database_DSN" value="{$database['DSN']}" style="width:300px;" class="input-text" > 请参照范例填写</td>
+			      </tr>
+			      <tr id="show_user" {(!isset($database['user']) ? 'style="display:none"':'')}>
+			        <th> 用户名：</th>
+			        <td><input type="text" name="database[user]" id="database_user" value="{$database['user']}" style="width:200px;" class="input-text" > 数据库连接用户名</td>
+			      </tr>
+			      <tr id="show_pass" {(!isset($database['pass']) ? 'style="display:none"':'')}>
+			        <th> 密　码：</th>
+			        <td><input type="text" name="database[pass]" id="database_pass" value="{$database['pass']}" style="width:200px;" class="input-text" > 数据库连接密码</td>
+			      </tr>
+			      <tr id="show_dbname" {(!isset($database['dbname']) ? 'style="display:none"':'')}>
+			        <th> 数据库名称：</th>
+			        <td><input type="text" name="database[dbname]" id="database_dbname" value="{$database['dbname']}" style="width:100px;" class="input-text" > </td>
+			      </tr>
+			      <tr id="show_pre" {(!isset($database['pre']) ? 'style="display:none"':'')}>
+			        <th> 表前缀：</th>
+			        <td><input type="text" name="database[pre]" id="database_pre" value="{$database['pre']}" style="width:100px;" class="input-text" > </td>
+			      </tr>
+			      <tr id="show_pconnect" {(!isset($database['pconnect']) ? 'style="display:none"':'')}>
+			        <th> 是否支持永久连接：</th>
+			        <td>
+			        	<input type="radio" value="1" name="database[pconnect]" {($database['pconnect'] ? 'checked="checked"':'')}/>是 <input type="radio" name="database[pconnect]" {(!$database['pconnect'] ? 'checked="checked"':'')} value="0"  />否
+			        </td>
+			      </tr>
+			      <tr id="test_connect_bt" {($isServerDb ? '':'style="display:none"')}>
+			        <th></th>
+			        <td>
+			        	<input type="button" class="button" onclick="test_connect();" value="测试连接">
+			        	<span id="connect_stat"></span>
+			        </td>
+			      </tr>			      
+					</table>
+				</div>
+
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+				      <tr>
+						    <th width="120">启用后台管理操作日志</th>
+						    <td>
+								  <input name="system[admin_log]" value="1" type="radio" {($system['admin_log']?'checked="checked"':'')}/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+								  <input name="system[admin_log]" value="0" type="radio" {(!$system['admin_log']?'checked="checked"':'')}/> 否
+							  </td>
+						  </tr>
+						  <tr>
+						    <th width="120">保存错误日志</th>
+						    <td>
+								  <input name="system[errorlog]" value="1" type="radio" {($system['errorlog']?'checked="checked"':'')} /> 是&nbsp;&nbsp;&nbsp;&nbsp;
+								  <input name="system[errorlog]" value="0" type="radio" {(!$system['errorlog']?'checked="checked"':'')}/> 否
+							  </td>
+						  </tr>
+						  <tr>
+						    <th>错误日志预警大小</th>
+						    <td>
+						    	<input type="text" class="input-text" name="system[errorlog_size]" id="errorlog_size" size="5" value="{$system['errorlog_size']}"/> MB
+						    </td>
+						  </tr>
+
+						  <tr>
+						    <th>后台最大登陆失败次数</th>
+						    <td>
+						    	<input type="text" class="input-text" name="system[maxloginfailedtimes]" id="maxloginfailedtimes" size="10" value="{$system['maxloginfailedtimes']}"/>
+						    </td>
+						  </tr>
+
+						  <tr>
+						    <th>登陆失败后重试间隔</th>
+						    <td>
+						    	<input type="text" class="input-text" name="system[minrefreshtime]" id="minrefreshtime" size="10" value="{$system['minrefreshtime']}"/> 秒
+						    </td>
+						  </tr>
+						  
+						  <tr>
+						    <th>外部插件权限会话名称</th>
+						    <td>
+						    	<input type="text" class="input-text" name="system[plugin_sessions]" id="plugin_sessions" value="{$system['plugin_sessions']}"/> 设置外部插件用于权限配置的SESSION名称，多个用逗号隔开
+						    </td>
+						  </tr>
+					</table>
+				</div>
+				<!--table_form_off-->
+			  <div class="bk15"></div>
+				<div class="btn">
+					<input type="button" id="dosubmit" class="button" name="dosubmit" onclick="POST('myform','dosubmit','resultState')" value="保存修改"/>
+					<span class="status" id="resultState"></span>
+				</div>
+	</form>
+</body>
+</html>

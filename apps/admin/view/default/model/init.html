@@ -1,0 +1,107 @@
+<include file="admin/head"/>
+<import file="model.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{height:400px; width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{ margin-top:5px;}
+  .disabled{color:#999;text-decoration:line-through;}
+</style>
+</head>
+<body>
+	<if condition="$auths['add']||$auths['import']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:void(0)" class="on">模型管理</a>
+	      <if condition="$auths['add']">
+	      <span>|</span>
+	      <a href="javascript:" onclick="model('add')">添加模型</a>
+	      </if>
+	      <if condition="$auths['import']">
+	      <span>|</span>
+	      <a href="javascript:" onclick="model('import')">导入模型</a>
+	      </if>
+	    </div>
+	</div>
+	</if>
+	<div class="table-list">
+	    <table width="100%" cellspacing="0">
+	        <thead>
+	            <tr>
+	            	<th>序号</th>
+		            <th style="width:60px;">名称</th>
+		            <th>表名</th>
+		            <th>类别</th>
+		            <th>描述</th>
+		            <th>数据量</th>
+		            <th style="width:60px;">是否可用</th>
+		            <if condition="$op_auth=($auths['field_init']||$auths['install']||$auths['uninstall']||$auths['export']||$auths['edit']||$auths['del'])">
+		            <th style="width:240px;">管理操作</th>
+		            </if>
+	            </tr>
+	        </thead>
+			<tbody>
+				<foreach name="$data" item="$vl" key="$ky">
+				  <php> $isInstall=in_array($this->db->mTb($vl['tbname']),$tables);</php>
+					<tr>
+						<td align='center'>{$n}</td>
+						<td align='center' {(intval($vl['disabled'])?'class="disabled"':'')}>{$vl.name}</td>
+						<td align='center' {(intval($vl['disabled'])?'class="disabled"':'')}>{$vl.tbname}</td>
+						<td align='center'>{(!$vl['type'] ? '一般':($vl['type']==1 ? '<font color="green">自定义</font>':'<font color="red">系统</font>'))}</td>
+						<td {(intval($vl['disabled'])?'class="disabled"':'')}>{$vl.desc}</td>
+						<td align='center'>{(!$isInstall?'-':$this->get_count($vl.tbname))}</td>
+						<td align='center'>
+						<if condition="($vl['type']==2&&!$_SESSION['iscreator'])||!$auths['disabled']">
+							<if condition="!$isInstall">
+								<span style="color:red;font-size:14px;font-weight:bold;">×</span>
+							<else/>
+								<span style="color:green;font-size:14px;font-weight:bold;">√</span>
+							</if>
+						<else/>
+							<if condition="!$isInstall">
+								<a href="javascript:" style="color:red;cursor:pointer;font-size:15px;font-weight:bold;" title="此模型尚未安装！不能启用">×</a>
+							<else/>
+							  <if condition="intval($vl['disabled'])">
+							  	<a href="javascript:deal('model.disabled','tbname={$vl['tbname']}&disabled=0')" style="color:red;font-size:15px;font-weight:bold;">×</a>
+							  <else/>
+							  	<a style="color:green;font-size:14px;font-weight:bold;" href="javascript:deal('model.disabled','tbname={$vl['tbname']}&disabled=1')">√</a>
+							  </if>
+							</if>
+						</if>
+						</td>
+						<if condition="$op_auth">
+						<td align="center">
+							  <if condition="$auths['field_init']">
+							  <a href="javascript:model('field','{$vl['tbname']}')">字段管理</a> |
+							  </if>
+							<if condition="$auths['uninstall']||$auths['install']">
+							  <if condition="$isInstall">
+							     <if condition="($vl['type']==2&&!$_SESSION['iscreator'])||!$auths['uninstall']">
+							       <a href="javascript:" disabled="disabled">卸载</a> |
+							     <else/>
+							       <a style="color:green" href="javascript:model('uninstall','{$vl['tbname']}')">卸载</a> |
+							     </if>
+							  <else/>
+							  	 <if condition="$auths['install']">
+							     <a style="color:red" href="javascript:model('install','{$vl['tbname']}')">安装</a> |
+							     <else/>
+							     <a href="javascript:" disabled="disabled">安装</a> |
+							     </if>
+							  </if>
+							</if>
+							<if condition="$auths['export']"><a href="{act_url('model','export','tbname='.$vl['tbname'])}" target="doFrame">导出</a> |</if>
+							<if condition="$vl['type']==2&&!$_SESSION['iscreator']">
+								<if condition="$auths['edit']"><a href="javascript:" disabled="disabled">修改</a> |</if>
+								<if condition="$auths['del']"><a href="javascript:" disabled="disabled">删除</a></if>
+							<else/>										
+								<if condition="$auths['edit']"><a href="javascript:model('edit','{$vl['tbname']}')">修改</a> |</if>
+								<if condition="$auths['del']"><a href="javascript:model('del','{$vl['tbname']}')">删除</a></if>
+							</if>
+						</td>
+						</if>
+					</tr>
+          			</foreach>
+			</tbody>
+	    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<include file="admin/head"/>
+<import file="admin_index.css,admin_index.js" check="true"/>
+<!--[if lt IE 7]>
+<import file="pngfix.js" check="true"/>
+<![endif]--> 
+</head>
+<body>
+<div id="logo">
+  <div align="center">
+    <img src="{import('logo.png')}" width="226" height="69">
+  </div>
+</div>
+
+<div id="arrows"></div>
+<div class="bodytext" id="hello">
+	您好！<a href="#">{$truename}</a>，
+	<img src="{import('icons/user.png')}" width="22" height="25" border="0"><br>
+</div>
+
+<div class="bodytext" id="dropdown">
+	<ul id="jsddm">
+	    <li>
+	    	<a href="{act_url('admin','fresh')}" target="doMainFrame" >今天您想做什么呢？</a>
+				<ul style="display:none;">
+					<li><a href="javascript:">添加一篇文章</a></li>
+					<li><a href="javascript:">上传图片</a></li>
+			    	<li><a href="javascript:">查看用户评论</a></li>
+			  		<li><a href="javascript:">浏览统计</a></li>
+				</ul>
+	   </li>
+	</ul>
+	<div class="clear"> </div>
+</div>
+
+<div id="topmenu">	
+	
+	<div class="item">
+	  <a href="{SITE_URL}" class="icon" target="_blank">
+	    <img src="{import('icons/big_visitsite.png')}" alt="访问首页" width="30" height="25" border="0" />
+	    <br/>
+	    <span class="toplinks">访问首页</span>
+	  </a>
+	</div>	
+
+	
+	<div class="item">
+	  <a href="javascript:" onclick="admin_map()" class="icon">
+	    <img src="{import('icons/big_settings.png')}" alt="访问地图" width="25" height="26" border="0" />	 
+	    <br/>   
+			<span class="toplinks">后台地图</span>
+	  </a>
+	</div>
+	
+	<div class="item">
+    <a href="javascript:" onclick="lockscreen()" class="icon">
+    	<img src="{import('icons/big_users.png')}" alt="锁定屏幕" width="24" height="26" border="0" />
+    	<br/>
+    	<span class="toplinks">锁屏</span>
+    </a>
+	</div>	
+	
+	<div class="item">
+		<a href="{act_url('admin','logout')}" class="icon">
+		  <img src="{import('icons/big_logout.png')}" alt="退出登陆" width="25" height="25" border="0" />
+		  <br/>
+			<span class="toplinks">注销登陆</span>
+		</a>
+	</div>
+	
+</div>
+
+<div id="leftcolumn">
+	
+  <div id="navigation">
+  	<img src="{import('title_bg.png')}" width="180" height="49"/>
+    <div id="navigationtitle" class="toplinks" >
+    	<h1> 操作菜单导航</h1>
+    	<ul class="mainmenu">
+    		<foreach name="$mainMenu" item="$m" key="$k">
+        <li class="navigation">
+          <img src="{import('icons/dashboard.png')}" width="16" height="13" align="absmiddle">
+          <a href="javascript:" onclick="submenu({$k})">{$m['name']}</a>
+          <if condition="$m['submenu']">
+          <ul id="submenu{$k}" class="submenu" style="display:none;">
+          	<foreach name="$m['submenu']" item="$sm" key="$sk">
+            <li><a href="javascript:" onclick="doMenu('{$sm['id']}','{$sm['type']}','{$sm['c']}','{$sm['a']}','{$sm['data']}')">{$sm['name']}</a></li>
+            </foreach>
+          </ul>
+          </if>
+        </li>
+        </foreach>
+      </ul>
+    </div>
+  </div>
+  
+  <div id="tools">
+  	<img src="{import('title_bg.png')}" width="180" height="49"/>
+		<div id="toolstitle" class="toplinks" >
+			<h1> 外部工具</h1>
+			<table>
+			  <tr>
+		      <td width="18" align="center"><img src="{import('icons/mtxx.png')}" alt="edit" width="18" border="0"></td>
+		      <td width="130" class="navigation"><a target="doMainFrame" href="http://xiuxiu.web.meitu.com/main.html">美图秀秀</a></td>
+			  </tr>
+			  <tr>
+		      <td width="18" align="center"><img src="{import('icons/mtxx.png')}" alt="edit" width="18" border="0"></td>
+		      <td width="130" class="navigation"><a target="_blank" href="http://www.uupoop.com/gif/">GIF在线制作</a></td>
+			  </tr>
+			  
+			  <tr>
+		      <td width="18" align="center"><img src="{import('icons/calc.png')}" alt="edit" width="18" border="0"></td>
+		      <td width="130" class="navigation"><a target="doMainFrame" href="http://mimg.163.com/assist/computer/jsq_jiankang.htm">万能计算器</a></td>
+			  </tr>
+			  <tr>
+		      <td width="18" align="center"><img src="{import('icons/calendar.png')}" alt="edit" width="18" border="0"></td>
+		      <td width="130" class="navigation"><a target="doMainFrame" href="http://mimg.163.com/assist/calendar/index.htm">万年历</a></td>
+			  </tr>		
+			  	  
+			</table>
+		</div>
+  </div>
+  
+</div>
+
+<div id="centerMenu" valign="top" style="display:none">
+	<iframe name="doCenterFrame" id="doCenterFrame" src="about:blank" frameborder="0" scrolling="auto"></iframe>
+</div>
+
+<div id="content"> 
+	<iframe name="doMainFrame" id="doMainFrame" src="{act_url('admin','init')}" allowtransparency="true" frameborder="0" scrolling="auto"></iframe>
+  <div class="fast_menu">
+  	<span id="fastMenu">
+  	  <foreach name="$fastMenu" item="$fm" >
+        <a class="fava_c" href="javascript:">
+ 					<b onclick="doMenu({$fm['id']},'{$fm['type']}','{$fm['c']}','{$fm['a']}','{$fm['data']}')">{$fm['name']}</b>
+ 					<span class="fava_m"  id="fm_{$fm['id']}"></span>
+ 				</a>
+  	  </foreach>
+  	</span>
+  	<a href="javascript:" class="fava_c to-favor" title="添加到快捷方式" id="addToFavor">&nbsp;</a>
+  </div>
+</div>
+
+<iframe name="doFrame" id="doFrame" src="about:blank" frameborder="0" scrolling="no" style="width:0px;height:0px;visibility:hidden"></iframe>
+</body>
+</html>
+

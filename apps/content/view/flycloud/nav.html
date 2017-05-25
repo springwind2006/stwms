@@ -1,0 +1,40 @@
+<div class="top-nav">
+	<div class="navigation">
+		<div class="logo">
+			<h1>
+				<a href="#about" class="scroll">
+					<span>加</span><import file="myqr.jpg"/>
+				</a>
+			</h1>
+		</div>
+		<div class="navigation-right">
+			<span class="menu"><import file="menu.png" alt="主菜单"/></span>
+			<nav class="link-effect-3" id="link-effect-3">
+				<ul class="nav1 nav nav-wil">
+					<li class="active"><a href="{SITE_URL}">首页</a></li>
+					<li><a class="scroll" href="#about">关于我</a></li>
+					<li><a class="scroll" href="#services" >服务</a></li>
+					<li><a class="scroll" href="#work">个人经历</a></li>
+					<li><a class="scroll" href="#port">我的作品</a></li>
+					<li><a class="scroll" href="#blogs">博客</a></li>
+					<li><a class="scroll" href="#contact">联系我</a></li>
+				</ul>
+			</nav>
+				<script type="text/javascript">
+				   $(".nav-wil li").hover(function(){
+					   $(".nav-wil li").removeClass("active");
+					   $(this).addClass("active");
+				   },function(){
+					   $(this).removeClass("active");
+					   $(this).siblings(":eq(0)").addClass("active");
+				   });
+				   $("span.menu").click(function() {
+					 $("ul.nav1").slideToggle(300, function() {
+					 		// Animation complete.
+					  });
+					});
+				</script>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>

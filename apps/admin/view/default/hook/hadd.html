@@ -1,0 +1,70 @@
+<include file="admin/head"/>
+<style type="text/css">
+	body,html{overflow:hidden;}
+	.common-form td{padding:5px 0px;line-height:20px;}
+	.common-form .tips{color:#666;}
+</style>
+<script type="text/javascript">
+  $(function(){
+  		$.formValidator.initConfig({formID:"myform"});
+	    $("#plugin_c").change(function(){
+			   var cv=$(this).val();
+			   if(cv!=""){
+			   	  $.ajax({
+							  url:"?"+ADMIN_INI+"&c=hook&a=init&get_plugin_a=1&id={($this->id)}&plugin_c="+cv,
+							  dataType:"json",
+							  cache: false,
+							  success: function(r){
+							  	var rArr=[];
+							  	$("#plugin_a option:gt(0)").remove();
+							  	$(r).each(function(dx){
+							  		rArr.push("<option value=\""+r[dx]+"\">"+r[dx]+"</option>");
+							  	});
+							  	$("#plugin_a").append(rArr.join(""));							  	
+							  }
+						});
+			   }
+			}).formValidator({onShow:"请选择插件名称",onFocus:"请选择插件名称"}).inputValidator({min:1,onError:"请选择插件名称"});
+			$("#plugin_a").formValidator({onShow:"请选择插件方法",onFocus:"请选择插件方法"}).inputValidator({min:1,onError:"请选择插件方法"}); 
+  });
+</script>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('hook','add')}" method="post">
+		<div class="common-form inline_validator">
+			  <table width="100%" class="table_form contentWrap">
+		      <tr>
+		        <th> 插件：</th>
+		        <td>
+		        	<select name="info[plugin_c]" id="plugin_c" >
+		        	<option value="">选择插件</option>
+		        	<foreach name="$cArr" item="$c" >
+		        		<option value="{$c}">{$c}</option>
+		        	</foreach>
+		        	</select>
+		        	<span id="plugin_cTip"></span>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th> 动作：</th>
+		        <td>
+		        	<select name="info[plugin_a]" id="plugin_a" >
+								<option value="">选择动作</option>
+		        	</select>
+		        	<span id="plugin_aTip"></span>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th class="tips"> 说明：</th>
+		        <td class="tips">
+		        	请先安装相关插件后，才可以选择应用的插件；<br/>
+		        	选择插件后，然后选择动作（即此插件内声明为public的方法）；<br/>
+		        	此处的插件方法会在系统特定位置执行，详细情况请查看此钩子的说明
+		        </td>
+		      </tr>
+				</table>
+				<input type="hidden" name="id" value="{($this->id)}">
+		</div>
+	</form>
+</body>
+</html>

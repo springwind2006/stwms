@@ -1,0 +1,26 @@
+<include file="admin/head"/>
+<import file="plugin.js" check="true"/>
+<style type="text/css">
+	body,html{overflow:hidden;}
+</style>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('plugin','urlset','id='.$id)}" method="post">
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form">
+			      <tr>
+			        <th> 简化目录：</th>
+			        <td>
+			        	<input type="text" class="input-text" value="{$cfg['url']}" id="simple_url" name="simple_url" />
+			        　<span id="url_tip"></span>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th>说明：</th>
+			        <td style="line-height:18px;"><font color="#666666">简化目录相对于网站的根目录，插件简化目录后会根据前端可以访问的方法名称生成对应子目录</font></td>
+			      </tr>
+					</table>
+				</div>
+	</form>
+</body>
+</html>

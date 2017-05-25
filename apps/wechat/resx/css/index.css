@@ -1,0 +1,23 @@
+*{margin:0;padding:0;}
+.buttons{position:fixed;top:50px;width:100%;background:#000;opacity:0.1;display:none;}
+.buttons li,.buttons a{color:#fff;text-decoration:none;font-size:2em;}
+.buttons li:hover,.buttons a:hover{color:red;}
+.buttons li{display:block;color:#fff;width:50%;float:left;text-align:center;padding:25px 0;}
+li.w100{padding:0;}
+.w100{width:100% !important;}
+.w100 a{display:block;width:50%;margin:auto;height:100%;line-height:75px;}
+.video{width:100%;display:none;float:left;}
+.debug{float:left;width:100%;height:80px;overflow:auto;color:red;text-align:center;padding:5px 0}
+.buttons .left,.buttons .right{width:40%;}
+.buttons .stop{width:20%;font-size:3em;}
+.buttons .left,.buttons .right{font-size:3em;}
+.buttons .speed-up{float:left;width:25%;}
+.buttons .speed-down{float:right;width:25%;}
+.buttons .back{float:left;width:50%;}
+.info{position:fixed;top:0;width:100%;color:red;text-align:center;font-size:0.75em;opacity:0.5;}
+.tools{position:fixed;bottom:5px;width:100%;}
+.tools a{display:block;margin:3px;text-decoration:none;padding-top:7px;line-height:35px;width:40px;font-size:2em;text-align:center;float:right;color:#fff;background:#000;opacity:0.1;}
+.tools a:first-child,.tools a:nth-child(2){float:left;}
+.writer{display:none;position:fixed;bottom:55px;background:#fff;opacity:0.2;padding:1px;width:99%;height:40px;}
+.writer .input{border:1px solid #000;font-size:1.5em;float:right;width:70%;height:34px;}
+.writer .button{border:1px solid #000;text-align:center;margin-right:1px;float:right;width:13%;height:36px;background:#000;color:#fff;}

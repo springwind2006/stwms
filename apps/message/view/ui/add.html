@@ -1,0 +1,38 @@
+
+<import file="message.css@:plugin"/>
+<div class="bookBox">
+	<h3> 在线咨询 </h3>
+	<form id="message_submit">
+	<div class="inputBox">
+			<div class="input_content">
+				<textarea onblur="res()" style="width:261px;height:49px;padding:3px;border:0;background:none;" id="content" onfocus="cls()" name="content">您的需求</textarea>
+			</div>
+			<div>
+				<span class="input_name">
+					<input style="width: 80px" id="name" maxLength="11" type="text" name="name">
+				</span>
+				<span class="input_tel">
+					<input style="width: 102px" id="tel" maxLength="15" type="text" name="tel">
+				</span>
+			  <div class="clear"></div>
+			</div>
+			<div>
+				<span class="input_email">
+					<input style="width: 80px" id="email" maxLength="25" type="text" name="email">
+				</span>
+				<span class="input_code">
+					<input style="width: 60px" id="cfgnum" maxLength="5" type="text" name="cfgnum">
+				</span>
+				<span class="codeImg">
+					<img style="CURSOR: pointer" onmouseover="0" onclick="this.src='<?php echo act_url('api','code',1);?>&bg=bf8c80&t='+(new Date().getTime())" border="0" src="<?php echo act_url('api','code',1);?>&bg=bf8c80">
+				</span>
+			  <div class="clear"></div>
+			</div>
+	   <div class="submit">
+	   	  <input type="hidden" id="ip" name="ip"/>
+	   		<input onclick="return feedBack()" src="{import('submit.gif@:plugin')}" type="image" />
+	   </div>	   
+	</div>
+  </form>
+</div>
+<import file="message.js@:plugin"/>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+<title>{$title.value}－{(implode('/', load::controller('admin.classify')->_getTypeName($typeid, 1)))}－联合早报</title>
+<style type="text/css">
+a{text-decoration:none;color:#000;}
+a:hover{color:#fe0000;background:#dedede;}
+h2{text-align:center;font-size:1.2em;}
+p{text-indent:2em;}
+.content{padding:10px 15px 10px 15px;}
+.desc{text-align:right;color:#666;font-size:0.9em;}
+.foot{text-align:left;font-size:1.1em;font-weight:bold;padding:15px 5px}
+.foot a:first-child{float:left}
+.foot a:last-child{float:right}
+</style>
+</head>
+<body>
+<div class="content">
+	<h2>{$title.value}</h2>
+	<div class="desc">点击量：{$hits} 时间：{$addtime|date='Y-m-d H:i:s',###} <b>{(implode('/', load::controller('admin.classify')->_getTypeName($typeid, 1)))}</b></div>
+	{$content}
+	<div class="foot">
+		<a href="{(!empty($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:cat_url($catid))}">查看更多</a>
+		<a href="{$_url}" target="_blank">查看原文</a>
+	</div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/index.php?c=Api&a=hits&catid={$catid}&id={$id}"></script>

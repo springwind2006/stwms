@@ -1,0 +1,56 @@
+<include file="admin/head"/>
+<import file="user_login.css,user_login.js" check="true"/>
+<script type="text/javascript">
+$(function(){
+	$(".login-field input").focus(function(){
+		$(this).siblings(".placeholder-label").hide();
+	}).blur(function(){
+		if($.trim($(this).val())==""){
+			$(this).siblings(".placeholder-label").show();
+		}
+	});
+	$(".placeholder-label").click(function(){
+		$(this).hide();
+		$(this).siblings("input").focus();
+	});
+});
+</script>
+</head>
+<body class="ext-webkit body-login">
+	<div>
+		<div class="login-header">
+			<div class="header-logo">
+				<!-- <img src="images/pclogo_v2.png"/> -->
+				{C('version')}
+			</div>
+			<ul class="login-menu">
+				<!-- <li><a href="javascript:">首页</a></li>
+				<li><a class="menu-loginweb" href="javascript:">登录网页版 &gt;</a></li> -->
+			</ul>
+		</div>
+		<div class="login-win">
+			<div class="login-main" data-url="">
+				<div class="login-main-header">管理系统登录</div>
+				<div class="login-number">
+					<p class="login-number-tip">使用帐号密码登录</p>
+					<div class="login-field">
+						<span class="placeholder-label">用户名</span>
+						<input class="username" id="username" type="text" />
+					</div>
+					<div class="login-field">
+						<span class="placeholder-label">密码</span>
+						<input class="password" id="password" type="password" />
+					</div>
+					<div class="login-field verify-code">
+						<span class="placeholder-label">验证码(不区分大小写)</span>
+						<input class="password" id="checkcode"  maxlength="5" type="text" />
+						<img align="absmiddle" onclick="this.src='/index.php?stwms&c=api&a=code&bg=acaeae&t='+(new Date()).getTime()" src="/index.php?stwms&c=api&a=code&bg=acaeae"/>
+					</div>
+					<div class="login-tips-msg" id="status"></div>
+					<input class="bottom" type="button" id="dosubBt" value="登录">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

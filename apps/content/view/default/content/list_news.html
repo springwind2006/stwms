@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+<title>联合早报</title>
+<style type="text/css">
+*{padding:0;margin:0;}
+body{text-align:center;}
+ul,li{list-style:none;}
+a{text-decoration:none;color:#000;}
+a:hover{color:#fe0000}
+/*分页系列样式*/
+.page{text-align:center;margin:10px 0;}
+.page_info,.page_pre,.page_cur,.page_no,.page_next,.page_dot{display:inline-block;margin-left:3px;height:25px;min-width:20px;padding:2px 3px;border:1px solid #d1cccc;line-height:30px;text-align:center;}
+.page_info{border:none;display:none;}
+.page_cur{color:#fff;background:#ababab;}
+.page_none{color:#999;cursor:default;}
+.page_dot{border:none;}
+
+.list{width:90%;text-align:left;margin:auto;padding:15px;}
+.list li{margin:8px 2px;}
+.list .title{font-size:1em;font-weight:bold;line-height:20px;}
+.list .desc{font-size:0.8em;color:#666;text-indent:2em;}
+.list .info{font-size:0.6em;color:#333;text-align:right;}
+.more_types{display:inline-block;position:fixed;right:10px;bottom:60px;text-align:center;background:#000;color:#fff;font-size:1.0em;padding:3px 5px;}
+.more_types a{color:#fff;}
+#show_btn{cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="list">
+	<mc:content action="lists" catid="14" setpages="5" num="10" order="id desc" page="$page" return="datas"/>
+	<ul>
+		<foreach name="datas" item="item">
+		<li>
+			<p class="title"><a href="{$item.url}">{$item.id}.{$item.title.value}</a></p>
+			<p class="desc">{$item.description}</p>
+			<p class="info"><i>点击量：{$item.hits} 时间：{$item.addtime|date='Y-m-d H:i:s',###} <a href="{$item._url}" target="_blank">查看原文</a></i> <b>{(implode('/', load::controller('admin.classify')->_getTypeName($item['typeid'], 1)))}</b> </p>
+		</li>
+		</foreach>
+	</ul>
+	<div class="page">{$pages}</div>
+</div>
+<div class="more_types">
+	<div id="show_panel" style="display:none">
+		<mc:content action="classify" catid="14" classid="8" typeid="0" />
+		<foreach name="data" item="r">
+			<p><a href="{$r.url}">{$r.name}</a></p>
+		</foreach>
+		<p><a href="{cat_url(14)}">所有分类</a></p>
+	</div>
+	<div id="show_btn" onclick="document.getElementById('show_panel').style.display='block';this.style.display='none';">{($typeid?implode('/', load::controller('admin.classify')->_getTypeName($typeid, 1)):'分类查看')}</div>
+</div>
+</body>
+</html>

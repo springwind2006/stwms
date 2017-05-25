@@ -1,0 +1,52 @@
+.main {
+	width: 100%;
+	height: 100%
+}
+
+.tb_l {
+	width: 49.5%;
+	float: left;
+	padding-bottom: 10px;
+}
+
+.tb {
+	width: 98%;
+	min-height: 80px;
+	_height: 80px;
+	float: left;
+	border: 1px solid #dfdfdf;
+	margin-bottom: 10px;
+	padding-top: 1px;
+}
+
+.tb hr {
+	color: #ccc;
+	border-style: dashed;
+	width: 100%;
+}
+
+.tb_tl {
+	height: 27px;
+	line-height: 27px;
+	background: url(../images/x_bg.png) left -45px repeat-x;
+	border-bottom: 1px solid #dfdfdf;
+}
+
+.tb_tl h6 {
+	margin-left: 10px;
+	color: #666;
+}
+
+.tb_m {
+	padding: 10px;
+	line-height: 20px;
+	color: #666;
+}
+
+.tb_m a {
+	color: #666;
+}
+
+.tb_m a:hover {
+	color: #600;
+}

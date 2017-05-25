@@ -1,0 +1,63 @@
+<template file="header" />
+<div class="wraper">
+	<div class="mWraper">
+		<div class="mask_tl"></div>
+		<!--侧边栏-->
+		<div class="sideBar">
+			<h1>
+				<img src="{STYLE_URL}images/title_case.gif" />
+			</h1>
+			<br /> <a href="{cat_url(2)}"><img
+				src="{STYLE_URL}images/btn_backList.gif" /></a><br />
+			<br />
+			<div class="clear"></div>
+			<include file="left" />
+		</div>
+		<!--//侧边栏-->
+
+		<div class="main">
+			<div class="caseInfoBox">
+				<div class="pho">
+					<img src="{$thumb}" width="175" />
+				</div>
+				<div class="caseInfo">
+					<div>
+						名称：<span class="gText"><strong>{$title.value}</strong></span><span
+							id="hits_count" style="visibility: hidden">{$catid}|{$id}</span>
+					</div>
+					<div>客户：{$guest} | 上线时间：{$pubtime|date='Y-m-d',###}</div>
+					<div>
+						网址：<a href="{$webaddr}" target="_blank">{$webaddr}</a>
+					</div>
+					<div>描述：{$description}</div>
+					<div class="visit">
+						<a href="{$webaddr}" rel="nofollow" target="_blank"><img
+							src="{STYLE_URL}images/btn_visit.gif" /></a>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="caseAlbums">{$content}</div>
+			<div class="p_page">{$pages}</div>
+			<div class="caseComment">说明: {$comment}</div>
+			<div class="goTop">
+				<a href="#"><img src="{STYLE_URL}images/btn_goTop.gif" /></a>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+			$(".caseAlbums img").css('opacity', .6);
+			$(".caseAlbums img").hover(
+			function(){
+				$(this).stop().animate({opacity: '1'},200);
+			},
+			function(){
+				$(this).stop().animate({opacity: '.6'},500);
+			});
+	});
+</script>
+<template file="footer" />

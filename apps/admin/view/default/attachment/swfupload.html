@@ -1,0 +1,152 @@
+<include file="admin/head" type="true"/>
+<import file="swfupload/swfupload.css@plugins:common,swfupload/swfupload.js@plugins:common"/>
+<import file="swfupload/fileprogress.js@plugins:common,swfupload/handlers.js?lang=zh-cn@plugins:common" type="js"/>
+<import file="jquery.imgpreview.js@:common,content-controls.js@:common"/>
+<style type="text/css">
+	html{_overflow-y:scroll}
+	body{margin-bottom:0px;padding-bottom:0px;}
+	.loader{
+		position:absolute;display:none;z-index:10px;
+		background:center center no-repeat;
+		width:50px;height:50px;
+		left:50%;top:50%;
+		margin-left:-25px;
+		margin-top:-25px;
+	}
+</style>
+<script type="text/javascript">
+var swfu = '',
+		file_upload_limit = '{$file_upload_limit}';
+$(function(){
+	  swfu = new SWFUpload({
+			flash_url:"{(strpos(SYS_PLUGIN_URL,'://') ? STATIC_URL.'common/others/':SYS_PLUGIN_URL.'swfupload/')}swfupload.swf?"+Math.random(),
+			upload_url:"{act_url('attachment','swfupload')}",
+			file_post_name : "Filedata",
+			post_params:{
+				"SWFUPLOADSESSID":"{session_id()}",
+				"PHPSESSID":"{session_id()}",
+				"model":"{$_GET['model']}",
+				"catid":"{$_GET['catid']}",
+				"userid":"{$userid}",
+				"dosubmit":"1",
+				"file_size_limit":"{$allow_upload_maxsize}",
+				"thumb_width":"{$thumb_width}",
+				"thumb_height":"{$thumb_height}",
+				"auto_cut":"{$auto_cut}",
+				"watermark_enable":"{$watermark_enable}",
+				"md5_check":"{$md5_check}",
+				"filetype_post":"{$file_types_post}",
+				"swf_auth_key":"{$swf_auth_key}",
+				"swf_auth_sec":"{$swf_auth_sec}",				
+				"isadmin":"{$isadmin}",
+				"groupid":"{($this->roleid)}"
+			},
+			file_size_limit:"{$allow_upload_maxsize}",
+			file_types:"{$file_types_swfupload}",
+			file_types_description:"Allowed Files",
+			file_upload_limit:file_upload_limit,
+			custom_settings : {progressTarget : "fsUploadProgress",cancelButtonId : "btnCancel"},
+
+			button_image_url: "",
+			button_width: 75,
+			button_height: 28,
+			button_placeholder_id: "buttonPlaceHolder",
+			button_text_style: "",
+			button_text_top_padding: 3,
+			button_text_left_padding: 12,
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+      button_action:(file_upload_limit==1?SWFUpload.BUTTON_ACTION.SELECT_FILE:SWFUpload.BUTTON_ACTION.SELECT_FILES),
+			file_dialog_start_handler : fileDialogStart,
+			file_queued_handler : fileQueued,
+			file_queue_error_handler:fileQueueError,
+			file_dialog_complete_handler:fileDialogComplete,
+			upload_progress_handler:uploadProgress,
+			upload_error_handler:uploadError,
+			upload_success_handler:uploadSuccess,
+			upload_complete_handler:uploadComplete
+		});
+
+		$(".container-tab li:{(empty($not_used_arr)?'first':'last')}").attr("class","on");
+		$(".container-cnt").hide();
+		$(".container-cnt:{(empty($not_used_arr)?'first':'last')}").show();
+	  $(".container-tab li").click(function(){
+	    var dx=$(".container-tab li").index(this);
+	    $(".container-tab li:not("+dx+")").attr("class","");
+	    $(this).attr("class","on");
+	    $(".container-cnt:not("+dx+")").hide();
+	    $(".container-cnt:eq("+dx+")").show();
+	  });
+});
+function change_params(){
+	if($('#watermark_enable').attr('checked')) {
+		swfu.addPostParam('watermark_enable', '1');
+	} else {
+		swfu.removePostParam('watermark_enable');
+	}
+}
+</script>
+</head>
+<body>
+	<ul class="container-tab">
+	    <li> 文件上传</li>
+	    <if condition="isset($_GET['isfile']) && !$_GET['isfile']">
+	    <li onclick="ajax_page('{act_url('attachment','attachlist','isadmin='.$_GET['isadmin'])}','attachlist')"> 我的图库</li>
+	    </if>
+	    <if condition="$allow_select_uploaded">
+	    <li> 目录浏览</li>
+	    </if>
+	    <if condition="$att_not_used_total">
+	    <li onclick="ajax_page('{act_url('attachment','unusedlist','isadmin='.$_GET['isadmin'])}','unusedlist')"> 未处理</li>
+	    </if>
+	</ul>
+
+	<div class="container-cnt pad-10">
+	  <div>
+			<div class="addnew" id="addnew"><span id="buttonPlaceHolder"></span></div>
+			<input type="button" id="btupload" value="开始上传" onClick="swfu.startUpload();" />
+			<div style="line-height:30px;">
+				最多同时上传 <font color="red">{$file_upload_limit}</font> 个文件,单文件最大
+				<font color="red">{(sizeformat($allow_upload_maxsize*1024))}</font>
+			</div>
+			<div class="bk3"></div>
+			<div style="line-height:20px;text-indent:2em">
+				允许上传格式：<font style="color:red;font-family: Arial, Helvetica, sans-serif">{$file_types}</font>
+			</div>
+			<if condition="$system_watermark_enable">
+			<div style="line-height:30px;">
+				<input type="checkbox" id="watermark_enable" value="1" {($watermark_enable ? 'checked="checked"':'')} onclick="change_params()">是否为图片文件添加水印
+			</div>
+			</if>
+		</div>
+
+		<fieldset class="blue pad-10" id="swfupload">
+			<legend onclick="alert($('#fsUploadProgress').html())"> 列表</legend>
+			<ul class="attachment-list"  id="fsUploadProgress"></ul>
+		</fieldset>
+
+	</div>
+	<if condition="isset($_GET['isfile']) && !$_GET['isfile']">
+	<div class="container-cnt pad-10"  id="attachlist_container"></div>
+	</if>
+	<if condition="$allow_select_uploaded">
+	<div class="container-cnt pad-10" style="height:370px;overflow-y:auto;" id="dirlist_container"></div>
+	<script type="text/javascript">ajax_page("{act_url('attachment','dirlist','isfile='.$_GET['isfile'].'&isadmin='.$_GET['isadmin'])}","dirlist")</script>
+	</if>
+	<if condition="$att_not_used_total">
+	<div class="container-cnt pad-10" id="unusedlist_container"></div>
+	</if>
+
+	<!--table_form_off-->
+  <div class="bk15">
+  	<div style="display:none">
+  		 <div id="att-path"></div>
+  		 <div id="att-name"></div>
+  		 <div id="att-id"></div>
+  		 <div id="att-del"></div>
+  	</div>
+  </div>
+<div class="loader" id="loading_process" style="background-image:url({STATIC_URL}common/images/loader.gif)"></div>
+</body>
+</html>
+

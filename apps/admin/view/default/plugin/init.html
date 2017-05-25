@@ -1,0 +1,75 @@
+<include file="admin/head"/>
+<import file="plugin.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+</style>
+</head>
+<body>
+ <if condition="$auths['install']||$auths['hook_init']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:void(0)" class="on">插件管理</a>
+	      <if condition="$auths['install']">
+	      <span>|</span>
+	      <a href="javascript:" onclick="plugin('install')">安装插件</a>
+	      </if>
+	      <if condition="$auths['hook_init']">
+	      <span>|</span>
+	      <a href="{act_url('hook','init')}">钩子管理</a>
+	      </if>
+	    </div>
+	</div>
+ </if>
+	<div class="table-list">
+	    <table width="100%" cellspacing="0">
+	        <thead>
+	            <tr>
+	            	<th style="width:60px;">ID</th>
+		            <th style="width:100px;">名称</th>
+		            <th>别名</th>
+		            <th>作者</th>
+		            <th>简化目录</th>
+		            <th style="width:120px;">安装目录</th>
+		            <th style="width:60px;">是否可用</th>
+		            <if condition="$op_auth=($auths['export']||$auths['urlset']||$auths['disabled']||$auths['uninstall'])"><th style="width:200px;">管理操作</th></if>
+	            </tr>
+	        </thead>
+					<tbody>
+						<foreach name="$data" item="$vl" >
+             <tr>
+             	<td align="center" >{$vl['id']}</td>
+             	<td align="center" >{$vl['name']}</td>
+             	<td align="center" >{$vl['alias']}</td>
+             	<td align="center" >{$vl['author']}</td>
+             	<td align="center" >{$vl['url']}</td>
+             	<td align="center" >{$vl['install_dir']}</td>
+             	<td align="center">{($vl['disabled'] ? '<span style="color:red;font-size:15px;">×</span>':'<span style="color:green;font-size:15px;">√</span>')}</td>
+            <if condition="$op_auth">
+             	<td align="center" >
+             	<if condition="$auths['urlset']">
+             		<a href="javascript:" onclick="plugin('urlset','{$vl['id']}')">URL设置</a>
+             	</if>
+             	<if condition="$auths['export']">
+             		<a href="{act_url('plugin','export','id='.$vl['id'])}">导出</a>
+             	</if>
+             	<if condition="$auths['disabled']">
+             		|
+             		<if condition="$vl['disabled']">
+             		<a style="color:green" href="{act_url('plugin','disabled','id='.$vl['id'].'&disabled=0&name='.$vl['name'])}">启用</a>
+             		<else/>
+             		<a style="color:red" href="{act_url('plugin','disabled','id='.$vl['id'].'&disabled=1&name='.$vl['name'])}">禁用</a>
+             		</if>
+             	</if>
+             	<if condition="$auths['uninstall']">
+             		|
+             		<a href="javascript:" onclick="plugin('uninstall','{$vl['id']}')">卸载</a>
+             	</if>
+             	</td>
+            </if>
+             </tr>
+						</foreach>
+					</tbody>
+	    </table>
+  </div>
+</body>
+</html>

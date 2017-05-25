@@ -1,0 +1,13 @@
+<foreach name="lists" item="item">
+	<div class="weui-media-box weui-media-box_text">
+		<a href="{U(':user?type=tenant&id='.$item['id'])}" class="weui-cell_access">
+			<div class="weui-cell">
+				<div class="weui-cell__bd">{$item.name}</div>
+				<span class="weui-cell__ft"></span>
+			</div>
+			<p class="weui-media-box__desc">
+				入住时间：{$item.addtime|date='Y-m-d H:i:s',###}
+			</p>
+		</a>
+	</div>
+</foreach>

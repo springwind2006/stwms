@@ -1,0 +1,48 @@
+<include file="admin/head"/>
+<import file="admin_init.css" check="true"/>
+</head>
+<body>
+	<div class="main">
+    <div class="tb_l">
+			<div class="tb">
+		    <div class="tb_tl"><h6>我的个人信息</h6></div>
+		    <div class="tb_m">
+		      您好，{$username}<br/>
+					所属角色：{$rolename}<br/>
+					<hr size=1 />
+					<if condition="!$_SESSION['iscreator']">
+					上次登录时间：{(empty($lasttime) ? '-' : date('Y-m-d H:i:s',$lasttime))}<br/>
+					上次登录IP：{(empty($lastip) ? '-' : $lastip)}<br/> 
+					<else/>
+					<span style="color:red;text-indent:2em">重要提示：您当前正以系统创始人的身份登录，如果您不是程序开发人员，强烈建议新建或切换至非系统创始人角色，然后登录系统，这样可以避免对系统内核修改或设置错误！</span>
+					</if>
+		    </div>
+		  </div>
+		  <div class="tb">
+		    <div class="tb_tl"><h6>系统环境信息</h6></div>
+		    <div class="tb_m">
+		    <php> $yes='<span style="font-size:14px;font-weight:bolder;color:green;">√</span>'; $no='<span style="font-size:14px;font-weight:bolder;color:red;">×</span>';</php>
+		    服务器时间：{(date("Y-m-d H:i:s",time()).(function_exists("date_default_timezone_get") ? ' ('.date_default_timezone_get().')' : ''))}<br/>
+		    操作系统：{PHP_OS}<br/>
+		    服务器软件：{$_SERVER['SERVER_SOFTWARE']}<br/>
+		    支持数据库类型：<php> load::db(0);</php>{implode(', ',Db::check())}<br/>
+		    ZLIB压缩支持：{(function_exists('gzclose')? $yes:$no)}　
+		    SOCKET连接支持：{(function_exists('fsockopen')? $yes:$no)}　　　
+		    FTP支持：{(function_exists('ftp_login')? $yes:$no)}<br/>
+		    XML解析支持：{(function_exists('xml_set_object')? $yes:$no)}　
+		    gzcompress压缩支持：{(function_exists('gzcompress')? $yes:$no)}<br/>
+		    允许最大上传文件：{(@ini_get('file_uploads') ? ini_get('upload_max_filesize') :'未知')}<br/>
+		    POST最大字节数：{@get_cfg_var("post_max_size")}<br/>
+		    允许最大使用内存：{@get_cfg_var("memory_limit")}<br/>
+		    </div>
+		  </div>
+    </div>
+    <div class="tb_l">
+		  <div class="tb">
+		    <div class="tb_tl"><h6>系统使用说明</h6></div>
+		    <div class="tb_m">{$helptext}</div>
+		  </div>
+    </div>
+	</div>
+</body>
+</html>

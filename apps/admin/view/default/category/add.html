@@ -1,0 +1,289 @@
+<include file="admin/head"/>
+<import file="category.js" check="true"/>
+</head>
+<body>
+ 	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:" {(ROUTE_A=='init' ? 'class="on"':'onclick="category(\'init\')"')}>栏目管理</a>
+	      <span>|</span>
+	      <a href="javascript:" {(ROUTE_A=='add'&&!$type ? 'class="on"':'onclick="category(\'add\',\''.(isset($_GET['pid'])?$_GET['pid']:'').'\',\'0\')"')}>添加栏目</a>
+	      <span>|</span>
+	      <a href="javascript:" {(ROUTE_A=='add'&&$type==1 ? 'class="on"':'onclick="category(\'add\',\''.(isset($_GET['pid'])?$_GET['pid']:'').'\',\'1\')"')}>添加单页</a>
+	      <span>|</span>
+	      <a href="javascript:" {(ROUTE_A=='add'&&$type==2 ? 'class="on"':'onclick="category(\'add\',\''.(isset($_GET['pid'])?$_GET['pid']:'').'\',\'2\')"')}>添加外链</a>
+	    </div>
+	</div>
+	<form name="myform" id="myform" action="{act_url('category','add')}" method="post">
+			  <ul class="container-tab">
+            <li> 基本选项</li>
+            <if condition="$type==0||$type==1">
+            <li> URL设置</li>
+            <li> 模板设置</li>
+            <li> SEO设置</li>
+            </if>
+        </ul>
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+				  	<if condition="$type!=2">
+			      <tr>
+			        <th> 选择模型：</th>
+			        <td>
+			        	<select name="info[model]" id="model_{$id}" class="input-select" >
+			        		<option value=""> {($type==1 ? '*系统单页*':'请选择模型')}</option>
+			        		<foreach name="$models" item="$vl" >
+			        		  <option value="{$vl['tbname']}"> {$vl['name']}</option>
+			        		</foreach>
+			          </select>
+			          <if condition="$type==1">
+			            <img style="cursor:help;" title="当选择模型时，单页栏目数据为模型第1条数据；&#13不选择模型采用系统单页模型" src="{STATIC_URL}common/images/help.gif" align="absmiddle"/>
+			          </if>
+			        </td>
+			      </tr>
+			      </if>
+			      <tr>
+			        <th> 上级栏目：</th>
+			        <td>
+			        	<select name="info[pid]" id="pid_{$id}" class="input-select" >
+			        		<option value="">≡ 作为一级栏目 ≡</option>
+			        		<foreach name="$select_categorys" item="$v" >
+					        <option value="{$v['id']}" {($v['id']==$_GET['pid']?'selected="selected"':'')}>{$v['spacer']} {$v['name']}</option>
+					        </foreach>
+			          </select>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 栏目名称：</th>
+			        <td ><input type="text" name="info[name]" id="name_{$id}" maxlength="12" class="input-text" ></td>
+			      </tr>
+			      <if condition="$type==0||$type==1">
+			      <tr>
+			        <th> 英文目录：</th>
+			        <td ><input type="text" name="info[cdir]" id="cdir_{$id}" class="input-text" ></td>
+			      </tr>
+			      </if>
+			      <if condition="$type==2">
+			      <tr>
+			        <th> 外链地址：</th>
+			        <td ><input type="text" name="info[url]" id="url_{$id}" style="width:300px;" value="http://" class="input-text" ></td>
+			      </tr>
+			      </if>
+			      <tr>
+			        <th> 栏目图片：</th>
+			        <td ><input type="text" name="info[image]" id="image_{$id}" style="width:280px;" class="input-text" ></td>
+			      </tr>
+			      <tr>
+			        <th> 描述：</th>
+			        <td >
+			        	<textarea name="info[desc]" id="desc_{$id}" style="width:300px;height:60px;" class="input-textarea" ></textarea>
+			        </td>
+			      </tr>
+			      <if condition="$type!=2">
+			      <tr>
+			        <th> 表单方式：</th>
+			        <td >
+			        	<input type="radio" name="setting[opentype]" value="0" {($type ? 'checked="checked"':'')} /> 内置　
+			        	<input type="radio" name="setting[opentype]" value="1" {(!$type ? 'checked="checked"':'')} /> 对话框
+			        	<input type="radio" name="setting[opentype]" value="2" > 新窗口
+			        </td>
+			      </tr>
+			      </if>
+					  <tr>
+			        <th> 在导航显示：</th>
+			        <td><input type="radio" name="info[ismenu]" value="1" checked="checked" > 是　<input type="radio" name="info[ismenu]" value="0" > 否 </td>
+					  </tr>
+					  <if condition="$type==0">
+					  <tr>
+			        <th> 内容审核：</th>
+			        <td>
+			        	<input type="radio" name="setting[audit]" value="0" checked="checked" > 无　
+			        	<input type="radio" name="setting[audit]" value="1" > 一级 
+			        	<input type="radio" name="setting[audit]" value="2" > 二级
+			        	<input type="radio" name="setting[audit]" value="3" > 三级
+			        </td>
+					  </tr>
+					  </if>
+					</table>
+				</div>
+
+				<if condition="$type==0||$type==1">
+				<div class="container-cnt pad-10">
+          <table width="100%" class="table_form contentWrap">
+          	<if condition="$type==0">
+					  <tr>
+			        <th> 栏目页：</th>
+			        <td>
+			        	<input type="radio" name="setting[category_ishtml]" id="category_ishtml_0_{$id}" value="0" checked="checked" /> 动态
+			        	<input type="radio" name="setting[category_ishtml]" id="category_ishtml_1_{$id}" value="1" /> 静态化
+			        </td>
+					  </tr>
+					  <tr>
+			        <th> 内容页：</th>
+			        <td>
+			        	<input type="radio" name="setting[show_ishtml]" id="show_ishtml_0_{$id}" value="0" checked="checked" /> 动态
+			        	<input type="radio" name="setting[show_ishtml]" id="show_ishtml_1_{$id}" value="1" /> 静态化
+			        </td>
+					  </tr>
+					  <tr id="simple_url_show_{$id}">
+			        <th> 动态简化：</th>
+			        <td>
+			        	<input type="text" name="setting[simple_url]" id="simple_url_{$id}" class="input-text" />
+			        </td>
+					  </tr>
+
+					  <tr id="category_ishtml_show_{$id}" style="display:none">
+			        <th> 栏目页静态化规则：</th>
+			        <td>
+			        	<select name="setting[category_ruleid]" id="category_ruleid_{$id}" class="input-select" >
+			        		<foreach name="$urlrules" item="$crule" >
+			        		  <if condition="$crule['type']==0">
+				        		<option value="{$crule['id']}">{$crule['name']}({$crule['example']})</option>
+			        		  </if>
+			        		</foreach>
+			          </select>
+			        </td>
+			      </tr>
+			      <tr id="show_ishtml_show_{$id}" style="display:none">
+			        <th> 内容页静态化规则：</th>
+			        <td>
+			        	<select name="setting[show_ruleid]" id="show_ruleid_{$id}" class="input-select" >
+			        		<foreach name="$urlrules" item="$crule" >
+			        		  <if condition="$crule['type']==1">
+			        		   <option value="{$crule['id']}">{$crule['name']}({$crule['example']})</option>
+			        		  </if>
+			        		</foreach>
+			          </select>
+			        </td>
+			      </tr>
+					  <tr id="auto_html_show_{$id}" style="display:none">
+			        <th> 自动静态化：</th>
+			        <td><input type="radio" name="setting[auto_html]" value="1" > 是　<input type="radio" name="setting[auto_html]" value="0" checked > 否 &nbsp;&nbsp;<font color="gray">内容变动自动更新到静态页，较耗系统资源</font></td>
+					  </tr>
+			      <else/>
+			      <tr>
+			        <th> URL规则：</th>
+			        <td>
+			        	<input type="radio" name="setting[category_ishtml]" id="category_ishtml_0_{$id}" value="0" checked="checked" /> 动态
+			        	<input type="radio" name="setting[category_ishtml]" id="category_ishtml_1_{$id}" value="1" /> 静态化
+			        </td>
+					  </tr>
+					  <tr id="simple_url_show_{$id}">
+			        <th> 动态简化：</th>
+			        <td>
+			        	<input type="text" name="setting[simple_url]" id="simple_url_{$id}" class="input-text" />
+			        </td>
+					  </tr>
+
+					  <tr id="category_ishtml_show_{$id}" style="display:none">
+			        <th> 静态化规则：</th>
+			        <td>
+			        	<select name="setting[category_ruleid]" id="category_ruleid_{$id}" class="input-select" >
+			        		<foreach name="$urlrules" item="$crule" >
+			        		  <if condition="$crule['type']==0">
+			        		   <option value="{$crule['id']}">{$crule['name']}({$crule['example']})</option>
+			        		  </if>
+			        		</foreach>
+			          </select>
+			        </td>
+			      </tr>
+					  <tr id="auto_html_show_{$id}" style="display:none">
+			        <th> 自动静态化：</th>
+			        <td><input type="radio" name="setting[auto_html]" value="1" > 是　<input type="radio" name="setting[auto_html]" value="0" checked > 否 &nbsp;&nbsp;<font color="gray">内容变动自动更新到静态页，较耗系统资源</font></td>
+					  </tr>
+			      </if>
+
+					</table>
+				</div>
+
+				<div class="container-cnt pad-10">
+          <table width="100%" class="table_form contentWrap">
+			      <tr>
+			        <th> 选择风格：</th>
+			        <td>
+			        	<select name="setting[template_style]" id="template_style_{$id}" class="input-select" >
+			        		<option value=""> 请选择风格</option>
+			        		<foreach name="$styleArr" item="$vl" >
+			        		<option value="{$vl}"> {$vl}</option>
+			        		</foreach>
+			          </select>
+			        </td>
+			      </tr>
+			      <if condition="$type==0">
+			      <tr>
+			        <th> 频道页模板：</th>
+			        <td>
+			        	<select name="setting[template_category]" id="template_category_{$id}" class="input-select" >
+			        		<option value=""> 请选择模板</option>
+			          </select>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 列表页模板：</th>
+			        <td>
+			        	<select name="setting[template_list]" id="template_list_{$id}" class="input-select" >
+			        		<option value=""> 请选择模板</option>
+			          </select>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> 详细页模板：</th>
+			        <td>
+			        	<select name="setting[template_show]" id="template_show_{$id}" class="input-select" >
+			        		<option value=""> 请选择模板</option>
+			          </select>
+			        </td>
+			      </tr>
+			      <else/>
+			      <tr>
+			        <th> 单网页模板：</th>
+			        <td>
+			        	<select name="setting[template_category]" id="template_category_{$id}" class="input-select" >
+			        		<option value=""> 请选择模板</option>
+			          </select>
+			        </td>
+			      </tr>
+			      </if>
+			      <tr>
+			        <th> 应用到子栏目：</th>
+			        <td>
+			        	<input type="radio" name="setting[apply_subcat]" value="1"  /> 是　
+			        	<input type="radio" name="setting[apply_subcat]" value="0"  checked="checked" /> 否
+			        </td>
+			      </tr>
+					</table>
+				</div>
+
+				<div class="container-cnt pad-10">
+          <table width="100%" class="table_form contentWrap">
+             <tr>
+			        <th> <b>SEO标题</b><br/><font color="gray">栏目标题</font></th>
+			        <td >
+			        	<input type="text" name="setting[seo_title]" id="seo_title_{$id}" style="width:530px;" class="input-text" />
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> <b>SEO关键词</b><br/><font color="gray">多个用“,”隔开</font></th>
+			        <td >
+			        	<textarea name="setting[seo_keywords]" id="seo_keywords_{$id}" style="width:530px;height:60px;" class="input-text" ></textarea>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th> <b>SEO描述</b><br/><font color="gray">栏目简介</font></th>
+			        <td >
+			        	<textarea name="setting[seo_desc]" id="seo_desc_{$id}" style="width:530px;height:60px;" class="input-textarea" ></textarea>
+			        </td>
+			      </tr>
+
+					</table>
+				</div>
+				</if>
+
+				<!--table_form_off-->
+			  <div class="bk15">
+			  	 <input type="hidden" id="type_{$id}" name="info[type]" value="{$type}"/>
+			  	 <input type="hidden" id="listorder_{$id}" name="info[listorder]" value="0"/>
+			  	 <input type="hidden" id="id_{$id}" name="id" value=""/>
+			  </div>
+				<div class="btn"><input type="submit" id="dosubmit" class="button" name="dosubmit" value="提交"/></div>
+	</form>
+</body>
+</html>

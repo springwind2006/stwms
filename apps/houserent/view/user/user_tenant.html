@@ -1,0 +1,39 @@
+<include file="header"/>
+<style type="text/css">
+.tenant_list .weui-media-box{padding:7px 10px}
+.tenant_list .weui-cell{padding:5px 10px}
+</style>
+<div class="container" id="container">
+	<div class="page panel" id="page">
+	    <div class="page__bd" style="padding-bottom:50px;">
+	        <div class="weui-panel weui-panel_access">
+	            <div class="weui-panel__bd tenant_list" data-url="{U(':user?type=tenant')}" id="tenant_list">
+	            	<include file="user_tenant_list"/>
+	            </div>
+	        </div>
+	        <div style="padding:5px;text-align:center;display:none;" id="load_status">加载中...</div>
+	    </div>
+	</div>
+</div>
+<div class="weui-tabbar">
+	 <a href="{U(':user?type=tenant')}" class="weui-tabbar__item">
+         <img src="{$url}images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+         <p class="weui-tabbar__label">住户管理</p>
+     </a>
+     <a href="{U(':user')}" class="weui-tabbar__item weui-bar__item_on">
+         <span style="display: inline-block;position: relative;">
+             <img src="{$url}icon/home-selected.png" alt="" class="weui-tabbar__icon">
+         </span>
+         <p class="weui-tabbar__label">个人中心</p>
+     </a>
+</div>
+<script type="text/javascript">
+$(function(){
+	$.pageScroller("#page","#page__bd","#tenant_list",function(page){
+		$("#load_status").show();
+	},function(res){
+		$("#load_status").hide();
+	});
+});
+</script>
+<include file="footer"/>

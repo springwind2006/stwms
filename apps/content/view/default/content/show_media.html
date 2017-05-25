@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+<title>{$user}－{$group}－微信消息</title>
+<style type="text/css">
+.content{padding:10px 15px 10px 15px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="content">
+	<if condition="$type eq 'jpg'">
+		<img src="/apps/read_media.php?msg_id={$msgid}&type={$type}"/>
+	<else/>
+		<p>{$user} <if condition="$group">来自“{$group}”群</if> </p>
+		<audio src="/apps/read_media.php?msg_id={$msgid}&type={$type}" controls="controls">
+			您的浏览器不支持音频播放，请使用Google Chrome浏览器
+		</audio>
+		<p><a href="/apps/read_media.php?msg_id={$msgid}&type={$type}">下载音频（使用右键“另存为”）</a></p>
+	</if>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/index.php?c=Api&a=hits&catid={$catid}&id={$id}"></script>

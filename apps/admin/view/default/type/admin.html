@@ -1,0 +1,60 @@
+<include file="admin/head"/>
+<import file="type_admin.js" check="true"/>
+</head>
+<body>
+	<if condition="$auths['classify_init']||$auths['add']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <if condition="$auths['classify_init']">
+	      <a href="javascript:void(0)" onclick="deal('classify.init')" >类别管理</a>	      
+	      <span>|</span>
+	      </if>
+	      <a href="javascript:void(0)" class="on">分类管理</a>
+	      <if condition="$auths['add']">
+	      <span>|</span>
+	      <a href="javascript:" onclick="typeAdmin('add',{($this->cid)},0)">添加分类</a>
+	      </if>
+	    </div>
+	</div>
+	</if>
+	<form name="myform" action="{act_url('type','listorder','cid='.$this->cid)}" method="post">
+		<div class="table-list">
+		    <table width="100%" cellspacing="0">
+		        <thead>
+		            <tr>
+		            	<if condition="$auths['listorder']"><th width="60">排序</th></if>
+			            <th width="80">ID</th>
+			            <th> 名称 </th>
+			            <th> 描述 </th>
+			            <if condition="$op_auth=($auths['add']||$auths['edit']||$auths['del'])"><th width="180"> 管理操作</th></if>
+		            </tr>
+		        </thead>
+						<tbody>					
+							<foreach name="$data" item="$vl" >
+								<tr  id="row{$vl['rowid']}">
+									<if condition="$auths['listorder']"><td align="center"><input name="listorders[{$vl['id']}]" type="text" size="3" value="{$vl['listorder']}" class="input-text-c"></td></if>
+									<td align='center'>{$vl['id']}</td>
+									<td >{$vl['spacer']}{$vl['name']} </td>
+									<td align='center'>{$vl['describe']}</td>
+									<if condition="$op_auth">
+									<td align='center'>
+									<if condition="$auths['add']">
+										<if condition="$vl['level'] lt $limitLevel">
+										<a href="javascript:" onclick="typeAdmin('add',{($this->cid)},{$vl['id']})"> 添加子分类</a>
+										<else/>
+										<a href="javascript:" disabled="disabled"> 添加子分类</a>
+										</if>
+									</if>
+									<if condition="$auths['edit']"> |<a href="javascript:" onclick="typeAdmin('edit',{($this->cid)},{$vl['id']})"> 编辑</a></if>
+									<if condition="$auths['del']"> |<a href="javascript:" onclick="typeAdmin('del',{($this->cid)},{$vl['id']})">删除 </a></if>
+									</td>
+									</if>
+								</tr>
+							</foreach>
+						</tbody>
+		    </table>
+		    <if condition="$auths['listorder']"><div class="btn"><input type="submit" class="button" name="dosubmit" value="排序" /></div></if>
+	  </div>
+  </form>
+</body>
+</html>

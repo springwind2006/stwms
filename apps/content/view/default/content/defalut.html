@@ -1,0 +1,131 @@
+<template file="header" />
+<div class="wraper">
+	<div class="mWraper">
+		<!--左侧部分-->
+		<div class="left">
+			<div class="slideShow">
+				<span></span>
+				<div id="picBox">
+					<ul style="LEFT: 0px" id="show_pic">
+						<li><img src="{STYLE_URL}images/scroll/focus_max_1_1.jpg" /></li>
+						<li><img src="{STYLE_URL}images/scroll/focus_max_1_2.jpg" /></li>
+						<li><img src="{STYLE_URL}images/scroll/focus_max_1_3.jpg" /></li>
+						<li><img src="{STYLE_URL}images/scroll/focus_max_1_4.jpg" /></li>
+						<li><img src="{STYLE_URL}images/scroll/focus_max_1_5.jpg" /></li>
+						<li><img src="{STYLE_URL}images/scroll/focus_max_1_6.jpg" /></li>
+					</ul>
+					<ul id="icon_num">
+						<LI><a href="#"></a></li>
+						<LI><a href="#"></a></li>
+						<LI><a href="#"></a></li>
+						<LI><a href="#"></a></li>
+						<LI><a href="#"></a></li>
+						<LI><a href="#"></a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="service">
+				<dl style="width: 230px">
+					<dt>
+						<img src="{STYLE_URL}images/ico_web.gif">
+					</dt>
+					<dd>
+						<a title="网站建设" href="{cat_url(4)}">* 企业品牌网站建设</a><br /> <a
+							title="网站建设" href="{cat_url(4)}">* OA办公系统</a><BR> <a
+							title="网站建设" href="{cat_url(4)}">* 程序定制开发 </a>
+					</DD>
+				</DL>
+				<dl style="width: 215px">
+					<dt>
+						<img src="{STYLE_URL}images/ico_seo.gif">
+					</dt>
+					<dd>
+						<a title="网站优化推广" href="{cat_url(5)}">* 网站优化</a><BR> <a
+							title="网站优化推广" href="{cat_url(5)}">* 搜索引擎推广</a><BR> <a
+							title="网站优化推广" href="{cat_url(5)}">* 网络广告营销 </a>
+					</DD>
+				</DL>
+				<dl style="width: 191px">
+					<dt>
+						<img src="{STYLE_URL}images/ico_flash.gif">
+					</dt>
+					<dd>
+						<a title="互动界面，Flash设计" href="{cat_url(6)}">* UI界面设计</a><BR>
+						<a title="互动界面，Flash设计" href="{cat_url(6)}">* Flash多媒体制作</a><BR>
+						<a title="互动界面，Flash设计" href="{cat_url(6)}">* 电子杂志 </a>
+					</DD>
+				</DL>
+			</div>
+		</div>
+		<!--//左侧部分-->
+		<div class="right">
+			<h1>
+				<a href="{cat_url(1)}"><img
+					src="{STYLE_URL}images/title_main.gif"></a>
+			</h1>
+			<div class="newCase">
+				<mc:content action="position" posid="1" num="5" field="title,thumb" order="id desc" thumb="1" />
+				<div class="caseCommend">
+					<span></span>
+					<a title="{$data.0.title.value}" href="{$data.0.url}">
+						<img src="{$data.0.thumb|thumb=158,91,2}" width="158" height="91" />
+					</a>
+				</div>
+				<div class="caseCommendList">
+					<div class="pho">
+						<a title="更多案例最新案例" href="{cat_url(2)}"><img
+							src="{STYLE_URL}images/works.gif" /></a>
+					</div>
+					<ul>
+						<loop name="$data" item="$r">
+						<li><a title="{$r.title.value}" href="{$r.url}" style="">{$r.title.value}</a></li>
+						</loop>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<!--底部-->
+	<a id="contact" name="contact"></a>
+	<div class="mWraper bottom">
+		<div class="aboutBox">
+			<h3>关于红太阳</h3>
+			<div class="brief">
+				<a href="{cat_url(1)}"><img align="left" src="{STYLE_URL}images/redsun.gif"></a>
+				红太阳网络，一个集网站品牌创意设计、互动策略与服务推广于一体的整合机构。<br />通过在网站互动设计领域的专注努力，和多个客户项目的历练。我们对各种行业和类型的客户的理解，项目的整体策划控制，国际化标准和流行趋势，对客户形象的视觉传递等方方面面都进...
+				<div class="designLink">
+					<img src="{STYLE_URL}images/links1.jpg">
+				</div>
+			</div>
+		</div>
+		<div class="contactBox">
+			<h3>客户联络</h3>
+			<div>
+				<import file="tel.gif"/>
+			</div>
+			<div class="qq">
+				<a href="tencent://message/?uin=402085437&Site=红太阳网络建设&Menu=yes" target="subframe" title="点击进行业务咨询">
+					<import file="qq.gif" title="点击进行业务咨询"/>
+				</a>
+				<a href="tencent://message/?uin=402085437&Site=红太阳网络建设&Menu=yes" target="subframe" title="点击进行业务咨询">
+					<import file="qq.gif" title="点击进行业务咨询"/>
+				</a> 
+				<a title="点击通过MSN交谈" href="msnim:chat?contact=spring.wind2006@163.com" target="subframe">
+					<import file="msn.gif" title="点击通过MSN交谈"/>
+				</a>
+			</div>
+			您还可以给我们写邮件，或者通过右边的<BR>输入框直接与我们联系 <br /> <span class="green">E-mail:
+				<span class="gText">spring.wind2006@163.com</span>
+			</span>
+		</div>
+		<mc:plugin name="message" action="add" />
+		<div class="clear"></div>
+	</div>
+	<!--//底部--> 
+</div>
+<script type="text/javascript">
+	var glide =new glideObj();
+	glide.layerGlide(true,'icon_num','show_pic',633,5,0.08,'left');
+</script>
+<template file="footer" />

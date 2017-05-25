@@ -1,0 +1,48 @@
+<include file="admin/head"/>
+<import file="plugin.js,swfupload/swfupload.js@plugins:common" check="true"/>
+<style type="text/css">
+	body,html{overflow:hidden;margin:0px;padding:3px;}
+  .container-cnt textarea{ height:400px;width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{margin-top:5px;}
+</style>
+<script type="text/javascript">
+var PHPSESSID="{session_id()}",button_placeholder_id="buttonPlaceHolder";
+</script>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('plugin','install')}" method="post">
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+
+			      <tr>
+			        <th> 强制安装：</th>
+			        <td>
+			        	是<input type="radio" checked="checked" name="force_install" />　否<input type="radio" checked="checked" name="force_install" />
+			        　<font color="#666600">若已经插件安装目录存在，强制安装会修改安装目录后安装</font>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th>
+			        	<if condition="$isSupport">
+			        	<div class="addnew" id="addnew">
+										<span id="buttonPlaceHolder"></span>
+								</div>
+								</if>
+							</th>
+			        <td>
+			        	<if condition="$isSupport">
+			        	<div style="color:red;padding-left:10px;" id="upload_status">请选择插件后，系统会自动安装，安装过程中请不要关闭此窗口！</div>
+							  <else/>
+							  <div style="color:red;padding-left:10px;" id="upload_status">系统不支持在线安装插件，请支持gzcompress/pack等相关函数支持！</div>
+							  </if>
+							</td>
+			      </tr>
+			      <tr>
+			        <th>说明：</th>
+			        <td><font color="#666666">安装包压缩格式为zip格式，为保证插件的正常运行，请保证插件按规范开发</font></td>
+			      </tr>
+					</table>
+				</div>
+	</form>
+</body>
+</html>

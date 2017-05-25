@@ -1,0 +1,64 @@
+<include file="head" type="true"/>
+<script type="text/javascript" src="<?php echo $this->url;?>js/admin.js">
+</script>
+<style type="text/css">
+label{margin-right:10px;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="common-form">
+	<if condition="$isLogin">
+		<p style="line-height:25px;color:red;">微信已登录，系统正在运行中</p>
+		<table width="100%" class="table_form contentWrap" id="setting">
+		      <tr>
+		        <th > 是否处理联系人消息：</th>
+		        <td>
+		        	<label>是：<input type="radio" value="1" name="dealContactMsg" {($dealContactMsg?'checked="checked"':'')}/></label>
+		        	<label>否：<input type="radio" value="0" name="dealContactMsg" {(!$dealContactMsg?'checked="checked"':'')}/></label>
+		        </td>
+		      </tr>
+			  <tr>
+		        <th > 是否处理群消息：</th>
+		        <td>
+		        	<label>是：<input type="radio" value="1" name="dealGroupMsg" {($dealGroupMsg?'checked="checked"':'')}/></label>
+		        	<label>否：<input type="radio" value="0" name="dealGroupMsg" {(!$dealGroupMsg?'checked="checked"':'')}/></label>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th > 是否处理签到信息：</th>
+		        <td>
+		        	<label>是：<input type="radio" value="1" name="dealSignIn" {($dealSignIn?'checked="checked"':'')}/></label>
+		        	<label>否：<input type="radio" value="0" name="dealSignIn" {(!$dealSignIn?'checked="checked"':'')}/></label>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th > 是否保存群图片：</th>
+		        <td>
+		        	<label>是：<input type="radio" value="1" name="saveGroupImg" {($saveGroupImg?'checked="checked"':'')}/></label>
+		        	<label>否：<input type="radio" value="0" name="saveGroupImg" {(!$saveGroupImg?'checked="checked"':'')}/></label>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th > 是否保存群语音：</th>
+		        <td>
+		        	<label>是：<input type="radio" value="1" name="saveGroupAudio" {($saveGroupAudio?'checked="checked"':'')}/></label>
+		        	<label>否：<input type="radio" value="0" name="saveGroupAudio" {(!$saveGroupAudio?'checked="checked"':'')}/></label>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th > 是否保存公众号推送的文章：</th>
+		        <td>
+		        	<label>是：<input type="radio" value="1" name="savePubArticle" {($savePubArticle?'checked="checked"':'')}/></label>
+		        	<label>否：<input type="radio" value="0" name="savePubArticle" {(!$savePubArticle?'checked="checked"':'')}/></label>
+		        </td>
+		      </tr>
+		</table>
+	<else/>
+		<div style="padding:5px 10px">
+			<p style="line-height:25px;font-size:14px;">您还未登录微信，请先登录！</p>
+			<p><input type="button" class="button" value="点击登录微信" id="wx_login_bt"/></p>
+		</div>
+	</if>
+</div>
+</body>
+</html>

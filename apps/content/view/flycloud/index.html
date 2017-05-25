@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>红云飞 - 谢春平的个人网站 —— HTML5／JS/PHP/Python/NodeJS/APP/微信及小程序开发/嵌入式开发</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="谢春平的个人网 谢春平博客 软件开发 APP开发 微信开发" />
+<link href='//fonts.googleapis.com/css?family=Asap:400,700,400italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+<import file="bootstrap.css,jquery.min.js,style.css,move-top.js,easing.js"/>
+<script type="text/javascript">
+	$(function() {
+		$(".scroll").click(function(){
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+			return false;
+		});
+		$().UItoTop({ easingType: 'easeOutQuart' });
+	});
+</script>
+</head>
+<body>
+<div id="home" class="header">
+	<div class="container">
+		<div class="top-header">
+			<include file="/nav"/>
+			<include file="/profile"/>
+		</div>
+	</div>
+</div>
+<!--%
+<include file="/about"/>
+<include file="/services"/>
+<include file="/experience"/>
+<include file="/portfolio"/>
+<include file="/blog"/> 
+%-->
+<include file="/contact"/>
+<a href="#home" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+<import file="bootstrap.js"/>
+</body>
+</html>

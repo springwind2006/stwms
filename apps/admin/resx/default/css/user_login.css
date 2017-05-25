@@ -1,0 +1,179 @@
+body {
+	padding: 0px;
+}
+
+.main {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 975px;
+	height: 328px;
+	margin-left: -485px;
+	margin-top: -240px;
+}
+
+.main input {
+	width: 120px;
+	height: 18px;
+	border: solid 1px #aca7a7;
+	font-size: 12px;
+}
+
+.top {
+	height: 88px;
+	width: 1000px;
+	float: left;
+}
+
+.tleft {
+	width: 691px;
+	height: 89px;
+	float: left;
+}
+
+.tleft img {
+	margin-left: 33px;
+}
+
+.tcenter {
+	width: 248px;
+	height: 89px;
+	background: url(../images/login_05.gif) left bottom no-repeat;
+	float: left;
+}
+
+.center {
+	width: 1000px;
+	height: 190px;
+	float: left;
+}
+
+.cleft {
+	width: 691px;
+	height: 190px;
+	background: url(../images/login_09.gif);
+	float: left;
+}
+
+.cmiddle {
+	width: 248px;
+	height: 190px;
+	float: left;
+	background: url(../images/login_13.gif) repeat-y;
+}
+
+.cright {
+	width: 36px;
+	_margin-left: -14px;
+	height: 190px;
+	float: left;
+	background: url(../images/login_11.gif);
+}
+
+.user {
+	margin-left: 40px;
+	margin-top: 25px;
+	height: 25px;
+}
+
+.password, .checkcode {
+	margin-left: 40px;
+	margin-top: 5px;
+	height: 25px;
+}
+
+.user div, .password div, .checkcode div {
+	float: left;
+	height: 22px;
+	width: 50px;
+	line-height: 22px;
+}
+
+.user input, .password input, .checkcode input {
+	float: left;
+	line-height: 18px;
+	color: #444;
+}
+
+.user img, .password img, .checkcode img {
+	float: left;
+}
+
+.checkcode input {
+	width: 50px;
+}
+
+.sub-bt {
+	margin-left: 30px;
+	margin-top: 10px;
+	height: 25px;
+	margin-right: 28px;
+	text-align: center;
+}
+
+.sub-bt input {
+	background: url(../images/bt_bg.gif);
+	border: solid 1px #b6b6b6;
+	width: 50px;
+	height: 22px;
+	float: left;
+	margin-left: 20px;
+	_margin-left: 10px;
+	text-decoration: none;
+	color: #000;
+	font-size: 9pt;
+}
+
+.status {
+	text-align: center;
+	margin: auto;
+	margin-top: 5px;
+	color: #f76a10;
+	width: 80%;
+	line-height: 20px;
+}
+
+.down {
+	height: 50px;
+	width: 1000px;
+	float: left;
+}
+
+.dleft {
+	width: 691px;
+	height: 89px;
+	float: left;
+	margin-top: 10px;
+}
+
+.dcenter {
+	width: 248px;
+	height: 89px;
+	background: url(../images/login_16.gif) top left no-repeat;
+	float: left;
+}
+
+.inf {
+	width: 691px;
+	height: 38px;
+	background: url(../images/login_18.gif) no-repeat;
+}
+
+.itext {
+	display: block;
+	width: 100px;
+	height: 20px;
+	font-size: 16px;
+	font-weight: bolder;
+	color: #fff;
+	margin-left: 17px;
+	margin-top: 12px;
+	float: left;
+}
+
+.icopyright {
+	display: block;
+	float: left;
+	margin-left: 17px;
+	margin-top: 15px;
+}

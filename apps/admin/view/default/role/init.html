@@ -1,0 +1,54 @@
+<include file="admin/head"/>
+<import file="role.js" check="true"/>
+</head>
+<body>
+	<if condition="$auths['add']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:void(0)" class="on">角色管理</a>
+	      <span>|</span>
+	      <a href="javascript:" onclick="window.role('add')">添加角色</a>
+	    </div>
+	</div>
+	</if>
+	<form name="myform" action="{act_url('role','listorder')}" method="post">
+			<div class="table-list">
+			    <table width="100%" cellspacing="0">
+			        <thead>
+			            <tr>
+				            <if condition="$auths['listorder']"><th width="60">排序 </th></if>
+				            <th> ID </th>
+				            <th> 角色名称 </th>
+				            <th> 角色描述 </th>
+				            <if condition="$op_auth=($auths['authority']||$auths['category']||$auths['plugin']||$auths['edit']||$auths['del']||$auths['user_view'])">
+				           		 <th style="width:450px"> 管理操作</th>
+				            </if>
+			            </tr>
+			        </thead>
+							<tbody>
+								<foreach name="$data" item="$vl" >
+									<tr>
+										<if condition="$auths['listorder']"><td align='center'><input name='listorders[{$vl['id']}]' type='text' size='3' value='{$vl['listorder']}' class='input-text-c'></td></if>
+										<td align='center'>{$vl.id}</td>
+										<td align='center'>{$vl['name']}</td>
+										<td align='center'>{$vl['desc']}</td>
+										<if condition="$op_auth">
+										<td align='center'>
+											<if condition="$auths['authority']"><a href="javascript:" {($vl['id']!=2 ? 'onclick="window.role(\'authority\','.$vl['id'].')"':'disabled="disabled"')}>权限设置</a> |</if>
+											<if condition="$auths['category']"><a href="javascript:" {($vl['id']!=2 ? 'onclick="window.role(\'category\','.$vl['id'].')"':'disabled="disabled"')}>栏目权限</a> |</if>
+											<if condition="$auths['plugin']"><a href="javascript:" {($vl['id']!=2 ? 'onclick="window.role(\'plugin\','.$vl['id'].')"':'disabled="disabled"')}>插件权限</a> |</if>
+											<if condition="$auths['rolemenu_init']"><a href="javascript:" {($vl['id']!=2 ? 'onclick="window.role(\'menu\','.$vl['id'].')"':'disabled="disabled"')}>菜单管理</a> |</if>
+											<if condition="$auths['user_view']"><a href="javascript:" onclick="window.role('view',{$vl['id']})">查看用户</a> |</if>
+											<if condition="$auths['edit']"><a href="javascript:" {($vl['id']!=2 ? 'onclick="window.role(\'edit\','.$vl['id'].')"':'disabled="disabled"')}>修改</a> |</if>
+											<if condition="$auths['del']"><a href="javascript:" {($vl['id']!=2 ? 'onclick="window.role(\'del\','.$vl['id'].')"':'disabled="disabled"')}>删除</a></if>
+										</td>
+										</if>
+									</tr>
+								</foreach>
+							</tbody>
+			    </table>
+			    <div class="btn"><input type="submit" class="button" name="dosubmit" value="排序" /></div>
+		  </div>
+	</form>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<include file="head" type="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{
+    height:400px;
+    width:99%;
+    font-size:14px;
+    line-height:18px;
+  }
+  .container-cnt .alert{
+    margin-top:5px;
+  }
+  .type_info span{
+  	display:inline-block;padding:2px 10px;
+    color:#666;vertical-align:middle;line-height:30px;
+    border:1px solid #eee;
+    background:#f6f6f6;
+  }
+  .type_info input{
+    height:18px;line-height:18px;
+  }
+  .type_info .txt{
+    border:1px solid #d0d0d0;
+  }
+  .disabled{color:#999;text-decoration:line-through;}
+</style>
+<script type="text/javascript" src="<?php echo $this->url;?>js/admin.js">
+</script>
+</head>
+<body>
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+            	<th>id</th>
+	            <th style="width:60px;">姓名</th>
+	            <th>电话</th>
+	            <th>邮箱</th>
+	            <th>内容</th>
+	            <th style="width:120px;">咨询时间</th>
+	            <th style="width:80px;">是否已处理</th>
+	            <th style="width:200px;">管理操作</th>
+            </tr>
+        </thead>
+			<tbody>
+				<?php
+				 foreach($datas as $ky=> $vl){
+						?>
+					<tr>
+						<td align='center'><?php echo $vl['id'];?></td>
+						<td align='center'><?php echo $vl['name'];?></td>
+						<td align='center'><?php echo $vl['tel'];?></td>
+						<td align='center'><?php echo $vl['email'];?></td>
+						<td><?php echo cut_str($vl['content'],50);?></td>
+						<td align="center"><?php echo date('Y-m-d h:i:s',$vl['addtime']);?></td>
+						<td align='center'>
+						<?php
+							echo intval($vl['isdeal'])?
+												'<a style="color:green;font-size:15px;font-weight:bold;" href="'.plugin_url('message','deal','id='.$vl['id'].'&isdeal=0&'.$pageType.'='.$cpage).'">√</a>':
+												'<a style="color:red;font-size:14px;font-weight:bold;" href="'.plugin_url('message','deal','id='.$vl['id'].'&isdeal=1&'.$pageType.'='.$cpage).'">×</a>';
+
+								?>
+						</td>
+						<td align="center">
+								<a href="javascript:" onclick="message('show','<?php echo 'id='.$vl['id'];?>')">查看</a> | 
+								<a href="javascript:" onclick="message('del','<?php echo 'id='.$vl['id'].'&'.$pageType.'='.$cpage;?>')">删除</a>
+						</td>
+					</tr>
+				<?php
+			   }
+						?>
+
+			</tbody>
+    </table>
+  </div>
+  <div class="footer">
+  	<div class="page"><?php echo $pages;?></div>
+  </div>
+</body>
+</html>

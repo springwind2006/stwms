@@ -1,0 +1,154 @@
+<include file="admin/head"/>
+<import file="jquery.imgpreview.js@:common,attachment.js" check="true"/>
+</head>
+<body>
+<div class="subnav">
+    <div class="content-menu">
+      <a href="javascript:" class="on">附件管理 </a>
+      <span>|</span>
+      <if condition="$auths['update']">
+      <a href="javascript:" onclick="update_url()">地址更新 </a>      
+      <span>|</span>
+      </if>
+      <div class="search">
+      	<form id="search_form">
+	      	<b>信息检索</b> &gt;&nbsp;&nbsp;
+	      	上传时间：
+	      	<input title="单击选择时间，双击清空时间" class="s-date date-select" name="s_begintime" id="s_begintime" type="text" value="{(isset($_GET['s_begintime'])? $_GET['s_begintime']:'')}" readonly="readonly"/>	-
+	      	<input title="单击选择时间，双击清空时间" class="s-date date-select" name="s_endtime" id="s_endtime" type="text" value="{(isset($_GET['s_endtime'])? $_GET['s_endtime']:'')}" readonly="readonly" />
+		      	<php> load::cls('Form',0);</php>
+	      		{form::date('s_begintime',$s_begintime,0,0,0)}
+	      		{form::date('s_endtime',$s_endtime,0,0,0)}		      	
+	      	名称：
+          <input class="text-input s_keyword" value="{(isset($_GET['s_name'])? $_GET['s_name']:'')}" name="s_name" id="s_name" />
+          <select class="s_position" name="s_status" id="s_status" >
+	      		<option value="-1" {(isset($_GET['s_status'])&&$_GET['s_status']=='-1'?'selected="selected"':'')}>全部</option>
+	      		<option value="1" {(isset($_GET['s_status'])&&$_GET['s_status']=='1'?'selected="selected"':'')}>已使用</option>
+	      		<option value="0" {(isset($_GET['s_status'])&&$_GET['s_status']=='0'?'selected="selected"':'')}>未使用</option>
+	      	</select>
+         </form>
+         <input type="button" id="start_search" class="s_button" value="搜索"/>
+      </div>
+    </div>
+    <div class="view-type" id="setViewType">
+    	<div class="type_alert">显示：</div>
+    	<div id="list_{($viewType==1 ? 'on':'off')}" class="list-{($viewType==1 ? 'on':'off')}"></div>
+    	<div id="thumb_{($viewType==2 ? 'on':'off')}" class="thumb-{($viewType==2 ? 'on':'off')}"></div>
+    </div>
+</div>
+
+<form name="myform" id="myform" action="?{ADMIN_INI}&c=attachment&a=del" method="post">
+	<if condition="$viewType!=2">
+	<div class="table-list">
+	    <table width="100%" cellspacing="0">
+	        <thead>
+	            <tr>
+	            	<if condition="$auths['del']">
+	            	<th style="width:40px;">选择</th>
+	            	</if>
+		            <th style="width:40px;">ID</th>		            
+		            <th>模块名称</th>
+		            <th>栏目名称</th>
+		            <th>附件名称</th>
+		            <th style="width:60px;">附件大小 </th>
+		            <th style="width:130px;">上传时间 </th>
+		            <th style="width:90px;">管理操作 </th>
+	            </tr>
+	        </thead>
+					<tbody>						
+						 <foreach name="$data" item="$vl" key="$ky">
+						  <php> $thumbs = glob(dirname(UPLOAD_PATH.$vl['filepath']).'/thumb_*'.basename($vl['filepath']));</php>
+							<tr>
+								<if condition="$auths['del']"><td align='center'><input type="checkbox" name="id[]" value="{$vl['id']}"/></td></if>
+								<td align='center'>{$vl['id']}</td>
+								<td align='center'>{(isset($modelnames[$vl['model']]) ? $modelnames[$vl['model']] : '未知')}</td>
+								<td align='center'>{(isset($catnames[$vl['catid']]) ? $catnames[$vl['catid']] : '未知')}</td>
+								<td>
+								  <img src="{($this->file_icon($vl['filename'],'gif'))}" align="absmiddle"/>
+								  {$vl['filename']}
+								  <if condition="$thumbs">
+									    <foreach name="$thumbs" item="$cthumb" >
+									    	<php> $cthumbInfos=getimagesize($cthumb);$sub_path=dirname($vl['filepath']).'/'.basename($cthumb);$cthumb_url=is_file(UPLOAD_PATH.$sub_path) ? UPLOAD_URL.$sub_path : STATIC_URL.'common/images/nopic.gif';</php>
+									      <img style="cursor:pointer" src="{STATIC_URL}common/images/havthumb.png" title="大小：{$cthumbInfos[0]}px×{$cthumbInfos[1]}px" onclick="view_images('{$cthumb_url}')" align="absmiddle"/>;
+									    </foreach>								    
+								  </if>								  
+								  <if condition="$vl['status']">
+								  	<img src="{STATIC_URL}common/images/link.png"  align="absmiddle"/>
+								  </if>
+								</td>
+								<td>{sizeformat($vl['filesize'])}</td>
+								<td align="center">{date('Y-m-d H:i:s',$vl['uploadtime'])}</td>
+								<td align="center">									
+									<if condition="$vl['isimage']">
+									  <php> $image_url=is_file(UPLOAD_PATH.$vl['filepath']) ? UPLOAD_URL.$vl['filepath'] : STATIC_URL.'common/images/nopic.gif';</php>									
+									  <a onclick="view_images('{$image_url}')" href="javascript:">预览</a>
+									<else/>
+									 <a href="{act_url('api','download','fid='.$vl['id'])}" target="doFrame">下载</a>
+									</if>
+									<if condition="$auths['del']">
+									 |
+									<a onclick="confirmurl('{act_url('attachment','del','id='.$vl['id'])}')" href="javascript:">删除</a>
+							  	</if>
+							  </td>
+							</tr>
+						</foreach>
+					</tbody>
+					<tfoot>
+						<tr>
+							<if condition="$auths['del']">
+							<td colspan="3" align="center">
+								<a onclick="isSelectAll(this,1)" href="javascript:">全选</a>
+								<input type="button" id="conform_del" class="button" value="删除"/>
+							</td>
+							</if>
+							<td colspan="{($auths['del']?5:7)}" align="right">{$pages}</td>
+					  </tr>
+					</tfoot>
+	    </table>
+  </div>
+  <else/>
+  <div class="thumb-list">
+  	<ul>
+  	  <foreach name="$data" item="$vl" >
+		  		<php> $ext_URL=STATIC_URL.'common/images/ext/';$ext_PATH=STATIC_PATH.'common/images/ext/';</php>	  		
+		  		<php> $img_url=$vl['isimage']&&is_file(UPLOAD_PATH.$vl['filepath']) ? act_url('api','thumb','f='.urlencode(UPLOAD_URL.$vl['filepath']).'&w=130&h=100&cut=0',1) : (is_file($ext_PATH.$vl['fileext'].'.png')?$ext_URL.$vl['fileext'].'.png':$ext_URL.'blank.png');</php>
+          <if condition="$vl['isimage']">
+		  	  	<php> $imgInfo=getimagesize(UPLOAD_PATH.$vl['filepath']);$title = $vl['filename'].'&#13;图片大小：'.($imgInfo===false ? '无法读取':$imgInfo[0].'px * '.$imgInfo[1].'px');</php>
+		  		<else/>
+		  			<php> $title = $vl['filename'];</php>
+		  		</if>
+		  		<php> $title .=  '&#13;上传时间：'.date('Y-m-d H:i:s',$vl['uploadtime']);</php>	
+
+  		<li>  			
+  			<div class="thumb" title="{$title}" style="background-image:url({$img_url})">
+  				<div></div><div></div>
+  				<input name="id[]" value="{$vl['id']}" type="checkbox"/>
+  			</div>
+  			<div class="title">{cut_str($vl['filename'],10)}</div>
+  			<div class="action">
+  			  {sizeformat($vl['filesize'])} 
+					<if condition="$vl['isimage']">
+					<php> $image_url=is_file(UPLOAD_PATH.$vl['filepath']) ? UPLOAD_URL.$vl['filepath'] : STATIC_URL.'common/images/nopic.gif';</php>
+					<a onclick="view_images('{$image_url}')" href="javascript:">预览</a>
+					<else/>
+					<a href="{act_url('api','download','fid='.$vl['id'],1)}" target="doFrame">下载</a>
+					</if>
+					<if condition="$auths['del']">|<a onclick="confirmurl('{act_url('attachment','del','id='.$vl['id'])}')" href="javascript:">删除</a></if>
+  			</div>
+  		</li>
+  	  </foreach>
+  	</ul>  
+  	<div class="footer">
+  		<if condition="$auths['del']">
+  		<div class="do">
+					<a onclick="isSelectAll(this,2)" href="javascript:">全选</a>
+					<input type="button" id="conform_del" class="button" value="删除"/>  		
+  		</div>
+  		</if>
+  		<div class="page" id="set_pages">{$pages}</div>
+  	</div>	
+  </div>  
+  </if> 
+</form>
+</body>
+</html>

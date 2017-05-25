@@ -1,0 +1,107 @@
+<include file="admin/head"/>
+<import file="content.js,content-controls.js@:common" check="true"/>
+</head>
+<body>
+	<form name="myform" id="myform" action="?{ADMIN_INI}&c=content&a=edit&catid={$catid}&opentype={$_GET['opentype']}{($id!=-1 ? '&id='.$id : '')}" method="post">
+        <div class="container-cnt pad-10">
+        	<div style="width:1000px;margin:auto">
+					  <table width="100%" class="table_form contentWrap">
+					  	<foreach name="$forminfos" item="$info" key="$field">
+					  	<tr>
+				        <th style="width:10%">
+				        	<if condition="$info['star']"> <font color="red">*</font></if>
+				          {$info['name']} ：<br/>
+				        </th>
+				        <td>
+				        	{$info['form']}
+				        	{(!empty($info['tips']) ? '<span class="tips">'.$info['tips'].'</span>':'')}
+				        </td>
+				      </tr>
+				      </foreach>
+						</table>
+				  </div>
+				</div>
+				<!--table_form_off-->
+				<div class="fixed-bottom">
+						<div class="fixed-but">
+						<if condition="$id==-1">
+							<div class="button"><input value="保存当前修改" type="submit" class="common_bt" name="dosubmit_continue" style="width:150px;"></div>
+							<if condition="$_GET['opentype']==1">
+								<div class="button"><input value="关闭(X)" type="button" name="close" class="small_bt" onclick="top.win.close()" style="width:100px;"></div>
+							    <script type="text/javascript">
+					                 $(document).bind('keydown',function (evt){
+					                 	 if(evt.keyCode==88&&evt.altKey){
+					                 	   top.win.close();
+					                   }
+					                 });
+				                </script>
+				            <elseif condition="$_GET['opentype']==2"/>
+				            	<div class="button"><input value="关闭(X)" type="button" name="close" class="small_bt" onclick="window.close()" style="width:100px;"></div>
+							    <script type="text/javascript">
+								    $(document).bind('keydown',function (evt){
+					                 	 if(evt.keyCode==88&&evt.altKey){
+					                 	   window.close();
+					                   }
+					                 });
+				                </script>
+							</if>
+						<elseif condition="$_GET['opentype']==0"/>
+							<div class="button"><input value="保存并继续发表" type="submit" class="common_bt" name="dosubmit_continue" style="width:150px;"></div>
+					    	<div class="button"><input value="保存后返回管理" type="submit" class="common_bt" name="dosubmit" style="width:150px;"></div>
+					    	<div class="button"><a href="{act_url('content','manage','catid='.$_GET['catid'])}" class="small_bt" style="width:100px;">返回管理</a></div>
+						<elseif condition="$_GET['opentype']==1"/>
+							<div class="button"><input value="保存后自动关闭" type="submit" class="common_bt" name="dosubmit" style="width:150px;" /></div>
+					    	<div class="button"><input value="保存并继续修改" type="submit" class="common_bt" name="dosubmit_continue" style="width:150px;" title="Alt+X" /></div>
+					    	<div class="button"><input value="关闭(X)" type="button" name="close" class="small_bt" onclick="top.win.close()" style="width:100px;"></div>
+						    <script type="text/javascript">
+				                 $(document).bind('keydown',function (evt){
+				                 	 if(evt.keyCode==88&&evt.altKey){
+				                 	   top.win.close();
+				                   }
+				                 });
+			                </script>
+						<else/>
+							<div class="button"><input value="保存后自动关闭" type="submit" class="common_bt" name="dosubmit" style="width:150px;" /></div>
+						    <div class="button"><input value="保存并继续修改" type="submit" class="common_bt" name="dosubmit_continue" style="width:150px;" title="Alt+X" /></div>
+						    <div class="button"><input value="关闭(X)" type="button" name="close" class="small_bt" onclick="window.close()" style="width:100px;"></div>
+						    <script type="text/javascript">
+				                 $(document).bind('keydown',function (evt){
+				                 	 if(evt.keyCode==88&&evt.altKey){
+				                 	   window.close();
+				                   }
+				                 });
+				                 document.title="编辑内容-{($this->categorys[$catid]['name'])}";
+				             </script>
+						</if>
+					  </div>
+				</div>
+	</form>
+	<script type="text/javascript">
+		$(function(){
+			$("#myform .input-text").focus(function(){
+			  $(this).removeClass("input-text");
+			  $(this).addClass("input-focus");
+			});
+			$("#myform .input-text").blur(function(){
+			  $(this).removeClass("input-focus");
+			  $(this).addClass("input-text");
+			});
+
+
+			$.formValidator.initConfig({formID:"myform",autoTip:true,wideWord:false,
+			onError:function(msg,obj){
+				var msgs=msg.split("|"),
+				    cTl='消息'+(msgs.length >1 ? ": --"+msgs[0]+"-- ":''),
+				    msg=msgs.length >1 ? msgs[1] : msg;
+				art.dialog.through({
+					title:cTl,
+					id:'check_content_{$model}',content:msg,lock:true,
+					close:function(){$(obj).focus();},
+		      ok: true
+				})
+	   }});
+		  {$formValidator}
+		});
+  </script>
+</body>
+</html>

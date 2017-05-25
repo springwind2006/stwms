@@ -1,0 +1,31 @@
+<include file="admin/head"/>
+<import file="admin_map.css" check="true"/>
+</head>
+<body>
+  <php>
+    function showMap($arr){
+       	if(is_array($arr)){
+       		foreach($arr as $m){
+       			$hasChild=!empty($m['submenu']);
+       			echo $hasChild ? '<div class="tb_l"><div class="tb"><div class="tb_tl"><h6>'.$m['name'].'</h6></div><div class="tb_m">':'<a href="javascript:" onclick="dealMenu('.$m['id'].',\''.$m['type'].'\',\''.$m['c'].'\',\''.$m['a'].'\',\''.$m['data'].'\')" style="margin-left:5px;">';
+       			if($hasChild){
+       				showMap($m['submenu']);
+       			}else{
+       			  echo $m['name'];	
+       			}
+       			echo $hasChild ? '</div></div></div>':'</a>';        			
+       		}
+       	}
+       }      
+ </php>
+ <div id="main">
+  <php>showMap($menuArray);</php>
+ </div>
+ <script type="text/javascript">
+		function dealMenu(cid,tp,c,a,dt){
+			doMenu(cid,tp,c,a,dt);
+			art.dialog.open.api.close();
+		}
+ </script>
+</body>
+</html>

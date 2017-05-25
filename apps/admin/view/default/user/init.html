@@ -1,0 +1,83 @@
+<include file="admin/head"/>
+</head>
+<body>
+	<if condition="$auths['add']">
+	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:void(0)" class="on">用户管理</a>
+	      <span>|</span>
+	      <a href="javascript:" onclick="top.win.diag('user.add',{'tl':'添加用户信息','h':330,'w':550})">添加用户</a>
+	    </div>
+	</div>
+	</if>
+	<form name="myform" action="{act_url('user','listorder')}" method="post">
+			<div class="table-list">
+			    <table width="100%" cellspacing="0">
+			        <thead>
+			            <tr>
+				            <if condition="$auths['listorder']"><th width="60">排序</th></if>
+				            <th width="80">ID</th>
+				            <th>用户名称</th>
+				            <th>所属角色</th>
+				            <th>最近登录IP</th>
+				            <th>最近登录时间</th>
+				            <th>E-mail</th>
+				            <th>真实姓名</th>
+				            <th>状态</th>
+				            <if condition="$auths['edit']||$auths['del']"><th>管理操作</th></if>
+			            </tr>
+			        </thead>
+							<tbody>
+								<foreach name="$data" item="$vl" >
+									<tr>
+										<if condition="$auths['listorder']"><td align='center'><input name='listorders[{$vl['id']}]' type='text' size='3' value='{$vl['listorder']}' class='input-text-c'></td></if>
+										<td align='center'>{$vl['id']}</td>
+										<td >{$vl['username']}</td>
+										<td align='center'>{$roles[$vl['roleid']]['name']}</td>
+										<td align='center'>{(!empty($vl['ip']) ? $vl['ip'] : '-')}</td>
+										<td align='center'>{(!empty($vl['time']) ? date('Y-m-d H:i:s',$vl['time']) : '-')}</td>
+										<td align='center'>{$vl['email']}</td>
+										<td align='center'>{$vl['truename']}</td>
+										<td align='center'>
+										<if condition="($vl['id']==$_SESSION['userid'])||!$auths['lock']">
+										  <if condition="$vl['lock']">
+										  	<span style="color:red;font-size:15px;font-weight:bold;">×</span>
+										  <else/>
+										  	<span style="color:green;font-size:14px;font-weight:bold;">√</span>
+										  </if>
+										<else/>
+										  <if condition="$vl['lock']">
+										  	<a href="javascript:deal('user.lock','id={$vl['id']}&lock=0')" style="color:red;font-size:15px;font-weight:bold;">×</a>
+										  <elseif condition="$vl['id']!=1"/>
+										  	<a href="javascript:deal('user.lock','id={$vl['id']}&lock=1')" style="color:green;font-size:14px;font-weight:bold;">√</a>
+										  <else/>
+										  	<span style="color:green;font-size:14px;font-weight:bold;" >√</span>
+										  </if>
+										</if>
+										</td>
+										<if condition="$auths['edit']||$auths['del']">
+										<td align='center'>
+											<if condition="$vl['id']==1||$vl['id']==$_SESSION['userid']">
+											  <if condition="$auths['edit']">
+												  <if condition="$vl['id']!=$_SESSION['userid']">
+												    <a href="javascript:" onclick="top.win.diag('user.edit','id={$vl['id']}',{'tl':'修改用户信息','h':330,'w':550})">修改</a>
+												  <else/>
+												    <span style="color:#999">编辑</span>
+												  </if>
+											  </if>
+											  <if condition="$auths['del']">|<span style="color:#999">删除</span></if>
+											<else/>
+												<if condition="$auths['edit']"><a href="javascript:" onclick="top.win.diag('user.edit','id={$vl['id']}',{'tl':'修改用户信息','h':330,'w':550})">修改</a></if>
+												<if condition="$auths['del']">|<a href="javascript:deal('user.del','id={$vl['id']}',1)">删除</a></if>
+											</if>
+										</td>
+										</if>
+									</tr>
+                </foreach>
+							</tbody>
+			    </table>
+			    <if condition="$auths['listorder']"><div class="btn"><input type="submit" class="button" name="dosubmit" value="排序" /></div></if>
+		  </div>
+	</form>
+</body>
+</html>

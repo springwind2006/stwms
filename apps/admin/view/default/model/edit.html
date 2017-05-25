@@ -1,0 +1,73 @@
+<include file="admin/head"/>
+<import file="model.js" check="true"/>
+<style type="text/css">
+	body,html{overflow:hidden;margin:0px;padding:3px;}
+  .container-cnt textarea{height:400px; width:99%;font-size:14px;line-height:18px;}
+  .container-cnt .alert{ margin-top:5px;}
+</style>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('model','edit')}" method="post">
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+				  	<tr>
+			        <th> 表名：</th>
+			        <td><input type="text" readonly="readonly"  name="attr[tbname]" id="tbname" value="{$tbname}"  class="input-text" ></td>
+			      </tr>
+			      <tr>
+			        <th> 名称：</th>
+			        <td><input type="text" name="attr[name]" id="name" value="{$name}" class="input-text" ></td>
+			      </tr>		
+			      <tr>
+			        <th> 描述：</th>
+			        <td ><textarea name="attr[desc]" id="desc" style="width:300px;height:60px;" class="input-text" >{$desc}</textarea></td>
+			      </tr>
+			      <tr id="applytocat">
+			        <th>应用到栏目：</th>
+			        <td style="height:25px;">
+			        	<if condition="$type!=2">
+			        	<input type="radio" name="attr[iscat]" value="1" {($iscat ? 'checked':'')} /> 是　
+			        	<input type="radio" name="attr[iscat]" value="0" {(!$iscat ? 'checked':'')} /> 否　
+			        	<else/>
+			        	<input type="radio" name="attr[iscat]" value="1" disabled="disabled" /> 是　
+			        	<input type="radio" name="attr[iscat]" value="0" checked="checked" disabled="disabled" /> 否
+			        	</if>			        	
+			        	<span style="padding-left:15px;color:#333;visibility:{($iscat||$tbname=='page' ? 'visible':'hidden')}">
+			        		窗口设置 宽：<input type="text" size="4" value="{$width}" name="attr[width]" style="width:40px;" class="input-text" />px
+			        		高：<input type="text" value="{$height}"  name="attr[height]" size="4" style="width:40px;" class="input-text" />px
+			        	</span>
+			        </td>
+					  </tr>
+			      <tr>
+			        <th>是否可用：</th>
+			        <td>
+			        	<if condition="$type!=2">
+			        	<input type="radio" name="attr[disabled]" value="0" {(!$disabled ? 'checked':'')} /> 是　
+			        	<input type="radio" name="attr[disabled]" value="1" {($disabled ? 'checked':'')} /> 否
+			        	<else/>
+			        	<input type="radio" name="attr[disabled]" value="0" checked="checked" disabled="disabled" /> 是　
+			        	<input type="radio" name="attr[disabled]" value="1" disabled="disabled" /> 否
+			        	</if>
+			        </td>
+					  </tr>					  			      
+			      <tr>
+			        <th>模型类别：</th>
+			        <td>
+			        	<input type="radio" name="attr[type]" value="0" {(!$type ? 'checked':'')} disabled="disabled" /> 一般模型　
+			        	<input type="radio" name="attr[type]" value="1"  disabled="disabled" {(intval($type)==1 ? 'checked':'')} /> 自定义模型 
+			        	<if condition="$_SESSION['iscreator']">
+			        	<input type="radio" name="attr[type]" disabled="disabled"  value="2" {(intval($type)==2 ? 'checked':'')} /> 系统模型 
+			          </if>
+			        </td>
+					  </tr>
+					  <tr>
+					  	<th>说明：</th>
+					  	<td style="text-indent:2em;color:#333333">
+					  		只有模型应用到栏目后，新建或修改栏目时才能选择模型；窗口尺寸不设置使用默认值；一般模型包括系统默认字段，自定义模型不包括系统默认字段
+					  	</td>
+					  </tr>
+					</table>
+				</div>
+	</form>
+</body>
+</html>

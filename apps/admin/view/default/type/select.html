@@ -1,0 +1,71 @@
+<include file="admin/head"/>
+<import file="type_select.js" check="true"/>
+<style type="text/css">
+  .alert{padding:5px 10px;color:#333;}
+  .add_top{margin:8px 40px;}
+  .add_top a{color:#ff6100;}
+  .table-list thead th{font-weight:normal;}
+  .table-list .link_add{color:#ff6100;display:none;}
+  .table-list .input-text-c{width:30px;}
+  .table-list .c_name{display:inline;padding:0 5px 0 2px;cursor:pointer;}
+  .table-list .c_name_edit{width:100px;height:13px;border:1px solid #9fd5ed;padding:3px 2px 1px 2px;background:#fffbde;}
+</style>
+<script type="text/javascript">
+$(function(){
+/*待添加或修改内容有改变则刷新*/
+	$("input,textarea,select").change(function(){top.win.fresh=-1;});		
+});
+var TYPE_EDIT_MODE={($this->isedit)},
+		TYPE_MANAGE_MODE={($this->ismanage)};
+</script>
+</head>
+<body>
+	<php> $arr=array();if($this->isedit)$arr[]='点击名称进入编辑模式';if(!$this->ismanage)$arr[]='点击每行选择分类';</php>
+  <form name="myform" id="myform" action="{act_url('type','listorder','cid='.$this->cid)}" method="post">
+	<div class="table-list">
+	    <table width="100%" cellspacing="0">
+	        <thead>
+	            <tr>
+	            	<th width="40">ID</th>          
+		            <th align='left'> [顺序]名称 ({implode('，',$arr)})</th>
+		            <th width="{($this->isedit ? 100:60)}"> 操作</th>
+	            </tr>
+	        </thead>
+					<tbody>
+						<foreach name="$data" item="$vl" >
+							<tr id="row{$vl['rowid']}">
+								<td align='center'>{$vl['id']}</td>
+								<td>
+								  <input type="hidden" value="{$vl['id']}"/><input type="hidden" value="{$vl['pid']}"/>
+									<span class="c_spacer">{$vl['spacer']}</span>
+									<if condition="$isedit">
+									<input type="text" size="3" name="listorders[{$vl['id']}]" value="{$vl['listorder']}" class="input-text-c">&nbsp;
+									</if>
+									<span class="c_name">{$vl['name']}</span>
+									<if condition="$vl['level'] lt $limitLevel">
+									<a href="javascript:" class="link_add">
+										<img src="{STATIC_URL}common/images/link_add.gif" align="absmiddle"/>添加子分类 
+									</a>
+									</if>
+								</td>
+								<td align="center">
+									<a href="javascript:" onclick="doAct('desc',this)">描述</a>
+									<if condition="$isedit">
+									| <a href="javascript:" onclick="doAct('del',this)">删除</a>
+									</if>
+								</td>
+							</tr>						
+						</foreach>
+					</tbody>
+	    </table>
+  </div>
+  <if condition="$isedit">
+  <div class="add_top">
+		<a href="javascript:">
+			<img src="{STATIC_URL}common/images/link_add.gif" align="absmiddle"/>添加一级分类 
+		</a>
+  </div>
+  </if>
+  </form>
+</body>
+</html>

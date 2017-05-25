@@ -1,0 +1,98 @@
+<include file="admin/head"/>
+<import file="admin_index.js,admin_index.css" check="true"/>
+</head>
+<body>
+<div class="top">
+	<span class="app-info">
+		<span class="logo"></span>
+		<span class="name">{C('version')}</span>
+	</span>
+	<div class="top-right">
+		<div class="top-tools"></div>
+		<div class="top-info">
+			欢迎登录！admin！
+			<a href="{act_url('admin','logout')}" class="logout">退出</a>
+		</div>
+	</div>
+</div>
+<div class="left" id="leftMenu">
+	<div class="navmenu-wrap">
+		<ul class="navmenu x-unselectable">
+			<div class="category">系统操作</div>
+			<foreach name="mainMenu" item="m" key="k">
+				<li class="nav">
+					<span class="ico notification"></span>
+					<span class="angle"></span>
+					<span class="menutext">{$m.name}</span>
+				</li>
+				<if condition="$m['submenu']">
+					<ul class="navSubmenu">
+						<foreach name="$m['submenu']" item="sm" key="sk">
+							<li class="innerli" onclick="doMenu('{$sm['id']}','{$sm['type']}','{$sm['c']}','{$sm['a']}','{$sm['data']}')">
+								<span class="ico leftangle"></span>
+								<span class="menutext">{$sm.name}</span>
+							</li>
+						</foreach>
+					</ul>
+				</if>
+			</foreach>
+		</ul>
+		
+		<ul class="navmenu x-unselectable">
+			<div class="category">外部工具</div>
+			<li class="nav" data-url="http://xiuxiu.web.meitu.com/main.html">
+				<span class="ico customer-mgr"></span>
+				<span class="angle"></span>
+				<span class="menutext">美图秀秀</span>
+			</li>
+			<li class="nav" data-url="http://www.uupoop.com/gif/">
+				<span class="ico customer-see"></span>
+				<span class="angle"></span>
+				<span class="menutext">GIF在线制作</span>
+			</li>
+			<li class="nav" data-url="http://mimg.163.com/assist/computer/jsq_jiankang.htm">
+				<span class="ico sales"></span>
+				<span class="angle"></span>
+				<span class="menutext">万能计算器</span>
+			</li>
+			<li class="nav" data-url="http://mimg.163.com/assist/calendar/index.htm">
+				<span class="ico sales"></span>
+				<span class="angle"></span>
+				<span class="menutext">万能历</span>
+			</li>
+		</ul>
+		
+		<div class="menu-fillbar" style="height:30px;"></div>
+		<div class="menu-logo">
+			<a target="_blank" href="http://www.kd77.cn/"></a>
+		</div>
+	</div>
+</div>
+<div id="centerMenu" valign="top">
+	<iframe name="doCenterFrame" id="doCenterFrame" src="about:blank" allowtransparency="true" frameborder="0" scrolling="auto"></iframe>
+</div>
+<div id="mainNav" class="right-top">
+	<span id="opNavLeft" class="l">当前位置：系统首页</span>
+	<span id="opNavRight" class="r">
+		<a href="{SITE_URL}" target="_blank">访问首页</a>&nbsp;
+		<a href="javascript:" onclick="admin_map()" class="icon">后台地图</a>&nbsp;
+		<a href="javascript:" onclick="lockscreen()" class="icon">锁屏</a>&nbsp;
+	</span>
+</div>
+<div id="mainContent" class="right-main">
+	<iframe name="doMainFrame" id="doMainFrame" src="{:act_url('admin','init')}" allowtransparency="true" frameborder="0" scrolling="auto"></iframe>
+</div>
+<div class="fast_menu">
+	<span id="fastMenu">
+	  <foreach name="$fastMenu" item="$fm" >
+      	<a class="fava_c" href="javascript:">
+			<b onclick="doMenu({$fm['id']},'{$fm['type']}','{$fm['c']}','{$fm['a']}','{$fm['data']}')">{$fm['name']}</b>
+			<span class="fava_m"  id="fm_{$fm['id']}"></span>
+		</a>
+	  </foreach>
+	</span>
+	<a href="javascript:" class="fava_c to-favor" title="添加到快捷方式" id="addToFavor">&nbsp;</a>
+</div>
+<iframe name="doFrame" id="doFrame" src="about:blank" frameborder="0" scrolling="no" style="width:0px;height:0px;visibility:hidden"></iframe>
+</body>
+</html>

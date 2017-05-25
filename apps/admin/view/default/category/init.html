@@ -1,0 +1,80 @@
+<include file="admin/head"/> 
+<style type="text/css">
+	.m_show0 td{color:#777;}
+	.select_icons{width:405px;height:25px;padding:2px 0 2px 2px;background:#395f76;}
+	.select_icons img{width:23px;margin:0 2px 0 0;cursor:pointer;border:1px solid #395f76;}
+	.select_icons .selected_icon{border:1px solid #ff0;}
+</style>
+<import file="category.js" check="true"/>
+</head>
+<body>
+	<if condition="$auths['add']">
+ 	<div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:" {(ROUTE_A=='init' ? 'class="on"':'onclick="category(\'init\')"')}>栏目管理</a>
+	      <span>|</span>
+	      <a href="javascript:" {(ROUTE_A=='add'&&!$type ? 'class="on"':'onclick="category(\'add\',\''.(isset($_GET['pid'])?$_GET['pid']:'').'\',\'0\')"')}>添加栏目</a>
+	      <span>|</span>
+	      <a href="javascript:" {(ROUTE_A=='add'&&$type==1 ? 'class="on"':'onclick="category(\'add\',\''.(isset($_GET['pid'])?$_GET['pid']:'').'\',\'1\')"')}>添加单页</a>
+	      <span>|</span>
+	      <a href="javascript:" {(ROUTE_A=='add'&&$type==2 ? 'class="on"':'onclick="category(\'add\',\''.(isset($_GET['pid'])?$_GET['pid']:'').'\',\'2\')"')}>添加外链</a>
+	    </div>
+	</div>
+	</if>
+	<form name="myform" action="{act_url('category','listorder')}" method="post">
+			<div class="table-list">
+			    <table width="100%" cellspacing="0">
+			        <thead>
+			            <tr>
+			            	<if condition="$auths['del']||$auths['edit']"><th width="40">选择</th></if>
+				            <if condition="$auths['listorder']"><th width="60">排序</th></if>
+				            <th width="80">catid</th>
+				            <th>栏目名称</th>
+				            <th width="80">栏目类型</th>
+				            <th width="100">所属模型</th>
+				            <th width="80">数据量</th>
+				            <th width="80">访问</th>
+				            <if condition="$auths['add']||$auths['edit']||$auths['del']">
+				            <th style="width:160px">管理操作</th>
+				            </if>
+			            </tr>
+			        </thead>
+							<tbody>
+							  <foreach name="$categorys" item="$vl" >
+										<tr class="m_show{$vl['display']}" id="row{$vl['rowid']}">
+											<if condition="$auths['del']||$auths['edit']"><td align="center"><input name="id[]" type="checkbox" value="{$vl['id']}"></td></if>
+											<if condition="$auths['listorder']"><td align="center"><input name="listorders[{$vl['id']}]" type="text" size="3" value="{$vl['listorder']}" class="input-text-c"></td></if>
+											<td align="center">{$vl['id']}</td>
+											<td {($vl['ismenu']?'':'style="color:gray"')}>{$vl['spacer']}{$vl['name']}</td>
+											<td align="center">{$vl['type']}</td>
+											<td align="center">{$vl['model']}</td>
+											<td align="center">{$vl['count']}</td>
+											<td align="center">{$vl['url']}</td>
+											<if condition="$auths['add']||$auths['edit']||$auths['del']">
+											<td align="center">
+												<if condition="$auths['add']"><a href="javascript:" {($vl['type']!=2 ? 'onclick="category(\'add\',\''.$vl['id'].'\')"' : 'disabled="disabled"')}>添加子栏目</a> |</if>
+		                    <if condition="$auths['edit']"><a href="javascript:" onclick="category('edit','{$vl['id']}')">修改</a> |</if>
+		                    <if condition="$auths['del']"><a href="javascript:" onclick="category('del','{$vl['id']}')">删除</a></if>
+											</td>
+											</if>
+										</tr>
+						    </foreach>
+							</tbody>
+			    </table>
+			    <if condition="!empty($categorys)&&($auths['edit']||$auths['del']||$auths['listorder'])">
+			    <div class="btn">
+			    	<if condition="$auths['edit']||$auths['del']">
+			    	<label for="select_all">全选</label><input id="select_all" type="checkbox"  />
+			    	<select id="act_type">
+			    		<if condition="$auths['edit']"><option value="edit">批量编辑</option></if>
+			    		<if condition="$auths['del']"><option value="del">删除</option></if>
+			    	</select>
+			    	<input type="button" id="bat_act" class="button" value="操 作" />&nbsp;&nbsp;
+			    	</if>
+			    	<if condition="$auths['listorder']"><input type="submit" class="button" name="dosubmit" value="排 序" /></if>
+			    </div>
+			    </if>
+		  </div>
+	</form>
+</body>
+</html>

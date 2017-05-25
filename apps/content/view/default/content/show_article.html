@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+<title>{$title.value}</title>
+<style type="text/css">
+a{text-decoration:none;color:#000;}
+a:hover{color:#fe0000;background:#dedede;}
+h2{text-align:center;font-size:1.2em;}
+p{text-indent:2em;}
+.content{padding:10px 15px 10px 15px;}
+.desc{text-align:right;color:#666;font-size:0.9em;}
+.foot{text-align:left;font-size:1.1em;font-weight:bold;padding:15px 5px}
+.foot a:first-child{float:left}
+.foot a:last-child{float:right}
+</style>
+<if condition="$url">
+	<script type="text/javascript">
+		window.location="{$_url}";
+	</script>
+</if>
+</head>
+<body>
+<div class="content">
+	<h2>{$title.value}</h2>
+	<div class="desc">点击量：{$hits} 时间：{$pubtime|date='Y-m-d H:i:s',###}</div>
+	{$desc}
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/index.php?c=Api&a=hits&catid={$catid}&id={$id}"></script>

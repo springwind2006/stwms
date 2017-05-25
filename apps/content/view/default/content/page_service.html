@@ -1,0 +1,35 @@
+<template file="header" />
+<div class="wraper">
+	<div class="mWraper">
+		<!--<div class="mask_tl"></div>-->
+		<!--侧边栏-->
+		<div class="sideBar">
+			<h1>
+				<img src="{STYLE_URL}images/title_svc.gif" />
+			</h1>
+			<ul class="subMenu">
+				<loop name="subcat(3)" item="$cat">
+				<li {$cat[id]==$catid? 'class="active"':''}><a
+					href="{$cat.url}">{$cat.name}</a></li>
+				</loop>
+			</ul>
+			<div class="clear"></div>
+			<include file="left" />
+		</div>
+		<!--//侧边栏-->
+		<div class="main">
+			<!--内容页面-->
+			<div class="content">{$content}</div>
+			<div class="clear"></div>
+			<div class="p_page">{$pages}</div>
+			<div class="clear"></div>
+			<!--//内容页面-->
+			<div class="goTop">
+				<a href="#"><img src="{STYLE_URL}images/btn_goTop.gif" /></a>
+			</div>
+
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<template file="footer" />

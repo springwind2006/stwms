@@ -1,0 +1,13 @@
+<include file="admin/head"/>
+<import file="content.js,content_category.js,treeview.css@:common" check="true"/>
+</head>
+<body>
+  <div id="treecontrol">
+			<a href="javascript:">
+				<img src="{STATIC_URL}common/images/minus.gif"  align="absmiddle"/>
+				<img src="{STATIC_URL}common/images/application_side_expand.png" align="absmiddle"/> 全部展开/收缩
+			</a>
+	</div>
+	{$select_categorys}
+</body>
+</html>

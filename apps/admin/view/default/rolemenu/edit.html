@@ -1,0 +1,81 @@
+<include file="admin/head"/>
+<import file="rolemenu.js" check="true"/>
+<style type="text/css">
+	.select_icons{width:405px;min-height:25px;padding:2px 0 2px 2px;background:#395f76;}
+	.select_icons img{width:23px;margin:0 2px 0 0;cursor:pointer;border:1px solid #395f76;}
+	.select_icons .selected_icon{border:1px solid #ff0;}
+</style>
+<script type="text/javascript">
+ $(function(){ 	
+  /*待添加或修改内容有改变则刷新*/
+		$("input,textarea,select").change(function(){top.win.fresh=-1;});
+ });
+</script>
+</head>
+<body>
+	<form name="myform" id="myform" action="{act_url('rolemenu','edit','roleid='.$this->roleid.'&id='.$id)}" method="post">
+		<div class="common-form">
+			  <table width="100%" class="table_form contentWrap">
+		      <tr>
+		        <th width="200">上级菜单：</th>
+		        <td>
+			         <select name="info[pid]" >
+			         	  <option value="0">作为一级菜单</option>
+			         	  <foreach name="$select_categorys" item="$v" >
+					        <option value="{$v['id']}" {($v['id']==$pid ? 'selected="selected"':'')}>{$v['spacer']} {$v['name']}</option>
+					        </foreach>
+			         </select>
+		        </td>
+		      </tr>
+		      <tr>
+		        <th > 菜单名称：</th>
+		        <td>
+		        	<input type="text" name="info[name]" id="name" value="{$name}" class="input-text" />
+		        </td>
+		      </tr>
+		      <tr>
+				        <th> 类别：</th>
+				        <td>
+				        	自定义菜单<input type="radio" {($type==0 ? 'checked="checked"':'')} disabled="disabled" name="info[type]" value="0" />　
+				        	内部菜单<input type="radio" {($type==1 ? 'checked="checked"':'')} disabled="disabled" name="info[type]" value="1" />　
+				        	外部链接<input type="radio" {($type==2 ? 'checked="checked"':'')} disabled="disabled" name="info[type]" value="2" />
+				        </td>
+				  </tr>
+				  <if condition="$type!=2">
+					<tr>
+						  <th> 配置：</th>
+				      <td>
+				        类名 <input type="text" disabled="disabled" name="info[c]" id="c" value="{$c}" style="width:80px;" class="input-text" />
+				        方法名 <input type="text" disabled="disabled" name="info[a]" id="a" value="{$a}" style="width:80px;" class="input-text" />
+				        参数 <input type="text" disabled="disabled" name="info[data]" id="data" value="{$data}" style="width:80px;" class="input-text" />
+				      </td>
+				  </tr>
+				  <else/>
+				  <tr>
+						  <th> 地址：</th>
+				      <td>
+				        <input type="text" name="info[data]" value="{$data}" id="data" style="width:300px;" class="input-text" />
+				      </td>
+				  </tr>
+				  </if>
+				  <tr>
+				        <th>显示图标：</th>
+				        <td>
+				        	<div  class="select_icons">
+				        	  <input type="hidden" name="info[icon]" value="{$icon}" class="input-text" >
+				        	  <foreach name="$icons" item="$cIcon" >
+				        	    <img {($icon==$cIcon ? 'class="selected_icon"':'')} src="{import('icon/'.$cIcon)}" />
+					          </foreach>
+				          </div>
+				        </td>
+				      </tr>
+					<tr>
+				        <th>是否显示菜单：</th>
+				        <td><input type="radio" name="info[display]" value="1" {($display?'checked="checked"':'')} /> 是<input type="radio" name="info[display]" value="0" {(!$display?'checked="checked"':'')} /> 否</td>
+				      </tr>
+				</table>
+		<!--table_form_off-->
+		</div>
+	</form>
+</body>
+</html>

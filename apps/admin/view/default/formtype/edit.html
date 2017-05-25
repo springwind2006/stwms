@@ -1,0 +1,119 @@
+<include file="admin/head"/>
+<import file="formtype.js" check="true"/>
+<style type="text/css">
+	body,html{_overflow-x:hidden;}
+  .container-cnt textarea{
+    height:400px;
+    width:99%;
+    font-size:14px;
+    line-height:18px;
+  }
+  .container-cnt .alert{
+    margin-top:5px;
+  }
+  .type_info span{
+  	display:inline-block;padding:2px 10px;
+    color:#666;vertical-align:middle;line-height:30px;
+    border:1px solid #eee;
+    background:#f6f6f6;
+  }
+  .type_info input{
+    height:18px;line-height:18px;
+  }
+  .type_info .txt{
+    border:1px solid #d0d0d0;
+  }
+  .disabled{color:#999;text-decoration:line-through;}
+</style>
+</head>
+<body>
+  <div class="subnav">
+	    <div class="content-menu">
+	      <a href="javascript:deal('formtype.init')" >类型管理</a>
+	      <span>|</span>
+	      <a href="javascript:deal('formtype.add')" >添加类型</a>
+	      <if condition="$_SESSION['iscreator']">
+	      <span>|</span>
+	      <a href="javascript:deal('formtype.code')">类模板管理</a>
+	      </if>
+	    </div>
+	</div>
+	<form name="myform" id="myform" action="{act_url('formtype','edit','type='.$type)}" method="post">
+      <ul class="container-tab">
+            <li>参数配置</li>
+            <li>添加模板</li>
+            <li>编辑模板</li>
+            <li>表单代码</li>
+            <li>输入控制</li>
+            <li>输出控制</li>
+            <li>更新控制</li>
+        </ul>
+        <div class="container-cnt pad-10">
+				  <table width="100%" class="table_form contentWrap">
+			      <tr>
+			        <th> 类型：</th>
+			        <td><input type="text" {(!$type_using ? '':'readonly="readonly"')} name="info[type]" id="type" value="{$type}" class="input-text" ></td>
+			      </tr>
+			      <tr>
+			        <th> 名称：</th>
+			        <td><input type="text" name="info[name]" id="name" value="{$name}"  class="input-text" ></td>
+			      </tr>
+			      <tr>
+			        <th> 描述：</th>
+			        <td ><input type="text" name="info[desc]" id="desc" value="{$desc}" style="width:300px;" class="input-text" ></td>
+			      </tr>
+			      <tr>
+			        <th> 数据库类型：</th>
+			        <td>
+			        	<select name="info[field_type]" id="field_type" >
+			        	<foreach name="$DBFieldTypes" item="$v" key="$k">
+			        	<option value="{$k}" {($k==$field_type ? 'selected="selected"':'')}>{$v['name']}</option>
+			        	</foreach>
+			          </select>
+			        </td>
+			      </tr>
+			      <tr class="type_info">
+			        <th> 类型设置：</th>
+			        <td>
+			        	<span id="type_info"></span>
+			          <script type="text/javascript">
+                  var fdObj={make_json($fieldSets)};
+                </script>
+			        </td>
+			      </tr>
+			      <tr>
+			        <th>是否可用：</th>
+			        <td><input type="radio" name="info[disabled]" value="0" {(!$disabled ? 'checked':'')}> 是　<input type="radio" name="info[disabled]" value="1" {($disabled ? 'checked':'')} > 否</td>
+					  </tr>
+					</table>
+				</div>
+				<div class="container-cnt pad-10">
+					<textarea name="info[add_form]" id="add_form" wrap="off">{htmlspecialchars($add_form)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写字段添加模板代码，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<div class="container-cnt pad-10">
+					<textarea name="info[edit_form]" id="edit_form" wrap="off">{htmlspecialchars($edit_form)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写字段编辑模板代码，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<div class="container-cnt pad-10">
+					<textarea name="info[form]" id="form" wrap="off">{htmlspecialchars($form)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写表单生成代码，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<div class="container-cnt pad-10">
+					<textarea name="info[input]" id="input" wrap="off">{htmlspecialchars($input)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写表单数据输入控制，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<div class="container-cnt pad-10">
+					<textarea name="info[output]" id="output" wrap="off">{htmlspecialchars($output)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写表单数据输出控制，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<div class="container-cnt pad-10">
+					<textarea name="info[update]" id="update" wrap="off">{htmlspecialchars($update)}</textarea>
+					<p class="alert"><font color="red">重要提示：此处填写表单数据更新控制，非专业用户请勿随意编辑，否则会造成系统数据混乱。</font></p>
+				</div>
+				<!--table_form_off-->
+			  <div class="bk15"></div>
+				<div class="btn"><input type="hidden" id="info_id" value="{$id}"/><input type="button" id="dosubmit" class="button" name="dosubmit" value="保存修改"/><span class="status" id="resultState"></span></div>
+	</form>
+</body>
+</html>

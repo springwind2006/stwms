@@ -1,0 +1,36 @@
+<include file="admin/head"/>
+<import file="user_login.js,user_login.css" check="true"/>
+</head>
+<body>
+  <div class="main">
+		   <div class="top">
+			    <div class="tleft"><img src="{import('login_03.gif')}" /></div>
+				  <div class="tcenter"></div>
+			 </div>
+
+			 <div class="center">
+			    <div class="cleft"></div>
+				  <div class="cmiddle">
+				  	<form id="doform" name="doform">
+				     <div class="user"><div>用　户：</div><input type="text" name="username" id="username"  /></div>
+					   <div class="password"><div>密　码：</div><input type="password" name="password" id="password"  /></div>
+					   <div class="checkcode"><div>验证码：</div><input title="输入验证码不区分大小写" type="text" name="checkcode" id="checkcode"  /><img src="{act_url('api','code','bg=aca7a7')}" title="点击更换验证码" style="cursor:pointer;cursor:hand;height:20px;" onclick="this.src='{act_url('api','code','bg=aca7a7')}&t='+(new Date().getTime())" align="absmiddle"></div>
+					   <div class="sub-bt"><input type="button" id="dosubBt" name="dosubBt" value="登 录"/><input type="button" id="resetBt" name="resetBt" value="重 置"/></div>
+				    </form>
+				    <div class="status" id="status"></div>
+				  </div>
+				  <div class="cright"></div>
+			 </div>
+
+			 <div class="down">
+			     <div class="dleft">
+				      <div class="inf">
+	                 <span class="itext">版本信息</span>
+						       <span class="icopyright">{load::cfg('system','version')}</span>
+				      </div>
+				   </div>
+				   <div class="dcenter"></div>
+			 </div>
+	</div>
+</body>
+</html>
