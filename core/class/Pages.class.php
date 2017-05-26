@@ -1,5 +1,5 @@
 <?php
-class ContentPage{
+class Pages{
 	private $additems=array(); // 定义需要补全的开头html代码
 	private $bottonitems=array(); // 定义需要补全的结尾HTML代码
 	private $html_tag=array(); // HTML标记数组
