@@ -1,9 +1,0 @@
-.bookBox{float:left;width:270px;}
-.bookBox .inputBox{height:135px;background:url(../images/formBg.gif) no-repeat;}
-.inputBox .input_content{padding:1px;}
-.inputBox .input_name{float:left;margin-top:4px;margin-left:28px;padding:1px;height:20px;}
-.inputBox .input_tel{float:left;margin-top:4px;margin-left:43px;padding:1px;height:20px;}
-.inputBox .input_email{float:left;margin-top:3px;margin-left:28px;padding:1px;height:20px;}
-.inputBox .input_code{float:left;margin-top:3px;margin-left:43px;padding:1px;height:20px;}
-.inputBox .codeImg{float:left;margin-top:3px;}
-.inputBox .submit{padding-top:6px;}
